@@ -1,0 +1,50 @@
+{
+  "name": "isomorphic",
+  "description": "",
+  "version": "3.0.5",
+  "private": true,
+  "author": "RedQ, Inc",
+  "workspaces": [
+    "shared/*",
+    "packages/*",
+    "packages/isomorphic-boilerplate-graphql/*"
+  ],
+  "scripts": {
+    "clean": "lerna clean --yes && rimraf node_modules",
+    "clean:build": "lerna exec -- rimraf \"{.next,dist,out,build,.docz}\"",
+    "start:all": "lerna run --parallel start",
+    "start:iso-cra": "yarn workspace @iso/cra run start",
+    "start:iso-next": "yarn workspace @iso/next run dev",
+    "start:iso-servers": "yarn workspace @iso/servers run start",
+    "start:iso-boilerplate": "yarn workspace @iso/boilerplate run start",
+    "start:iso-boilerplate-single": "yarn workspace @iso/boilerplate-single run start",
+    "start:iso-gql": "lerna run --parallel start:gql",
+    "build:iso-cra": "yarn workspace @iso/cra run build",
+    "build:iso-next": "yarn workspace @iso/next run build",
+    "build:iso-boilerplate": "yarn workspace @iso/boilerplate run build",
+    "serve:iso-cra": "yarn workspace @iso/cra run serve",
+    "serve:iso-next": "yarn workspace @iso/next run start",
+    "serve:iso-boilerplate": "yarn workspace @iso/next run serve"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,md,css}": [
+      "prettier --trailing-comma es5 --single-quote --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.0",
+    "husky": "^3.0.7",
+    "lerna": "^3.16.4",
+    "lint-staged": "^9.4.0",
+    "prettier": "^1.18.2",
+    "redux-devtools-extension": "^2.13.8",
+    "rimraf": "^3.0.0",
+    "serve": "^11.2.0"
+  }
+}
