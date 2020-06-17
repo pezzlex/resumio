@@ -1,5 +1,13 @@
 # Isomorphic Reloaded
 
+## Pezzlex Notes
+
+# Isomorphic - React Redux Admin Dashboard `Version 2.9.6`
+
+- Install Node JS Install yarn
+- yarn
+- yarn start:iso-cra
+
 ## Docker Guidelines
 
 ### To Run the Isomorphic React Dashboard with Docker:
