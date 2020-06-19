@@ -2,11 +2,7 @@ import React from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { Layout } from "antd"
 import appActions from "@iso/redux/app/actions"
-import TopbarNotification from "./TopbarNotification"
-import TopbarMessage from "./TopbarMessage"
-import TopbarSearch from "./TopbarSearch"
 import TopbarUser from "./TopbarUser"
-import TopbarAddtoCart from "./TopbarAddToCart"
 import TopbarWrapper from "./Topbar.styles"
 
 const { Header } = Layout
