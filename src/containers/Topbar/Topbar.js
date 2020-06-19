@@ -10,6 +10,7 @@ const { toggleCollapsed } = appActions
 
 export default function Topbar() {
   const [selectedItem, setSelectedItem] = React.useState("")
+  console.log(selectedItem) // dummy statement
   const customizedTheme = useSelector(
     (state) => state.ThemeSwitcher.topbarTheme
   )
