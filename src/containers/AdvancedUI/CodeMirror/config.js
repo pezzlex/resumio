@@ -1,49 +1,49 @@
 const switchOptions = [
   {
-    id: 'lineNumbers',
-    title: 'Line Numbers',
+    id: "lineNumbers",
+    title: "Line Numbers",
     trueValue: true,
     falseValue: false,
     value: true,
   },
   {
-    id: 'readOnly',
-    title: 'Read Only',
+    id: "readOnly",
+    title: "Read Only",
     trueValue: false,
     falseValue: true,
     value: true,
   },
-];
+]
 const selectOptions = [
   {
-    id: 'tabSize',
-    title: 'Tab Size',
-    options: ['2', '4', '6', '8'],
+    id: "tabSize",
+    title: "Tab Size",
+    options: ["2", "4", "6", "8"],
     value: 2,
   },
   {
-    id: 'mode',
-    title: 'Language',
-    options: ['javascript', 'xml', 'markdown', 'php', 'python', 'ruby'],
-    value: 'javascript',
+    id: "mode",
+    title: "Language",
+    options: ["javascript", "xml", "markdown", "php", "python", "ruby"],
+    value: "javascript",
   },
   {
-    id: 'theme',
-    title: 'Select themes',
+    id: "theme",
+    title: "Select themes",
     options: [
-      'default',
-      'zenburn',
-      'solarized',
-      'rubyblue',
-      'paraiso-dark',
-      'midnight',
-      'material',
-      'hopscotch',
-      'twilight',
+      "default",
+      "zenburn",
+      "solarized",
+      "rubyblue",
+      "paraiso-dark",
+      "midnight",
+      "material",
+      "hopscotch",
+      "twilight",
     ],
-    value: 'zenburn',
+    value: "zenburn",
   },
-];
+]
 
 const defaultValues = {
   basic: `const component = {
@@ -86,6 +86,6 @@ print("visit us https://isomorphic.redq.io ")
 print "This is a RedQ Team production"
 print "visit us https://isomorphic.redq.io "
 `,
-};
+}
 
-export { switchOptions, selectOptions, defaultValues };
+export { switchOptions, selectOptions, defaultValues }

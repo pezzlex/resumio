@@ -44,10 +44,6 @@ export default function Topbar() {
         </div>
 
         <ul className="isoRight">
-          <li
-            onClick={() => setSelectedItem("notification")}
-            className={selectedItem ? "isoNotify active" : "isoNotify"}
-          ></li>
           <li onClick={() => setSelectedItem("user")} className="isoUser">
             <TopbarUser />
           </li>

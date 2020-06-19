@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 import {
   RefinementList,
   StarRating,
@@ -7,14 +7,14 @@ import {
   SearchBox,
   MultiRange,
   ClearAll,
-} from 'react-instantsearch/dom';
-import RangeSlider from './RangeSlider';
-import VoiceRecognition from './VoiceRecognition';
-import { SidebarWrapper } from './AlgoliaComponent.style';
+} from "react-instantsearch/dom"
+import RangeSlider from "./RangeSlider"
+import VoiceRecognition from "./VoiceRecognition"
+import { SidebarWrapper } from "./AlgoliaComponent.style"
 
 export default ({ setVoice }) => (
   <SidebarWrapper className="isoAlgoliaSidebar">
-    <SearchBox translations={{ placeholder: 'Search here' }} />
+    {/* <SearchBox translations={{ placeholder: 'Search here' }} />
     <VoiceRecognition setVoice={setVoice} />
 
     <div className="isoAlgoliaSidebarItem">
@@ -65,6 +65,6 @@ export default ({ setVoice }) => (
       <Toggle attributeName="free_shipping" label="Free Shipping" />
     </div>
 
-    <ClearAll />
+    <ClearAll /> */}
   </SidebarWrapper>
-);
+)
