@@ -34,35 +34,9 @@ export default function Topbar() {
           isCollapsed ? "isomorphicTopbar collapsed" : "isomorphicTopbar"
         }
       >
-        <div className="isoLeft">
-          <button
-            className={
-              isCollapsed ? "triggerBtn menuCollapsed" : "triggerBtn menuOpen"
-            }
-            style={{ color: customizedTheme.textColor }}
-            onClick={handleToggle}
-          />
-        </div>
+        <div className="isoLeft"></div>
 
         <ul className="isoRight">
-          {/* <li className="isoSearch">
-            <TopbarSearch />
-          </li>
-
-          <li
-            onClick={() => setSelectedItem('notification')}
-            className="isoNotify"
-          >
-            <TopbarNotification />
-          </li>
-
-          <li onClick={() => setSelectedItem('message')} className="isoMsg">
-            <TopbarMessage />
-          </li>
-          <li onClick={() => setSelectedItem('addToCart')} className="isoCart">
-            <TopbarAddtoCart />
-          </li> */}
-
           <li onClick={() => setSelectedItem("user")} className="isoUser">
             <TopbarUser />
           </li>
