@@ -1,26 +1,26 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import clone from 'clone';
-import { Layout } from 'antd';
-import options from './options';
-import Scrollbars from '@iso/components/utility/customScrollBar';
-import Menu from '@iso/components/uielements/menu';
-import appActions from '@iso/redux/app/actions';
-import Logo from '@iso/components/utility/logo';
-import SidebarWrapper from './Sidebar.styles';
-import SidebarMenu from './SidebarMenu';
+import React from "react"
+import { useDispatch, useSelector } from "react-redux"
+import clone from "clone"
+import { Layout } from "antd"
+import options from "./options"
+import Scrollbars from "@iso/components/utility/customScrollBar"
+import Menu from "@iso/components/uielements/menu"
+import appActions from "@iso/redux/app/actions"
+import Logo from "@iso/components/utility/logo"
+import SidebarWrapper from "./Sidebar.styles"
+import SidebarMenu from "./SidebarMenu"
 
-const { Sider } = Layout;
+const { Sider } = Layout
 
 const {
   toggleOpenDrawer,
   changeOpenKeys,
   changeCurrent,
   toggleCollapsed,
-} = appActions;
+} = appActions
 
 export default function Sidebar() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const {
     view,
     openKeys,
@@ -28,67 +28,67 @@ export default function Sidebar() {
     openDrawer,
     current,
     height,
-  } = useSelector(state => state.App);
+  } = useSelector((state) => state.App)
   const customizedTheme = useSelector(
-    state => state.ThemeSwitcher.sidebarTheme
-  );
+    (state) => state.ThemeSwitcher.sidebarTheme
+  )
 
   function handleClick(e) {
-    dispatch(changeCurrent([e.key]));
-    if (view === 'MobileView') {
+    dispatch(changeCurrent([e.key]))
+    if (view === "MobileView") {
       setTimeout(() => {
-        dispatch(toggleCollapsed());
+        dispatch(toggleCollapsed())
         // dispatch(toggleOpenDrawer());
-      }, 100);
+      }, 100)
     }
   }
   function onOpenChange(newOpenKeys) {
     const latestOpenKey = newOpenKeys.find(
-      key => !(openKeys.indexOf(key) > -1)
-    );
+      (key) => !(openKeys.indexOf(key) > -1)
+    )
     const latestCloseKey = openKeys.find(
-      key => !(newOpenKeys.indexOf(key) > -1)
-    );
-    let nextOpenKeys = [];
+      (key) => !(newOpenKeys.indexOf(key) > -1)
+    )
+    let nextOpenKeys = []
     if (latestOpenKey) {
-      nextOpenKeys = getAncestorKeys(latestOpenKey).concat(latestOpenKey);
+      nextOpenKeys = getAncestorKeys(latestOpenKey).concat(latestOpenKey)
     }
     if (latestCloseKey) {
-      nextOpenKeys = getAncestorKeys(latestCloseKey);
+      nextOpenKeys = getAncestorKeys(latestCloseKey)
     }
-    dispatch(changeOpenKeys(nextOpenKeys));
+    dispatch(changeOpenKeys(nextOpenKeys))
   }
-  const getAncestorKeys = key => {
+  const getAncestorKeys = (key) => {
     const map = {
-      sub3: ['sub2'],
-    };
-    return map[key] || [];
-  };
-
-  const isCollapsed = clone(collapsed) && !clone(openDrawer);
-  const mode = isCollapsed === true ? 'vertical' : 'inline';
-  const onMouseEnter = event => {
-    if (collapsed && openDrawer === false) {
-      dispatch(toggleOpenDrawer());
+      sub3: ["sub2"],
     }
-    return;
-  };
+    return map[key] || []
+  }
+
+  const isCollapsed = clone(collapsed) && !clone(openDrawer)
+  const mode = isCollapsed === true ? "vertical" : "inline"
+  const onMouseEnter = (event) => {
+    if (collapsed && openDrawer === false) {
+      dispatch(toggleOpenDrawer())
+    }
+    return
+  }
   const onMouseLeave = () => {
     if (collapsed && openDrawer === true) {
-      dispatch(toggleOpenDrawer());
+      dispatch(toggleOpenDrawer())
     }
-    return;
-  };
+    return
+  }
   const styling = {
     backgroundColor: customizedTheme.backgroundColor,
-  };
+  }
   const submenuStyle = {
-    backgroundColor: 'rgba(0,0,0,0.3)',
+    backgroundColor: "rgba(0,0,0,0.3)",
     color: customizedTheme.textColor,
-  };
+  }
   const submenuColor = {
     color: customizedTheme.textColor,
-  };
+  }
   return (
     <SidebarWrapper>
       <Sider
@@ -112,7 +112,7 @@ export default function Sidebar() {
             selectedKeys={current}
             onOpenChange={onOpenChange}
           >
-            {options.map(singleOption => (
+            {options.map((singleOption) => (
               <SidebarMenu
                 key={singleOption.key}
                 submenuStyle={submenuStyle}
@@ -124,5 +124,5 @@ export default function Sidebar() {
         </Scrollbars>
       </Sider>
     </SidebarWrapper>
-  );
+  )
 }
