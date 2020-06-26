@@ -1,17 +1,24 @@
-import React, { lazy, Suspense } from "react"
-import { Route, useRouteMatch, Switch } from "react-router-dom"
 import Loader from "@iso/components/utility/loader"
+import React, { lazy, Suspense } from "react"
+import { Route, Switch, useRouteMatch } from "react-router-dom"
 
 const routes = [
   {
     path: "",
-    component: lazy(() => import("../DashboardHomePage")),
+    component: lazy(() => import("../MyResumes")),
     exact: true,
   },
-
   {
-    path: "blankPage",
-    component: lazy(() => import("../BlankPage")),
+    path: "create-resume",
+    component: lazy(() => import("../CreateResume")),
+  },
+  {
+    path: "edit-resume",
+    component: lazy(() => import("../EditResume")),
+  },
+  {
+    path: "templates",
+    component: lazy(() => import("../Templates")),
   },
 ]
 
