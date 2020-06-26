@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@iso/components/uielements/button';
 import Input from '@iso/components/uielements/input';
 import Modal from '@iso/components/Feedback/Modal';
-import { notification } from '@iso/components';
+import notification from '@iso/components/Feedback/Notification';
 import {
   signInWithEmail,
   signUpWithEmailAndPassword,

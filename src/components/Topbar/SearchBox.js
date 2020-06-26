@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputSearch } from '../uielements/input';
-export default function(props) {
+export default function() {
   React.useEffect(() => {
     const timer = setTimeout(() => {
       try {
@@ -16,7 +16,7 @@ export default function(props) {
       id="InputTopbarSearch"
       size="large"
       placeholder="Enter search text"
-      onBlur={props.onBlur}
+      onBlur={this.props.onBlur}
     />
   );
 }

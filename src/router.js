@@ -20,32 +20,8 @@ const publicRoutes = [
     component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
   },
   {
-    path: PUBLIC_ROUTE.PAGE_404,
-    component: lazy(() => import('@iso/containers/Pages/404/404')),
-  },
-  {
-    path: PUBLIC_ROUTE.PAGE_500,
-    component: lazy(() => import('@iso/containers/Pages/500/500')),
-  },
-  {
     path: PUBLIC_ROUTE.SIGN_IN,
     component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
-  },
-  {
-    path: PUBLIC_ROUTE.SIGN_UP,
-    component: lazy(() => import('@iso/containers/Pages/SignUp/SignUp')),
-  },
-  {
-    path: PUBLIC_ROUTE.FORGET_PASSWORD,
-    component: lazy(() =>
-      import('@iso/containers/Pages/ForgotPassword/ForgotPassword')
-    ),
-  },
-  {
-    path: PUBLIC_ROUTE.RESET_PASSWORD,
-    component: lazy(() =>
-      import('@iso/containers/Pages/ResetPassword/ResetPassword')
-    ),
   },
   {
     path: PUBLIC_ROUTE.AUTH0_CALLBACK,
@@ -54,6 +30,7 @@ const publicRoutes = [
     ),
   },
 ];
+
 function PrivateRoute({ children, ...rest }) {
   const isLoggedIn = useSelector(state => state.Auth.idToken);
 
@@ -86,6 +63,7 @@ export default function Routes() {
                 <route.component />
               </Route>
             ))}
+
             <PrivateRoute path="/dashboard">
               <Dashboard />
             </PrivateRoute>

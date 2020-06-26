@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import Auth0Lock from 'auth0-lock';
 import history from '@iso/lib/helpers/history';
 import Auth0Config from '@iso/config/auth0.config';
-import { notification } from '@iso/components';
+import notification from '@iso/components/Feedback/Notification';
 
 class Auth0 extends EventEmitter {
   lock = new Auth0Lock(

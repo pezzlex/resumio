@@ -30,9 +30,13 @@ export default function TopbarUser() {
       <a className="isoDropdownLink" href="# ">
         <IntlMessages id="topbar.help" />
       </a>
-      <div className="isoDropdownLink" onClick={() => dispatch(logout())}>
+      <a
+        className="isoDropdownLink"
+        onClick={() => dispatch(logout())}
+        href="# "
+      >
         <IntlMessages id="topbar.logout" />
-      </div>
+      </a>
     </TopbarDropdownWrapper>
   );
 

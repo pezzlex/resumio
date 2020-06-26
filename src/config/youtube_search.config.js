@@ -1,2 +1,2 @@
-const youtubeSearchApi = "your_youtube_search_api_key";
+const youtubeSearchApi = 'AIzaSyDjq7LZKhLGIdvFpqMa70uglprIPcKQ3a4';
 export default youtubeSearchApi;

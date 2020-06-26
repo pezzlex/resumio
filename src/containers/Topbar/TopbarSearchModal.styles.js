@@ -29,14 +29,17 @@ const TopbarSearchModal = styled(Modal)`
 
       .isoSearchContainer {
         .ant-input-search {
+          position: relative;
+          border: 0;
+          border-radius: 0;
+          padding-left: ${(props) =>
+            props['data-rtl'] === 'rtl' ? '15px' : '55px'};
+          padding-right: ${(props) =>
+            props['data-rtl'] === 'rtl' ? '55px' : '15px'};
+          height: 60px;
+          max-height: none;
+
           .ant-input {
-            border: 0;
-            border-radius: 0;
-            padding-left: ${props =>
-              props['data-rtl'] === 'rtl' ? '15px' : '55px'};
-            padding-right: ${props =>
-              props['data-rtl'] === 'rtl' ? '55px' : '15px'};
-            height: 60px;
             font-size: 14px;
 
             &::-webkit-input-placeholder {
@@ -62,9 +65,11 @@ const TopbarSearchModal = styled(Modal)`
         }
 
         .ant-input-suffix {
-          right: ${props => (props['data-rtl'] === 'rtl' ? '20px' : 'auto')};
-          left: ${props => (props['data-rtl'] === 'rtl' ? 'auto' : '20px')};
+          right: ${(props) => (props['data-rtl'] === 'rtl' ? '20px' : 'auto')};
+          left: ${(props) => (props['data-rtl'] === 'rtl' ? 'auto' : '20px')};
           height: 0;
+          position: absolute;
+          top: 50%;
 
           &:before {
             content: '\f4a4';

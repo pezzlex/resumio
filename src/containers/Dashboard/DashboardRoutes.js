@@ -1,21 +1,26 @@
-import React, { lazy, Suspense } from "react"
-import { Route, useRouteMatch, Switch } from "react-router-dom"
-import Loader from "@iso/components/utility/loader"
+import React, { lazy, Suspense } from 'react';
+import { Route, useRouteMatch, Switch } from 'react-router-dom';
+import Loader from '@iso/components/utility/loader';
 
 const routes = [
   {
-    path: "",
-    component: lazy(() => import("@iso/containers/Widgets/Widgets")),
+    path: '',
+    component: lazy(() => import('../DashboardHomePage')),
     exact: true,
   },
+
   {
-    path: "blank_page",
-    component: lazy(() => import("@iso/containers/BlankPage")),
+    path: 'blankPage',
+    component: lazy(() => import('../BlankPage')),
   },
-]
+  {
+    path: 'authCheck',
+    component: lazy(() => import('../AuthCheck')),
+  },
+];
 
 export default function AppRouter() {
-  const { url } = useRouteMatch()
+  const { url } = useRouteMatch();
   return (
     <Suspense fallback={<Loader />}>
       <Switch>
@@ -26,5 +31,5 @@ export default function AppRouter() {
         ))}
       </Switch>
     </Suspense>
-  )
+  );
 }

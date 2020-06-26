@@ -2,7 +2,7 @@ import React from 'react';
 import InputNumber from '../uielements/InputNumber';
 import { notification } from '../index';
 
-export default function({
+export default function ({
   price,
   quantity,
   image,
@@ -11,7 +11,7 @@ export default function({
   changeQuantity,
   _highlightResult,
 }) {
-  const onChange = value => {
+  const onChange = (value) => {
     if (!isNaN(value)) {
       if (value !== quantity) {
         changeQuantity(objectID, value);

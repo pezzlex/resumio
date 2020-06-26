@@ -14,10 +14,6 @@ export function getToken() {
   }
 }
 
-export function arrayEqual(array1, array2) {
-  return array1.sort().toString() === array2.sort().toString();
-}
-
 export function timeDifference(givenTime) {
   givenTime = new Date(givenTime);
   const milliseconds = new Date().getTime() - givenTime.getTime();

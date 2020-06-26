@@ -1,6 +1,7 @@
 {
   "sidebar.swiperslider": "滑塊",
   "sidebar.email": "电子邮件",
+  "sidebar.quiz": "Quiz",
   "sidebar.chat": "聊",
   "sidebar.ecommerce": "电子商务",
   "sidebar.shop": "店",
@@ -558,5 +559,23 @@
   "sidebar.scrumboard": "Scrum板",
   "sidebar.firestorecrud": "Firestore CRUD",
   "sidebar.firestorecrudarticle": "用品",
-  "sidebar.firestorecrudinvestor": "投资者"
+  "sidebar.firestorecrudinvestor": "投资者",
+  "Swiper.basic.basicTitle": "基本滑块",
+  "Swiper.bullet.bulletTitle": "子弹分页",
+  "Swiper.progress.progressTitle": "进度分页",
+  "Swiper.fraction.fractionTitle": "分页",
+  "Swiper.numbered.numberedTitle": "编号分页",
+  "Swiper.scroll.scrollTitle": "滚动条",
+  "Swiper.verticle.verticleTitle": "垂直滑块",
+  "Swiper.multiple.multipleGridTitle": "多网格滑块",
+  "Swiper.free.freeTitle": "无刷模式",
+  "Swiper.multirow.multirowTitle": "多行显示",
+  "Swiper.cursor.cursorTitle": "带光标的滑块",
+  "Swiper.loop.infiniteTitle": "无限循环滑块",
+  "Swiper.wheel.wheelTitle": "滑鼠滚轮",
+  "Swiper.auto.autoPlayTitle": "具有自动播放功能的滑块",
+  "Swiper.lazy.lazyTitle": "带有Lazyload的滑块",
+  "Swiper.custom.customScrollTitle": "具有所有导航的自定义视图",
+  "Swiper.custom.basicNavTitle": "基本导航",
+  "Swiper.custom.buttonNavTitle": "自定义导航"
 }

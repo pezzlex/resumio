@@ -1,6 +1,7 @@
 {
   "sidebar.swiperslider": "المتزلج",
   "sidebar.email": "البريد الإلكتروني",
+  "sidebar.quiz": "Quiz",
   "sidebar.chat": "دردشة",
   "sidebar.ecommerce": "التجارة الإلكترونية",
   "sidebar.shop": "متجر",
@@ -548,5 +549,23 @@
   "themeSwitcher.purchase": "شراء الآن",
   "themeSwitcher.settings": "إعدادات",
   "sidebar.selectbox": "تحديد",
-  "topbar.myprofile": "ملفي"
+  "topbar.myprofile": "ملفي",
+  "Swiper.basic.basicTitle": "شريط التمرير الأساسي",
+  "Swiper.bullet.bulletTitle": "ترقيم الصفحات رصاصة",
+  "Swiper.progress.progressTitle": "ترقيم الصفحات",
+  "Swiper.fraction.fractionTitle": "جزء ترقيم الصفحات",
+  "Swiper.numbered.numberedTitle": "ترقيم الصفحات",
+  "Swiper.scroll.scrollTitle": "التمرير",
+  "Swiper.verticle.verticleTitle": "شريط التمرير العمودي",
+  "Swiper.multiple.multipleGridTitle": "شبكة متعددة المتزلج",
+  "Swiper.free.freeTitle": "وضع Swiper Free",
+  "Swiper.multirow.multirowTitle": "صف متعددة على العرض",
+  "Swiper.cursor.cursorTitle": "شريط التمرير مع المؤشر",
+  "Swiper.loop.infiniteTitle": "شريط التمرير مع حلقة لانهائية",
+  "Swiper.wheel.wheelTitle": "شريط التمرير مع عجلة الماوس",
+  "Swiper.auto.autoPlayTitle": "شريط التمرير مع التشغيل التلقائي",
+  "Swiper.lazy.lazyTitle": "شريط التمرير مع Lazyload",
+  "Swiper.custom.customScrollTitle": "عرض مخصص مع جميع الملاحة",
+  "Swiper.custom.basicNavTitle": "الملاحة الأساسية",
+  "Swiper.custom.buttonNavTitle": "مخصص الملاحة"
 }

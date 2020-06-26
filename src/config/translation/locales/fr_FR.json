@@ -1,6 +1,7 @@
 {
   "sidebar.swiperslider": "Curseur",
   "sidebar.email": "Email",
+  "sidebar.quiz": "Quiz",
   "sidebar.chat": "Bavarder",
   "sidebar.ecommerce": "Commerce électronique",
   "sidebar.shop": "tienda",
@@ -558,5 +559,23 @@
   "topbar.viewAll": "Connectez - Out",
   "topbar.viewCart": "Voir le panier",
   "topbar.totalPrice": "Prix ​​total",
-  "sidebar.scrumboard": "Scrum Board"
+  "sidebar.scrumboard": "Scrum Board",
+  "Swiper.basic.basicTitle": "Curseur de base",
+  "Swiper.bullet.bulletTitle": "Bipination",
+  "Swiper.progress.progressTitle": "Progrès de la pagination",
+  "Swiper.fraction.fractionTitle": "Pagination des fractions",
+  "Swiper.numbered.numberedTitle": "Pagination numérotée",
+  "Swiper.scroll.scrollTitle": "Barre de défilement",
+  "Swiper.verticle.verticleTitle": "Curseur vertical",
+  "Swiper.multiple.multipleGridTitle": "Curseur multiple",
+  "Swiper.free.freeTitle": "Mode sans balayeur",
+  "Swiper.multirow.multirowTitle": "Plusieurs lignes sur la vue",
+  "Swiper.cursor.cursorTitle": "Curseur avec curseur",
+  "Swiper.loop.infiniteTitle": "Curseur avec boucle infinie",
+  "Swiper.wheel.wheelTitle": "Curseur avec molette de la souris",
+  "Swiper.auto.autoPlayTitle": "Curseur avec lecture automatique",
+  "Swiper.lazy.lazyTitle": "Curseur avec Lazyload",
+  "Swiper.custom.customScrollTitle": "Vue personnalisée avec toute la navigation",
+  "Swiper.custom.basicNavTitle": "Navigation de base",
+  "Swiper.custom.buttonNavTitle": "Navigation personnalisée"
 }

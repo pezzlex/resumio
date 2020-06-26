@@ -1,8 +1,13 @@
 const options = [
   {
-    key: "blank_page",
-    label: "sidebar.blankPage",
-    leftIcon: "ion-document",
+    key: 'blankPage',
+    label: 'sidebar.blankPage',
+    leftIcon: 'ion-document',
   },
-]
-export default options
+  {
+    key: 'authCheck',
+    label: 'sidebar.authCheck',
+    leftIcon: 'ion-document',
+  },
+];
+export default options;

@@ -18,7 +18,7 @@ const TopbarDropdownWrapper = styled.div`
   ${borderRadius('5px')};
   ${boxShadow('0 2px 10px rgba(0,0,0,0.2)')};
   ${transition()};
-  cursor: pointer;
+
   @media only screen and (max-width: 767px) {
     width: 310px;
   }
