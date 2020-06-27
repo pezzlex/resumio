@@ -11,9 +11,9 @@ const { toggleCollapsed } = appActions
 
 export default function Topbar() {
   const [, setSelectedItem] = React.useState("")
-  const customizedTheme = useSelector(
-    (state) => state.ThemeSwitcher.topbarTheme
-  )
+  // const customizedTheme = useSelector(
+  //   (state) => state.ThemeSwitcher.topbarTheme
+  // )
   const { collapsed, openDrawer } = useSelector((state) => state.App)
   const dispatch = useDispatch()
   const handleToggle = React.useCallback(() => dispatch(toggleCollapsed()), [
@@ -21,7 +21,6 @@ export default function Topbar() {
   ])
   const isCollapsed = collapsed && !openDrawer
   const styling = {
-    background: customizedTheme.backgroundColor,
     position: "fixed",
     width: "100%",
     height: 70,
@@ -34,7 +33,15 @@ export default function Topbar() {
           isCollapsed ? "isomorphicTopbar collapsed" : "isomorphicTopbar"
         }
       >
-        <div className="isoLeft"></div>
+        <div className="isoLeft">
+          <button
+            className={
+              isCollapsed ? "triggerBtn menuCollapsed" : "triggerBtn menuOpen"
+            }
+            style={{ color: "#323332" }}
+            onClick={handleToggle}
+          />
+        </div>
 
         <ul className="isoRight">
           <li onClick={() => setSelectedItem("user")} className="isoUser">

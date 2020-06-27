@@ -29,9 +29,9 @@ export default function Sidebar() {
     current,
     height,
   } = useSelector((state) => state.App)
-  const customizedTheme = useSelector(
-    (state) => state.ThemeSwitcher.sidebarTheme
-  )
+  // const customizedTheme = useSelector(
+  //   (state) => state.ThemeSwitcher.sidebarTheme
+  // )
 
   function handleClick(e) {
     dispatch(changeCurrent([e.key]))
@@ -80,14 +80,14 @@ export default function Sidebar() {
     return
   }
   const styling = {
-    backgroundColor: customizedTheme.backgroundColor,
+    backgroundColor: "#323332",
   }
   const submenuStyle = {
     backgroundColor: "rgba(0,0,0,0.3)",
-    color: customizedTheme.textColor,
+    color: "#788195",
   }
   const submenuColor = {
-    color: customizedTheme.textColor,
+    color: "#788195",
   }
   return (
     <SidebarWrapper>
