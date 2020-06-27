@@ -10,9 +10,15 @@
     "packages/isomorphic-boilerplate-graphql/*"
   ],
   "scripts": {
-    "start": "yarn workspace @iso/boilerplate-single run start",
     "clean": "lerna clean --yes && rimraf node_modules",
-    "clean:build": "lerna exec -- rimraf \"{.next,dist,out,build,.docz}\""
+    "clean:build": "lerna exec -- rimraf \"{.next,dist,out,build,.docz}\"",
+    "start": "yarn workspace @iso/boilerplate-single run start",
+    "build:iso-cra": "yarn workspace @iso/cra run build",
+    "build:iso-next": "yarn workspace @iso/next run build",
+    "build:iso-boilerplate": "yarn workspace @iso/boilerplate run build",
+    "serve:iso-cra": "yarn workspace @iso/cra run serve",
+    "serve:iso-next": "yarn workspace @iso/next run start",
+    "serve:iso-boilerplate": "yarn workspace @iso/next run serve"
   },
   "husky": {
     "hooks": {
