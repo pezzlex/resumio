@@ -1,7 +1,7 @@
 const options = [
   {
     key: "",
-    label: "sidebar.myResumes",
+    label: "My Resumes",
     leftIcon: "ion-document",
   },
   // {
@@ -16,7 +16,7 @@ const options = [
   // },
   {
     key: "templates",
-    label: "sidebar.templates",
+    label: "Templates",
     leftIcon: "ion-document",
   },
 ]
