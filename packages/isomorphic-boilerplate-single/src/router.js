@@ -24,6 +24,10 @@ const publicRoutes = [
     component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
   },
   {
+    path: PUBLIC_ROUTE.SIGN_UP,
+    component: lazy(() => import('@iso/containers/Pages/SignUp/SignUp')),
+  },
+  {
     path: PUBLIC_ROUTE.AUTH0_CALLBACK,
     component: lazy(() =>
       import('@iso/containers/Authentication/Auth0/Auth0Callback')
@@ -32,7 +36,7 @@ const publicRoutes = [
 ];
 
 function PrivateRoute({ children, ...rest }) {
-  const isLoggedIn = useSelector(state => state.Auth.idToken);
+  const isLoggedIn = useSelector((state) => state.Auth.idToken);
 
   return (
     <Route

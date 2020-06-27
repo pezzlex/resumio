@@ -33,9 +33,7 @@ export default function SignUp() {
       <div className="isoSignUpContentWrapper">
         <div className="isoSignUpContent">
           <div className="isoLogoWrapper">
-            <Link to="/dashboard">
-              <IntlMessages id="page.signUpTitle" />
-            </Link>
+            <Link to="/dashboard">RESUMIO</Link>
           </div>
 
           <div className="isoSignUpForm">
@@ -65,15 +63,11 @@ export default function SignUp() {
             </div>
 
             <div className="isoInputWrapper" style={{ marginBottom: '50px' }}>
-              <Checkbox>
-                <IntlMessages id="page.signUpTermsConditions" />
-              </Checkbox>
+              <Checkbox>I agree with terms and conditions</Checkbox>
             </div>
 
             <div className="isoInputWrapper">
-              <Button type="primary">
-                <IntlMessages id="page.signUpButton" />
-              </Button>
+              <Button type="primary">Sign up</Button>
             </div>
             <div className="isoInputWrapper isoOtherLogin">
               <Button
@@ -81,14 +75,14 @@ export default function SignUp() {
                 type="primary"
                 className="btnFacebook"
               >
-                <IntlMessages id="page.signUpFacebook" />
+                Sign up with Facebook
               </Button>
               <Button
                 onClick={handleLogin}
                 type="primary"
                 className="btnGooglePlus"
               >
-                <IntlMessages id="page.signUpGooglePlus" />
+                Sign up with Google Plus
               </Button>
               <Button
                 onClick={() => {
@@ -97,7 +91,7 @@ export default function SignUp() {
                 type="primary"
                 className="btnAuthZero"
               >
-                <IntlMessages id="page.signUpAuth0" />
+                Sign up with Auth0
               </Button>
 
               <FirebaseSignUpForm
@@ -107,9 +101,7 @@ export default function SignUp() {
               />
             </div>
             <div className="isoInputWrapper isoCenterComponent isoHelperWrapper">
-              <Link to="/signin">
-                <IntlMessages id="page.signUpAlreadyAccount" />
-              </Link>
+              <Link to="/signin">Already have an account? Sign in.</Link>
             </div>
           </div>
         </div>

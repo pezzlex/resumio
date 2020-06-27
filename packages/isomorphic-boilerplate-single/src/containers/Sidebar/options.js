@@ -1,23 +1,13 @@
 const options = [
   {
-    key: "",
-    label: "My Resumes",
-    leftIcon: "ion-document",
+    key: 'blankPage',
+    label: 'sidebar.blankPage',
+    leftIcon: 'ion-document',
   },
-  // {
-  //   key: "create-resume",
-  //   label: "sidebar.createResume",
-  //   leftIcon: "ion-document",
-  // },
-  // {
-  //   key: "edit-resume",
-  //   label: "sidebar.editResume",
-  //   leftIcon: "ion-document",
-  // },
   {
-    key: "templates",
-    label: "Templates",
-    leftIcon: "ion-document",
+    key: 'authCheck',
+    label: 'sidebar.authCheck',
+    leftIcon: 'ion-document',
   },
-]
-export default options
+];
+export default options;

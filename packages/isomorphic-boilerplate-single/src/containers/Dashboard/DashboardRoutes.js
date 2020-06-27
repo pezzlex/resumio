@@ -1,29 +1,26 @@
-import Loader from "@iso/components/utility/loader"
-import React, { lazy, Suspense } from "react"
-import { Route, Switch, useRouteMatch } from "react-router-dom"
+import React, { lazy, Suspense } from 'react';
+import { Route, useRouteMatch, Switch } from 'react-router-dom';
+import Loader from '@iso/components/utility/loader';
 
 const routes = [
   {
-    path: "",
-    component: lazy(() => import("../MyResumes")),
+    path: '',
+    component: lazy(() => import('../DashboardHomePage')),
     exact: true,
   },
+
   {
-    path: "create-resume",
-    component: lazy(() => import("../CreateResume")),
+    path: 'blankPage',
+    component: lazy(() => import('../BlankPage')),
   },
   {
-    path: "edit-resume",
-    component: lazy(() => import("../EditResume")),
+    path: 'authCheck',
+    component: lazy(() => import('../AuthCheck')),
   },
-  {
-    path: "templates",
-    component: lazy(() => import("../Templates")),
-  },
-]
+];
 
 export default function AppRouter() {
-  const { url } = useRouteMatch()
+  const { url } = useRouteMatch();
   return (
     <Suspense fallback={<Loader />}>
       <Switch>
@@ -34,5 +31,5 @@ export default function AppRouter() {
         ))}
       </Switch>
     </Suspense>
-  )
+  );
 }

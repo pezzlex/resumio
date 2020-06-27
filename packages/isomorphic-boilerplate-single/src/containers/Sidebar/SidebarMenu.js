@@ -1,26 +1,26 @@
-import React from "react"
-import { Link, useRouteMatch } from "react-router-dom"
+import React from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 
-import Menu from "@iso/components/uielements/menu"
-import IntlMessages from "@iso/components/utility/intlMessages"
-const SubMenu = Menu.SubMenu
+import Menu from '@iso/components/uielements/menu';
+import IntlMessages from '@iso/components/utility/intlMessages';
+const SubMenu = Menu.SubMenu;
 
 const stripTrailingSlash = (str) => {
-  if (str.substr(-1) === "/") {
-    return str.substr(0, str.length - 1)
+  if (str.substr(-1) === '/') {
+    return str.substr(0, str.length - 1);
   }
-  return str
-}
+  return str;
+};
 export default React.memo(function SidebarMenu({
   singleOption,
   submenuStyle,
   submenuColor,
   ...rest
 }) {
-  let match = useRouteMatch()
+  let match = useRouteMatch();
 
-  const { key, label, leftIcon, children } = singleOption
-  const url = stripTrailingSlash(match.url)
+  const { key, label, leftIcon, children } = singleOption;
+  const url = stripTrailingSlash(match.url);
 
   if (children) {
     return (
@@ -30,7 +30,7 @@ export default React.memo(function SidebarMenu({
           <span className="isoMenuHolder" style={submenuColor}>
             <i className={leftIcon} />
             <span className="nav-text">
-              {/* <IntlMessages id={label} /> */}
+              <IntlMessages id={label} />
             </span>
           </span>
         }
@@ -39,17 +39,17 @@ export default React.memo(function SidebarMenu({
         {children.map((child) => {
           const linkTo = child.withoutDashboard
             ? `/${child.key}`
-            : `${url}/${child.key}`
+            : `${url}/${child.key}`;
           return (
             <Menu.Item style={submenuStyle} key={child.key}>
               <Link style={submenuColor} to={linkTo}>
-                {child.label}
+                <IntlMessages id={child.label} />
               </Link>
             </Menu.Item>
-          )
+          );
         })}
       </SubMenu>
-    )
+    );
   }
 
   return (
@@ -57,9 +57,11 @@ export default React.memo(function SidebarMenu({
       <Link to={`${url}/${key}`}>
         <span className="isoMenuHolder" style={submenuColor}>
           <i className={leftIcon} />
-          <span className="nav-text">{label}</span>
+          <span className="nav-text">
+            <IntlMessages id={label} />
+          </span>
         </span>
       </Link>
     </Menu.Item>
-  )
-})
+  );
+});
