@@ -1,50 +1,50 @@
-import React from "react"
-import { Link, Redirect, useHistory, useLocation } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
-import Input from "@iso/components/uielements/input"
-import Checkbox from "@iso/components/uielements/checkbox"
-import Button from "@iso/components/uielements/button"
-import IntlMessages from "@iso/components/utility/intlMessages"
-import FirebaseLoginForm from "../../FirebaseForm/FirebaseForm"
-import authAction from "@iso/redux/auth/actions"
-import appAction from "@iso/redux/app/actions"
-import Auth0 from "../../Authentication/Auth0/Auth0"
+import React from 'react';
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import Input from '@iso/components/uielements/input';
+import Checkbox from '@iso/components/uielements/checkbox';
+import Button from '@iso/components/uielements/button';
+import IntlMessages from '@iso/components/utility/intlMessages';
+import FirebaseLoginForm from '../../FirebaseForm/FirebaseForm';
+import authAction from '@iso/redux/auth/actions';
+import appAction from '@iso/redux/app/actions';
+import Auth0 from '../../Authentication/Auth0/Auth0';
 import {
   signInWithGoogle,
   signInWithFacebook,
-} from "@iso/lib/firebase/firebase.authentication.util"
-import SignInStyleWrapper from "./SignIn.styles"
+} from '@iso/lib/firebase/firebase.authentication.util';
+import SignInStyleWrapper from './SignIn.styles';
 
-const { login } = authAction
-const { clearMenu } = appAction
+const { login } = authAction;
+const { clearMenu } = appAction;
 
 export default function SignIn() {
-  let history = useHistory()
-  let location = useLocation()
-  const dispatch = useDispatch()
-  const isLoggedIn = useSelector((state) => state.Auth.idToken)
+  let history = useHistory();
+  let location = useLocation();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.Auth.idToken);
 
-  const [redirectToReferrer, setRedirectToReferrer] = React.useState(false)
+  const [redirectToReferrer, setRedirectToReferrer] = React.useState(false);
   React.useEffect(() => {
     if (isLoggedIn) {
-      setRedirectToReferrer(true)
+      setRedirectToReferrer(true);
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
   function handleLogin(e, token = false) {
-    e.preventDefault()
+    e.preventDefault();
     if (token) {
-      dispatch(login(token))
+      dispatch(login(token));
     } else {
-      dispatch(login())
+      dispatch(login());
     }
-    dispatch(clearMenu())
-    history.push("/dashboard")
+    dispatch(clearMenu());
+    history.push('/dashboard');
   }
-  let { from } = location.state || { from: { pathname: "/dashboard" } }
+  let { from } = location.state || { from: { pathname: '/dashboard' } };
 
   if (redirectToReferrer) {
-    return <Redirect to={from} />
+    return <Redirect to={from} />;
   }
   return (
     <SignInStyleWrapper className="isoSignInPage">
@@ -101,7 +101,7 @@ export default function SignIn() {
 
               <Button
                 onClick={() => {
-                  Auth0.login()
+                  Auth0.login();
                 }}
                 type="primary"
                 className="btnAuthZero"
@@ -124,5 +124,5 @@ export default function SignIn() {
         </div>
       </div>
     </SignInStyleWrapper>
-  )
+  );
 }
