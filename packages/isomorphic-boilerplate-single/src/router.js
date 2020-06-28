@@ -20,6 +20,10 @@ const publicRoutes = [
     component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
   },
   {
+    path: PUBLIC_ROUTE.PAGE_500,
+    component: lazy(() => import('@iso/containers/Pages/500/500')),
+  },
+  {
     path: PUBLIC_ROUTE.SIGN_IN,
     component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
   },
@@ -28,10 +32,27 @@ const publicRoutes = [
     component: lazy(() => import('@iso/containers/Pages/SignUp/SignUp')),
   },
   {
+    path: PUBLIC_ROUTE.FORGET_PASSWORD,
+    component: lazy(() =>
+      import('@iso/containers/Pages/ForgotPassword/ForgotPassword')
+    ),
+  },
+  {
+    path: PUBLIC_ROUTE.RESET_PASSWORD,
+    component: lazy(() =>
+      import('@iso/containers/Pages/ResetPassword/ResetPassword')
+    ),
+  },
+  {
     path: PUBLIC_ROUTE.AUTH0_CALLBACK,
     component: lazy(() =>
       import('@iso/containers/Authentication/Auth0/Auth0Callback')
     ),
+  },
+  {
+    path: PUBLIC_ROUTE.PAGE_404,
+    exact: true,
+    component: lazy(() => import('@iso/containers/Pages/404/404')),
   },
 ];
 
@@ -67,7 +88,6 @@ export default function Routes() {
                 <route.component />
               </Route>
             ))}
-
             <PrivateRoute path="/dashboard">
               <Dashboard />
             </PrivateRoute>

@@ -1,26 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Image from '@iso/assets/images/rob.png';
-import IntlMessages from '@iso/components/utility/intlMessages';
+import Image from '@iso/assets/images/404.gif';
 import FourZeroFourStyleWrapper from './404.styles';
 
 export default function () {
   return (
     <FourZeroFourStyleWrapper className="iso404Page">
       <div className="iso404Content">
-        <h1>
-          <IntlMessages id="page404.title" />
-        </h1>
-        <h3>
-          <IntlMessages id="page404.subTitle" />
-        </h3>
-        <p>
-          <IntlMessages id="page404.description" />
-        </p>
+        <h1>Oops! page not found</h1>
+        <h3>Looks like you got lost</h3>
+        <p>The page you are looking for doesn't exist or has been moved</p>
         <Link to="/dashboard">
-          <button type="button">
-            <IntlMessages id="page404.backButton" />
-          </button>
+          <button type="button">BACK HOME</button>
         </Link>
       </div>
 

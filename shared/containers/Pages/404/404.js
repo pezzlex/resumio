@@ -4,7 +4,7 @@ import Image from '@iso/assets/images/rob.png';
 import IntlMessages from '@iso/components/utility/intlMessages';
 import FourZeroFourStyleWrapper from './404.styles';
 
-export default function() {
+export default function () {
   return (
     <FourZeroFourStyleWrapper className="iso404Page">
       <div className="iso404Content">
