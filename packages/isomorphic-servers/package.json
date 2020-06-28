@@ -35,7 +35,7 @@
     "babel-plugin-import": "^1.13.0"
   },
   "scripts": {
-    "start": "cross-env PORT=3005 react-app-rewired start",
+    "start": "nodemon servers/express/start.js | cross-env PORT=3005 react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
