@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
-import bgImage from '@iso/assets/images/work.jpg';
+import bgImage2 from '@iso/assets/images/landing-pg-2.png';
 import WithDirection from '@iso/lib/helpers/rtl';
 
 const SignUpStyleWrapper = styled.div`
@@ -11,7 +11,7 @@ const SignUpStyleWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   position: relative;
-  background: url(${bgImage}) no-repeat center center;
+  background: url(${bgImage2}) no-repeat center center;
   background-size: cover;
 
   &:before {

@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import Input from '@iso/components/uielements/input';
 import Checkbox from '@iso/components/uielements/checkbox';
 import Button from '@iso/components/uielements/button';
-import IntlMessages from '@iso/components/utility/intlMessages';
 import FirebaseLoginForm from '../../FirebaseForm/FirebaseForm';
 import authAction from '@iso/redux/auth/actions';
 import appAction from '@iso/redux/app/actions';
@@ -79,9 +78,9 @@ export default function SignIn() {
                 </Button>
               </div>
 
-              <p className="isoHelperText">
+              {/* <p className="isoHelperText">
                 username: demo password: demodemo or just click on any button.
-              </p>
+              </p> */}
             </form>
             <div className="isoInputWrapper isoOtherLogin">
               <Button
