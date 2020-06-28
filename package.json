@@ -14,9 +14,11 @@
     "clean:build": "lerna exec -- rimraf \"{.next,dist,out,build,.docz}\"",
     "start": "yarn workspace @iso/boilerplate-single run start",
     "start:iso-boilerplate": "yarn workspace @iso/boilerplate run start",
+    "build": "yarn workspace @iso/boilerplate-single run build",
     "build:iso-cra": "yarn workspace @iso/cra run build",
     "build:iso-next": "yarn workspace @iso/next run build",
     "build:iso-boilerplate": "yarn workspace @iso/boilerplate run build",
+    "serve": "yarn workspace @iso/boilerplate-single run serve",
     "serve:iso-cra": "yarn workspace @iso/cra run serve",
     "serve:iso-next": "yarn workspace @iso/next run start",
     "serve:iso-boilerplate": "yarn workspace @iso/next run serve"
