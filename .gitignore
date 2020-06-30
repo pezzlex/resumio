@@ -21,3 +21,6 @@ yarn-debug.log*
 yarn-error.log*
 .firebaserc
 firebase-debug.log
+
+# config files
+/packages/isomorphic-boilerplate-single/servers/config.js
