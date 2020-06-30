@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Image from '@iso/assets/images/500.jpeg';
-import FiveZeroZeroStyleWrapper from './500.styles';
+import React from "react"
+import { Link } from "react-router-dom"
+import Image from "@iso/assets/images/500.jpeg"
+import FiveZeroZeroStyleWrapper from "./500.styles"
 
 export default function () {
   return (
@@ -21,5 +21,5 @@ export default function () {
         <img alt="#" src={Image} />
       </div>
     </FiveZeroZeroStyleWrapper>
-  );
+  )
 }

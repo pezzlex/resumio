@@ -1,7 +1,8 @@
-import express from 'express';
 import bodyParser from 'body-parser';
-import jsonwebtoken from 'jsonwebtoken';
 import cors from 'cors';
+import express from 'express';
+import jsonwebtoken from 'jsonwebtoken';
+
 import Config from './config';
 import { authenticate, authError } from './middleware';
 
