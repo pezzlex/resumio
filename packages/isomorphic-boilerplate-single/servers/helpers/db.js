@@ -11,7 +11,7 @@ mongoose.connect(
     useFindAndModify: false,
   }
 )
-// console.log(process.env.MONGODB_URI, config.connectionString)
+
 mongoose.Promise = global.Promise
 
 module.exports = {
