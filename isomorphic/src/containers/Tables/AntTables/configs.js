@@ -67,6 +67,7 @@ const columns = [
     render: (object) => renderCell(object, 'DateCell', 'date'),
   },
 ]
+
 const smallColumns = [columns[1], columns[2], columns[3], columns[4]]
 const sortColumns = [
   { ...columns[1], sorter: true },
