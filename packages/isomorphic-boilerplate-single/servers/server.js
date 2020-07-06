@@ -5,7 +5,6 @@ const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
-// const { username, password, cluster, dbName } = require('./config')
 const PORT = 4000
 
 app.use(cors())

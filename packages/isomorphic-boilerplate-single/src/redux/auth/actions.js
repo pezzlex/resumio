@@ -1,3 +1,7 @@
+import axios from 'axios'
+export const LOGIN_USER = 'LOGIN_USER'
+export const LOGOUT_USER = 'LOGOUT_USER'
+
 const actions = {
   CHECK_AUTHORIZATION: 'CHECK_AUTHORIZATION',
   LOGIN_REQUEST: 'LOGIN_REQUEST',
@@ -12,5 +16,31 @@ const actions = {
   logout: () => ({
     type: actions.LOGOUT,
   }),
-};
-export default actions;
+}
+
+export const fetchToken = ({ username, password }) => {
+  return (dispatch) => {
+    axios
+      .post(`http://localhost:4000/users/authenticate`, {
+        username,
+        password,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data)
+          dispatch({
+            type: LOGIN_USER,
+            payload: response.data,
+          })
+          localStorage.setItem('jwtToken', response.data.token)
+        } else {
+          localStorage.removeItem('jwtToken')
+        }
+      })
+      .catch((err) => {
+        console.log('Error: ', err)
+      })
+  }
+}
+
+export default actions

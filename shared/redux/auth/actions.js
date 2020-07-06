@@ -5,12 +5,15 @@ const actions = {
   LOGIN_SUCCESS: 'LOGIN_SUCCESS',
   LOGIN_ERROR: 'LOGIN_ERROR',
   checkAuthorization: () => ({ type: actions.CHECK_AUTHORIZATION }),
-  login: (token = false) => ({
-    type: actions.LOGIN_REQUEST,
-    payload: { token },
-  }),
+  login: (token = false) => {
+    console.log('login dispatcher')
+    return {
+      type: actions.LOGIN_REQUEST,
+      payload: { token },
+    }
+  },
   logout: () => ({
     type: actions.LOGOUT,
   }),
-};
-export default actions;
+}
+export default actions

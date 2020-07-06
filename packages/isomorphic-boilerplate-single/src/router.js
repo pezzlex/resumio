@@ -1,17 +1,17 @@
-import Loader from '@iso/components/utility/loader';
-import React, { lazy, Suspense } from 'react';
-import { useSelector } from 'react-redux';
+import Loader from '@iso/components/utility/loader'
+import React, { lazy, Suspense } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Redirect,
   Route,
   BrowserRouter as Router,
   Switch,
-} from 'react-router-dom';
+} from 'react-router-dom'
 
-import ErrorBoundary from './ErrorBoundary';
-import { PUBLIC_ROUTE } from './route.constants';
+import ErrorBoundary from './ErrorBoundary'
+import { PUBLIC_ROUTE } from './route.constants'
 
-const Dashboard = lazy(() => import('./containers/Dashboard/Dashboard'));
+const Dashboard = lazy(() => import('./containers/Dashboard/Dashboard'))
 
 const publicRoutes = [
   {
@@ -54,10 +54,10 @@ const publicRoutes = [
     exact: true,
     component: lazy(() => import('@iso/containers/Pages/404/404')),
   },
-];
+]
 
 function PrivateRoute({ children, ...rest }) {
-  const isLoggedIn = useSelector((state) => state.Auth.idToken);
+  const isLoggedIn = useSelector((state) => state.Auth.token)
 
   return (
     <Route
@@ -75,7 +75,7 @@ function PrivateRoute({ children, ...rest }) {
         )
       }
     />
-  );
+  )
 }
 export default function Routes() {
   return (
@@ -95,5 +95,5 @@ export default function Routes() {
         </Router>
       </Suspense>
     </ErrorBoundary>
-  );
+  )
 }

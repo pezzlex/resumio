@@ -1,6 +1,6 @@
-import Loader from '@iso/components/utility/loader';
-import React, { lazy, Suspense } from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import Loader from '@iso/components/utility/loader'
+import React, { lazy, Suspense } from 'react'
+import { Route, Switch, useRouteMatch } from 'react-router-dom'
 
 const routes = [
   {
@@ -24,10 +24,10 @@ const routes = [
     path: 'cards',
     component: lazy(() => import('../Cards')),
   },
-];
+]
 
 export default function AppRouter() {
-  const { url } = useRouteMatch();
+  const { url } = useRouteMatch()
   return (
     <Suspense fallback={<Loader />}>
       <Switch>
@@ -38,5 +38,5 @@ export default function AppRouter() {
         ))}
       </Switch>
     </Suspense>
-  );
+  )
 }

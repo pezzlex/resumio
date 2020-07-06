@@ -1,34 +1,108 @@
-import React from 'react';
-import clone from 'clone';
-import { Row, Col } from 'antd';
-import LayoutWrapper from '@iso/components/utility/layoutWrapper';
-import basicStyle from '@iso/assets/styles/constants';
-import IsoWidgetsWrapper from './WidgetsWrapper';
-import IsoWidgetBox from './WidgetBox';
-import CardWidget from './Card/CardWidget';
-import ProgressWidget from './Progress/ProgressWidget';
-import SingleProgressWidget from './Progress/ProgressSingle';
-import ReportsWidget from './Report/ReportWidget';
-import StickerWidget from './Sticker/StickerWidget';
-import SaleWidget from './Sale/SaleWidget';
-import VCardWidget from './vCard/vCardWidget';
-import SocialWidget from './SocialWidget/SocialWidget';
-import SocialProfile from './SocialWidget/SocialProfileIcon';
-import userpic from '@iso/assets/images/user1.png';
-import { isServer } from '@iso/lib/helpers/isServer';
-import {
-  TableViews,
-  tableinfos,
-  dataList,
-} from '../Tables/AntTables/AntTables';
-import * as rechartConfigs from '../Charts/Recharts/config';
-import StackedAreaChart from '../Charts/Recharts/Charts/StackedAreaChart';
-import GoogleChart from 'react-google-charts';
-import * as googleChartConfigs from '../Charts/GoogleChart/config';
-import IntlMessages from '@iso/components/utility/intlMessages';
+import React from 'react'
+import clone from 'clone'
+import { Row, Col } from 'antd'
+import LayoutWrapper from '@iso/components/utility/layoutWrapper'
+import basicStyle from '@iso/assets/styles/constants'
+import IsoWidgetsWrapper from './WidgetsWrapper'
+import IsoWidgetBox from './WidgetBox'
+import CardWidget from './Card/CardWidget'
+import ProgressWidget from './Progress/ProgressWidget'
+import SingleProgressWidget from './Progress/ProgressSingle'
+import ReportsWidget from './Report/ReportWidget'
+import StickerWidget from './Sticker/StickerWidget'
+import SaleWidget from './Sale/SaleWidget'
+import VCardWidget from './vCard/vCardWidget'
+import SocialWidget from './SocialWidget/SocialWidget'
+import SocialProfile from './SocialWidget/SocialProfileIcon'
+import userpic from '@iso/assets/images/user1.png'
+import { isServer } from '@iso/lib/helpers/isServer'
 
-const tableDataList = clone(dataList);
-tableDataList.size = 5;
+import { TableViews } from '../Tables/AntTables/AntTables'
+import * as rechartConfigs from '../Charts/Recharts/config'
+import StackedAreaChart from '../Charts/Recharts/Charts/StackedAreaChart'
+import GoogleChart from 'react-google-charts'
+import * as googleChartConfigs from '../Charts/GoogleChart/config'
+import IntlMessages from '@iso/components/utility/intlMessages'
+import {
+  DateCell,
+  ImageCell,
+  LinkCell,
+  TextCell,
+} from '@iso/components/Tables/HelperCells'
+
+const dataList = [{ id: 1, key: 1, firstName: 'Pez' }]
+
+const renderCell = (object, type, key) => {
+  const value = object[key]
+  switch (type) {
+    case 'ImageCell':
+      return ImageCell(value)
+    case 'DateCell':
+      return DateCell(value)
+    case 'LinkCell':
+      return LinkCell(value)
+    default:
+      return TextCell(value)
+  }
+}
+const columns = [
+  {
+    title: <IntlMessages id="antTable.title.image" />,
+    key: 'avatar',
+    width: '1%',
+    className: 'isoImageCell',
+    render: (object) => renderCell(object, 'ImageCell', 'avatar'),
+  },
+  {
+    title: <IntlMessages id="antTable.title.firstName" />,
+    key: 'firstName',
+    width: 100,
+    render: (object) => renderCell(object, 'TextCell', 'firstName'),
+  },
+  {
+    title: <IntlMessages id="antTable.title.lastName" />,
+    key: 'lastName',
+    width: 100,
+    render: (object) => renderCell(object, 'TextCell', 'lastName'),
+  },
+  {
+    title: <IntlMessages id="antTable.title.city" />,
+    key: 'city',
+    width: 200,
+    render: (object) => renderCell(object, 'TextCell', 'city'),
+  },
+  {
+    title: <IntlMessages id="antTable.title.street" />,
+    key: 'street',
+    width: 200,
+    render: (object) => renderCell(object, 'TextCell', 'street'),
+  },
+  {
+    title: <IntlMessages id="antTable.title.email" />,
+    key: 'email',
+    width: 200,
+    render: (object) => renderCell(object, 'LinkCell', 'email'),
+  },
+  {
+    title: <IntlMessages id="antTable.title.dob" />,
+    key: 'date',
+    width: 200,
+    render: (object) => renderCell(object, 'DateCell', 'date'),
+  },
+]
+
+const smallColumns = [columns[1], columns[2], columns[3], columns[4]]
+
+const tableinfos = [
+  {
+    title: 'Simple Table',
+    value: 'simple',
+    columns: clone(smallColumns),
+  },
+]
+
+const tableDataList = clone(dataList)
+tableDataList.size = 5
 const styles = {
   wisgetPageStyle: {
     display: 'flex',
@@ -36,7 +110,7 @@ const styles = {
     alignItems: 'flex-start',
     overflow: 'hidden',
   },
-};
+}
 const SIGNLE_PROGRESS_WIDGET = [
   {
     label: 'widget.singleprogresswidget1.label',
@@ -66,7 +140,7 @@ const SIGNLE_PROGRESS_WIDGET = [
     status: 'active',
     info: true,
   },
-];
+]
 
 const STICKER_WIDGET = [
   {
@@ -97,7 +171,7 @@ const STICKER_WIDGET = [
     fontColor: '#ffffff',
     bgColor: '#F75D81',
   },
-];
+]
 
 const SALE_WIDGET = [
   {
@@ -124,7 +198,7 @@ const SALE_WIDGET = [
     details: 'widget.salewidget4.details',
     fontColor: '#F75D81',
   },
-];
+]
 
 const CARD_WIDGET = [
   {
@@ -145,7 +219,7 @@ const CARD_WIDGET = [
     number: 'widget.cardwidget3.number',
     text: 'widget.cardwidget3.text',
   },
-];
+]
 
 const PROGRESS_WIDGET = [
   {
@@ -175,7 +249,7 @@ const PROGRESS_WIDGET = [
     barHeight: 7,
     status: 'active',
   },
-];
+]
 
 const SOCIAL_PROFILE = [
   {
@@ -203,21 +277,21 @@ const SOCIAL_PROFILE = [
     icon: 'ion-social-dribbble-outline',
     iconcolor: '#ea4c89',
   },
-];
+]
 export default function () {
-  const { rowStyle, colStyle } = basicStyle;
+  const { rowStyle, colStyle } = basicStyle
 
   const chartEvents = [
     {
       eventName: 'select',
       callback(Chart) {},
     },
-  ];
+  ]
 
   const stackConfig = {
     ...rechartConfigs.StackedAreaChart,
     width: !isServer && window.innerWidth < 450 ? 300 : 500,
-  };
+  }
   return (
     <LayoutWrapper>
       <div style={styles.wisgetPageStyle}>
@@ -399,5 +473,5 @@ export default function () {
         </Row>
       </div>
     </LayoutWrapper>
-  );
+  )
 }
