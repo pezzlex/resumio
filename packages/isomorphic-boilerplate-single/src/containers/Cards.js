@@ -1,15 +1,15 @@
-import basicStyle from '@iso/assets/styles/constants';
-import Box from '@iso/components/utility/box';
-import ContentHolder from '@iso/components/utility/contentHolder';
-import LayoutWrapper from '@iso/components/utility/layoutWrapper';
-import PageHeader from '@iso/components/utility/pageHeader';
-import { Col, Row } from 'antd';
-import React from 'react';
+import basicStyle from '@iso/assets/styles/constants'
+import Box from '@iso/components/utility/box'
+import ContentHolder from '@iso/components/utility/contentHolder'
+import LayoutWrapper from '@iso/components/utility/layoutWrapper'
+import PageHeader from '@iso/components/utility/pageHeader'
+import { Col, Row } from 'antd'
+import React from 'react'
 
-import Card from './Cards.styles';
+import Card from './Cards.styles'
 
 export default function () {
-  const { rowStyle, colStyle, gutter } = basicStyle;
+  const { rowStyle, colStyle, gutter } = basicStyle
   return (
     <LayoutWrapper>
       <PageHeader>Cards</PageHeader>
@@ -112,5 +112,5 @@ export default function () {
         </Col>
       </Row>
     </LayoutWrapper>
-  );
+  )
 }

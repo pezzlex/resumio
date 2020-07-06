@@ -1,16 +1,22 @@
-import actions from './actions';
+import actions from './actions'
+import { LOGIN_USER, LOGOUT_USER } from './actions'
 
-const initState = { idToken: null };
+const initState = { token: null }
 
 export default function authReducer(state = initState, action) {
   switch (action.type) {
-    case actions.LOGIN_SUCCESS:
+    case LOGIN_USER:
       return {
-        idToken: action.token,
-      };
+        ...state,
+        ...action.payload,
+      }
+    // case actions.LOGIN_SUCCESS:
+    //   return {
+    //     idToken: action.token,
+    //   }
     case actions.LOGOUT:
-      return initState;
+      return initState
     default:
-      return state;
+      return state
   }
 }

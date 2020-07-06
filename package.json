@@ -13,7 +13,7 @@
     "clean": "lerna clean --yes && rimraf node_modules",
     "clean:build": "lerna exec -- rimraf \"{.next,dist,out,build,.docz}\"",
     "start": "yarn workspace @iso/boilerplate-single run start",
-    "dev": "concurrently 'cd packages/isomorphic-boilerplate-single/servers && yarn start' 'yarn start'",
+    "dev": "concurrently \"cd packages/isomorphic-boilerplate-single/servers && yarn start\" \"yarn start\"",
     "start:iso-boilerplate": "yarn workspace @iso/boilerplate run start",
     "build": "yarn workspace @iso/boilerplate-single run build",
     "build:iso-cra": "yarn workspace @iso/cra run build",
