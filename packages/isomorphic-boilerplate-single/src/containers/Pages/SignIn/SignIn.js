@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, connect } from 'react-redux'
 import Input from '@iso/components/uielements/input'
 import Checkbox from '@iso/components/uielements/checkbox'
 import Button from '@iso/components/uielements/button'
@@ -13,42 +13,24 @@ import {
   signInWithFacebook,
 } from '@iso/lib/firebase/firebase.authentication.util'
 import SignInStyleWrapper from './SignIn.styles'
-import { Field, reduxForm } from 'redux-form'
+import { useForm } from 'react-hook-form'
 
-const { login } = authAction
-const { clearMenu } = appAction
+const SignIn = ({ signIn, isSignedIn }) => {
+  const { handleSubmit, register, errors } = useForm()
+  const onSubmit = (data) => signIn(data)
 
-const renderField = ({ input, type, touched, error, placeholder }) => {
-  return (
-    <>
-      <input {...input} placeholder={placeholder} type={type} />
-      {touched && error && <span>{error}</span>}
-    </>
-  )
-}
-
-const SignIn = () => {
-  let history = useHistory()
   let location = useLocation()
-  const dispatch = useDispatch()
-  const isLoggedIn = useSelector((state) => state.Auth.idToken)
 
-  const [redirectToReferrer, setRedirectToReferrer] = React.useState(false)
-  React.useEffect(() => {
-    if (isLoggedIn) {
+  const [redirectToReferrer, setRedirectToReferrer] = useState(false)
+  useEffect(() => {
+    if (isSignedIn) {
       setRedirectToReferrer(true)
     }
-  }, [isLoggedIn])
-
-  function handleLogin(e, token = false) {
-    e.preventDefault()
-    dispatch(fetchToken({ username: 'pez', password: 'hash-me' }))
-    dispatch(clearMenu())
-    history.push('/dashboard')
-  }
+  }, [isSignedIn])
   let { from } = location.state || { from: { pathname: '/dashboard' } }
 
   if (redirectToReferrer) {
+    console.log('redirectToReferrer', redirectToReferrer)
     return <Redirect to={from} />
   }
   return (
@@ -59,36 +41,35 @@ const SignIn = () => {
             <Link to="/dashboard">RESUMIO</Link>
           </div>
           <div className="isoSignInForm">
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="isoInputWrapper">
-                <Input
-                  size="large"
-                  placeholder="Username"
+                <input
+                  name="username"
+                  type="text"
+                  className="form-control"
                   autoComplete="true"
+                  placeholder="Username"
+                  ref={register()}
                 />
               </div>
-
               <div className="isoInputWrapper">
-                <Input
-                  size="large"
+                <input
+                  name="password"
                   type="password"
-                  placeholder="Password"
+                  className="form-control"
                   autoComplete="false"
+                  placeholder="Password"
+                  ref={register()}
                 />
               </div>
-
               <div className="isoInputWrapper isoLeftRightComponent">
                 <Checkbox>Remember Me</Checkbox>
-                <Button type="primary" onClick={handleLogin}>
+                <Button type="primary" htmlType="submit">
                   Sign In
                 </Button>
               </div>
-
-              {/* <p className="isoHelperText">
-                username: demo password: demodemo or just click on any button.
-              </p> */}
             </form>
-            <div className="isoInputWrapper isoOtherLogin">
+            {/* <div className="isoInputWrapper isoOtherLogin">
               <Button
                 onClick={signInWithFacebook}
                 type="primary"
@@ -115,10 +96,11 @@ const SignIn = () => {
               </Button>
 
               <FirebaseLoginForm
-                history={history}
-                login={(token) => dispatch(login(token))}
+              // history={history}
+              // login={(token) => dispatch(login(token))}
               />
             </div>
+            */}
             <div className="isoCenterComponent isoHelperWrapper">
               <Link to="/forgotpassword" className="isoForgotPass">
                 Forgot password
@@ -132,16 +114,18 @@ const SignIn = () => {
   )
 }
 
-// const onSubmit = (data, dispatch) => {
-//   dispatch(fetchToken(data)) // your submit action //
-// }
+const mapStateToProps = (state) => {
+  return {
+    isSignedIn: state.Auth.token !== null,
+  }
+}
 
-// export default connect()(
-//   reduxForm({
-//     // a unique name for the form
-//     form: 'signIn',
-//     onSubmit,
-//   })(SignIn)
-// )
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (data) => {
+      dispatch(fetchToken(data))
+    },
+  }
+}
 
-export default SignIn
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

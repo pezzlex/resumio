@@ -58,6 +58,7 @@ const publicRoutes = [
 
 function PrivateRoute({ children, ...rest }) {
   const isLoggedIn = useSelector((state) => state.Auth.token)
+  console.log('isLoggedIn', isLoggedIn)
 
   return (
     <Route

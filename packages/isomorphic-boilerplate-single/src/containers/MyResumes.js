@@ -6,16 +6,6 @@ import { connect } from 'react-redux'
 import { fetchResumes } from '../redux/resumes/actions'
 import Table from './Tables/AntTables/AntTables'
 
-import basicStyle from '@iso/assets/styles/constants'
-import Box from '@iso/components/utility/box'
-import ContentHolder from '@iso/components/utility/contentHolder'
-
-import Card from './Cards.styles'
-
-import { Col, Row } from 'antd'
-
-const { rowStyle, colStyle, gutter } = basicStyle
-
 const MyResumes = ({ resumes, getResumes }) => {
   useEffect(() => {
     getResumes()

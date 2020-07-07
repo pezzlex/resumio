@@ -10,6 +10,9 @@ export default function authReducer(state = initState, action) {
         ...state,
         ...action.payload,
       }
+    case LOGOUT_USER:
+      console.log('here')
+      return initState
     // case actions.LOGIN_SUCCESS:
     //   return {
     //     idToken: action.token,

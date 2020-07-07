@@ -35,6 +35,9 @@ export const fetchToken = ({ username, password }) => {
           localStorage.setItem('jwtToken', response.data.token)
         } else {
           localStorage.removeItem('jwtToken')
+          dispatch({
+            type: LOGOUT_USER,
+          })
         }
       })
       .catch((err) => {
