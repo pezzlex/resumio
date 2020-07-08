@@ -1,7 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import GlobalStyles from '@iso/assets/styles/globalStyle'
-import Boot from './redux/boot'
 import thunk from 'redux-thunk'
 import { save, load } from 'redux-localstorage-simple'
 import { createStore, applyMiddleware } from 'redux'
@@ -25,8 +24,5 @@ const App = () => (
     </AppProvider>
   </Provider>
 )
-Boot()
-  .then(() => App())
-  .catch((error) => console.error(error))
 
 export default App

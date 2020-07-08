@@ -1,14 +1,16 @@
-import { FETCH_TEMPLATES_SUCCESS } from '../templates/actions'
+import { FETCH_TEMPLATES } from '../templates/actions'
 
 const initState = {
   templates: [],
+  shouldFetchTemplates: true,
 }
 
 const templateReducer = (state = initState, action) => {
-  if (action.type === FETCH_TEMPLATES_SUCCESS) {
+  if (action.type === FETCH_TEMPLATES) {
     return {
       ...state,
       templates: action.payload,
+      shouldFetchTemplates: false,
     }
   }
 

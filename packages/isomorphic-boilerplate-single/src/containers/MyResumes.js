@@ -6,9 +6,12 @@ import { connect } from 'react-redux'
 import { fetchResumes } from '../redux/resumes/actions'
 import Table from './Tables/AntTables/AntTables'
 
-const MyResumes = ({ resumes, getResumes }) => {
+const MyResumes = ({ resumes, fetchResumes, shouldFetchResumes }) => {
   useEffect(() => {
-    getResumes()
+    if (shouldFetchResumes) {
+      console.log('shouldFetchResumes', shouldFetchResumes)
+      fetchResumes()
+    }
   }, [])
 
   return (
@@ -24,12 +27,13 @@ const MyResumes = ({ resumes, getResumes }) => {
 const mapStateToProps = (state) => {
   return {
     resumes: state.resumeData.resumes,
+    shouldFetchResumes: state.resumeData.shouldFetchResumes,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getResumes: () => {
+    fetchResumes: () => {
       dispatch(fetchResumes())
     },
   }

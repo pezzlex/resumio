@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
 
 import rootReducer from './root-reducer'
-import rootSaga from './root-saga'
+// import rootSaga from './root-saga'
 
 const sagaMiddleware = createSagaMiddleware()
 const middlewares = [thunk, sagaMiddleware]
@@ -19,5 +19,5 @@ const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(...middlewares))
 )
-sagaMiddleware.run(rootSaga)
+// sagaMiddleware.run(rootSaga)
 export { store }

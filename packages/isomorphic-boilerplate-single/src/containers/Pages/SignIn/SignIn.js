@@ -5,7 +5,7 @@ import Input from '@iso/components/uielements/input'
 import Checkbox from '@iso/components/uielements/checkbox'
 import Button from '@iso/components/uielements/button'
 import FirebaseLoginForm from '../../FirebaseForm/FirebaseForm'
-import authAction, { fetchToken } from '../../../redux/auth/actions'
+import { fetchToken } from '../../../redux/auth/actions'
 import appAction from '../../../redux/app/actions'
 import Auth0 from '../../Authentication/Auth0/Auth0'
 import {
@@ -116,7 +116,7 @@ const SignIn = ({ signIn, isSignedIn }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isSignedIn: state.Auth.token !== null,
+    isSignedIn: state.Auth.token,
   }
 }
 

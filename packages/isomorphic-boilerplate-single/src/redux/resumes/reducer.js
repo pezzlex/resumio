@@ -1,15 +1,16 @@
-import { FETCH_RESUMES_SUCCESS } from '../resumes/actions'
+import { FETCH_RESUMES } from '../resumes/actions'
 
 const initState = {
   resumes: [],
+  shouldFetchResumes: true,
 }
 
 const resumeReducer = (state = initState, action) => {
-  // console.log('here => ', state, action)
-  if (action.type === FETCH_RESUMES_SUCCESS) {
+  if (action.type === FETCH_RESUMES) {
     return {
       ...state,
       resumes: action.payload,
+      shouldFetchResumes: false,
     }
   }
 
