@@ -9,7 +9,6 @@ import Table from './Tables/AntTables/AntTables'
 const MyResumes = ({ resumes, fetchResumes, shouldFetchResumes }) => {
   useEffect(() => {
     if (shouldFetchResumes) {
-      console.log('shouldFetchResumes', shouldFetchResumes)
       fetchResumes()
     }
   }, [])

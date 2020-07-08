@@ -13,7 +13,11 @@ const AntTable = ({ resumes }) => {
     return (
       <SimpleView
         columns={tableinfo.columns}
-        resumes={resumes.map((d) => ({ ...d, key: d._id }))}
+        resumes={resumes.map((d) => ({
+          ...d,
+          key: d._id,
+          createdDate: new Date(d.createdDate).toDateString(),
+        }))}
       />
     )
   }
