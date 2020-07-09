@@ -1,6 +1,6 @@
 import { LOGIN_USER, LOGOUT_USER, REGISTER_USER } from './actions'
 
-const initState = { token: null }
+const initState = { firstName: '', lastName: '', username: '', id: '' }
 
 export default function authReducer(state = initState, action) {
   switch (action.type) {
@@ -10,7 +10,6 @@ export default function authReducer(state = initState, action) {
         ...action.payload,
       }
     case LOGOUT_USER:
-      localStorage.removeItem('jwtToken')
       return initState
     case REGISTER_USER:
       return {

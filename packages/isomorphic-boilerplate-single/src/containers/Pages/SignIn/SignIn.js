@@ -23,6 +23,7 @@ const SignIn = ({ signIn, isSignedIn }) => {
 
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   useEffect(() => {
+    console.log('useEffect')
     if (isSignedIn) {
       setRedirectToReferrer(true)
     }

@@ -30,6 +30,8 @@ export const fetchToken = ({ username, password }) => {
 }
 
 export const logoutUser = () => {
+  localStorage.removeItem('jwtToken')
+
   return (dispatch) =>
     dispatch({
       type: LOGOUT_USER,
