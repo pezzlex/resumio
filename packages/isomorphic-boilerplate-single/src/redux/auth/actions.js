@@ -21,6 +21,9 @@ export const fetchToken = ({ username, password }) => {
             payload: response.data,
           })
           localStorage.setItem('jwtToken', response.data.token)
+          axios.defaults.headers.common[
+            'Authorization'
+          ] = `Bearer ${response.data.token}`
         }
       })
       .catch((err) => {

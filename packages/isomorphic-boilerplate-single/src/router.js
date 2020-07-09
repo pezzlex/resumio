@@ -7,7 +7,7 @@ import {
   BrowserRouter as Router,
   Switch,
 } from 'react-router-dom'
-
+import axios from 'axios'
 import ErrorBoundary from './ErrorBoundary'
 import { PUBLIC_ROUTE } from './route.constants'
 
@@ -58,7 +58,9 @@ const publicRoutes = [
 
 function PrivateRoute({ children, ...rest }) {
   const isLoggedIn = useSelector((state) => state.Auth.token)
-
+  axios.defaults.headers.common[
+    'Authorization'
+  ] = `Bearer ${localStorage.getItem('jwtToken')}`
   return (
     <Route
       {...rest}

@@ -8,12 +8,12 @@ export const fetchResumes = (userId) => {
     axios
       .post(
         `http://localhost:4000/resumes`,
-        { id: userId },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-          },
-        }
+        { id: userId }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        //   },
+        // }
       )
       .then((response) => {
         if (response.status === 200) {
