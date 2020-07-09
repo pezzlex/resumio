@@ -2,14 +2,19 @@ const express = require('express')
 const router = express.Router()
 const { Resume } = require('../helpers/db')
 
-router.route('/').get(function (req, res) {
-  Resume.find(function (err, resumes) {
-    if (err) {
-      console.log(err)
-    } else {
-      res.json(resumes)
+router.route('/').post(function (req, res) {
+  Resume.find(
+    {
+      createdBy: req.body.id,
+    },
+    function (err, resumes) {
+      if (err) {
+        console.log(err)
+      } else {
+        res.json(resumes)
+      }
     }
-  })
+  )
 })
 
 router.route('/:id').get(function (req, res) {
@@ -20,7 +25,6 @@ router.route('/:id').get(function (req, res) {
 })
 
 router.route('/add').post(function (req, res) {
-  console.log('heree')
   let resume = new Resume(req.body)
   resume
     .save()

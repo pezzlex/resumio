@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const { Schema } = require('mongoose')
+const { ObjectId } = Schema.Types
 
 const Resume = new Schema({
   firstName: {
@@ -13,6 +14,9 @@ const Resume = new Schema({
   },
   phone: {
     type: String,
+  },
+  createdBy: {
+    type: ObjectId,
   },
   createdDate: { type: Date, default: Date.now },
 })
