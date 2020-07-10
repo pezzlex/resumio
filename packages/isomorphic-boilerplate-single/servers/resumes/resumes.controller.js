@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { Resume } = require('../helpers/db')
+const { Resume } = require('./resume.model')
 
 router.route('/').post(function (req, res) {
   Resume.find(

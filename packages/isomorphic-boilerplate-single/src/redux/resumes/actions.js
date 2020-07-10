@@ -6,15 +6,7 @@ export const fetchResumes = (userId) => {
   console.log('http://localhost:4000/resumes called. User.id = ', userId)
   return (dispatch) => {
     axios
-      .post(
-        `http://localhost:4000/resumes`,
-        { id: userId }
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-        //   },
-        // }
-      )
+      .post('http://localhost:4000/resumes', { id: userId })
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data)

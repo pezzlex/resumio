@@ -1,24 +1,63 @@
 const mongoose = require('mongoose')
-const { Schema } = require('mongoose')
-const { ObjectId } = Schema.Types
+const { Schema } = mongoose
+const { userSchema } = require('../users/user.model')
 
 const Resume = new Schema({
-  firstName: {
-    type: String,
+  fileName: String,
+  contact: {
+    firstName: String,
+    lastName: String,
+    email: String,
+    phone: String,
+    links: [String],
   },
-  lastName: {
-    type: String,
+  education: {
+    headerName: { type: String, default: 'Education' },
+    content: [
+      {
+        collegeName: String,
+        startDate: Date,
+        endDate: Date,
+        summary: String,
+      },
+    ],
   },
-  email: {
-    type: String,
+  workExperience: {
+    headerName: { type: String, default: 'Work Experience' },
+    content: [
+      {
+        companyName: String,
+        startDate: Date,
+        endDate: Date,
+        summary: String,
+        description: [String],
+      },
+    ],
   },
-  phone: {
-    type: String,
+  projects: {
+    headerName: { type: String, default: 'Projects' },
+    content: [
+      {
+        title: String,
+        link: String,
+        startDate: Date,
+        endDate: Date,
+        summary: String,
+        description: [String],
+      },
+    ],
   },
-  createdBy: {
-    type: ObjectId,
-  },
+  skills: [
+    {
+      headerName: { type: String, default: 'Skills' },
+      content: { heading: String, details: String },
+    },
+  ],
+  createdBy: userSchema,
   createdDate: { type: Date, default: Date.now },
 })
 
-module.exports = mongoose.model('Resume', Resume)
+module.exports = {
+  Resume: mongoose.model('Resume', Resume),
+  resumeSchema: Resume,
+}
