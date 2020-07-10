@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const User = new Schema({
+const userSchema = new Schema({
   username: { type: String, unique: true, required: true },
   hash: { type: String, required: true },
   firstName: { type: String, required: true },
@@ -9,7 +9,7 @@ const User = new Schema({
   createdDate: { type: Date, default: Date.now },
 })
 
-User.set('toJSON', {
+userSchema.set('toJSON', {
   virtuals: true,
   versionKey: false,
   transform: (doc, ret) => {
@@ -18,4 +18,7 @@ User.set('toJSON', {
   },
 })
 
-module.exports = { User: mongoose.model('User', User), userSchema: User }
+module.exports = {
+  User: mongoose.model('User', userSchema),
+  userSchema,
+}
