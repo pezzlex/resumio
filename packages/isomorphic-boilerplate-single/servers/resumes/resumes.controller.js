@@ -33,28 +33,16 @@ router.route('/add').post(function (req, res) {
       res.status(200).json({ resume: 'resume added successfully' })
     })
     .catch((err) => {
-      res.status(400).send('adding new resume failed')
+      res.status(400).send(err, 'adding new resume failed')
     })
 })
 
 router.route('/update/:id').post(function (req, res) {
-  Resume.findById(req.params.id, function (err, resume) {
+  Resume.findByIdAndUpdate(req.params.id, req.body, function (err, resume) {
     if (!resume) {
       res.status(404).send('data is not found')
     } else {
-      resume.first_name = req.body.first_name
-      resume.last_name = req.body.last_name
-      resume.email = req.body.email
-      resume.phone = req.body.phone
-
-      resume
-        .save()
-        .then((resume) => {
-          res.json('Resume updated')
-        })
-        .catch((err) => {
-          res.status(400).send('Update not possible')
-        })
+      res.json('Resume updated')
     }
   })
 })

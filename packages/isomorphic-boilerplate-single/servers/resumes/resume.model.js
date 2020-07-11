@@ -53,8 +53,8 @@ const resumeSchema = new Schema({
       content: { heading: String, details: String },
     },
   ],
-  createdBy: Schema.Types.ObjectId,
-  createdDate: { type: Date, default: Date.now },
+  createdBy: { type: Schema.ObjectId, ref: 'User' },
+  createdDate: { type: Date, default: Date.now, immutable: true },
 })
 
 module.exports = mongoose.model('Resume', resumeSchema)
