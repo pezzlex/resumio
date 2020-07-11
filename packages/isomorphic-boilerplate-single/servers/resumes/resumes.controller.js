@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { Resume } = require('./resume.model')
+const { Resume } = require('../helpers/db')
 
 router.route('/').post(function (req, res) {
   Resume.find(
@@ -25,6 +25,7 @@ router.route('/:id').get(function (req, res) {
 })
 
 router.route('/add').post(function (req, res) {
+  console.log(req.body)
   let resume = new Resume(req.body)
   resume
     .save()

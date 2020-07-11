@@ -13,3 +13,8 @@ mongoose.connect(
 )
 
 mongoose.Promise = global.Promise
+
+module.exports = {
+  User: require('../users/user.model'),
+  Resume: require('../resumes/resume.model'),
+}

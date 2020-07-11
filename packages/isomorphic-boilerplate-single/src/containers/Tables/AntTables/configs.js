@@ -1,5 +1,7 @@
 import React from 'react'
 import clone from 'clone'
+import { Button } from 'antd'
+
 import {
   DateCell,
   ImageCell,
@@ -29,31 +31,30 @@ const columns = [
     render: (object) => renderCell(object, 'ImageCell', 'avatar'),
   },
   {
-    title: 'First Name',
-    key: 'firstName',
-    width: 100,
-    render: (object) => renderCell(object, 'TextCell', 'firstName'),
+    title: 'File Name',
+    key: 'fileName',
+    width: 500,
+    render: (object) => renderCell(object, 'TextCell', 'fileName'),
   },
-  {
-    title: 'Last Name',
-    key: 'lastName',
-    width: 100,
-    render: (object) => renderCell(object, 'TextCell', 'lastName'),
-  },
-  {
-    title: 'Email',
-    key: 'email',
-    width: 200,
-    render: (object) => renderCell(object, 'LinkCell', 'email'),
-  },
+  // {
+  //   title: 'Last Name',
+  //   key: 'lastName',
+  //   width: 100,
+  //   render: (object) => renderCell(object, 'TextCell', 'lastName'),
+  // },
   {
     title: 'Date Created',
     key: 'createdDate',
-    width: 200,
+    width: 100,
     render: (object) => renderCell(object, 'DateCell', 'createdDate'),
   },
+  {
+    title: 'Actions',
+    width: 100,
+    render: () => <Button>Edit</Button>,
+  },
 ]
-const smallColumns = [columns[1], columns[2], columns[3], columns[4]]
+const smallColumns = columns.filter((d) => d.key !== 'avatar')
 
 const tableinfo = {
   title: 'Simple Table',

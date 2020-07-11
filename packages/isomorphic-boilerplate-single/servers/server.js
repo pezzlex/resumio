@@ -4,7 +4,6 @@ const errorHandler = require('./helpers/error-handler')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const mongoose = require('mongoose')
 const PORT = 4000
 
 app.use(cors())
@@ -18,8 +17,8 @@ app.use(errorHandler)
 
 // start server
 const port =
-  process.env.NODE_ENV === 'production' ? process.env.PORT || 80 : 4000
-const server = app.listen(port, function () {
+  process.env.NODE_ENV === 'production' ? process.env.PORT || 80 : PORT
+app.listen(port, function () {
   console.log('Server listening on port ' + port)
 })
 
