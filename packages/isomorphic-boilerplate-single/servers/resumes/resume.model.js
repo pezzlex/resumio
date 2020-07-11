@@ -53,7 +53,7 @@ const resumeSchema = new Schema({
       content: { heading: String, details: String },
     },
   ],
-  createdBy: { type: Schema.ObjectId, ref: 'User' },
+  createdBy: { type: Schema.ObjectId, ref: 'User', immutable: true },
   createdDate: { type: Date, default: Date.now, immutable: true },
 })
 
