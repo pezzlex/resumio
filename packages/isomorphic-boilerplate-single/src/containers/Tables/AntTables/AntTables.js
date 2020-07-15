@@ -16,7 +16,6 @@ const AntTable = ({ resumes }) => {
         resumes={resumes.map((d) => ({
           ...d,
           key: d._id,
-          // createdDate: new Date(d.createdDate).toDateString(),
         }))}
       />
     )

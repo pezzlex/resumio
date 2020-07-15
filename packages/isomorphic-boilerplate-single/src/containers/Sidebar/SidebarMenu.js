@@ -1,12 +1,12 @@
-import React from "react"
-import { Link, useRouteMatch } from "react-router-dom"
+import React from 'react'
+import { Link, useRouteMatch } from 'react-router-dom'
 
-import Menu from "@iso/components/uielements/menu"
-import IntlMessages from "@iso/components/utility/intlMessages"
+import Menu from '@iso/components/uielements/menu'
+import IntlMessages from '@iso/components/utility/intlMessages'
 const SubMenu = Menu.SubMenu
 
 const stripTrailingSlash = (str) => {
-  if (str.substr(-1) === "/") {
+  if (str.substr(-1) === '/') {
     return str.substr(0, str.length - 1)
   }
   return str
@@ -21,7 +21,7 @@ export default React.memo(function SidebarMenu({
 
   const { key, label, leftIcon, children } = singleOption
   const url = stripTrailingSlash(match.url)
-
+  console.log(children)
   if (children) {
     return (
       <SubMenu
@@ -54,7 +54,7 @@ export default React.memo(function SidebarMenu({
 
   return (
     <Menu.Item key={key} {...rest}>
-      <Link to={`${url}/${key}`}>
+      <Link to={key ? `${url}/${key}` : url}>
         <span className="isoMenuHolder" style={submenuColor}>
           <i className={leftIcon} />
           <span className="nav-text">{label}</span>

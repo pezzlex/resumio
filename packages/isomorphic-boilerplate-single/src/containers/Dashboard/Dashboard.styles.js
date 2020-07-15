@@ -1,5 +1,5 @@
-import styled, { createGlobalStyle } from 'styled-components';
-import { palette } from 'styled-theme';
+import styled, { createGlobalStyle } from 'styled-components'
+import { palette } from 'styled-theme'
 
 export const DashboardGlobalStyles = createGlobalStyle`
 body {
@@ -245,7 +245,7 @@ html[dir='rtl'] .dz-hidden-input {
   display: none;
 }
 
-`;
+`
 export const DashboardContainer = styled.div`
   -webkit-overflow-scrolling: touch;
   .trigger {
@@ -291,7 +291,7 @@ export const DashboardContainer = styled.div`
     padding: 35px;
     background-color: #ffffff;
     border: 1px solid ${palette('border', 0)};
-    height: 100%;
+    // height: 100%;
   }
 
   .isomorphicLayout {
@@ -319,4 +319,4 @@ export const DashboardContainer = styled.div`
   ${'' /* button {
     border-radius: 0;
   } */};
-`;
+`

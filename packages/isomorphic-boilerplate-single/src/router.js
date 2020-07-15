@@ -86,11 +86,11 @@ export default function Routes() {
         <Router>
           <Switch>
             {publicRoutes.map((route, index) => (
-              <Route key={index} path={route.path} exact={route.exact}>
+              <Route key={index} strict path={route.path} exact={route.exact}>
                 <route.component />
               </Route>
             ))}
-            <PrivateRoute path="/dashboard">
+            <PrivateRoute strict path="/dashboard">
               <Dashboard />
             </PrivateRoute>
           </Switch>

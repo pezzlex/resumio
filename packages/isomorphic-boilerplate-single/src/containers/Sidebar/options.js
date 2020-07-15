@@ -1,8 +1,8 @@
 const options = [
   {
-    key: "",
-    label: "My Resumes",
-    leftIcon: "ion-document",
+    key: '',
+    label: 'My Resumes',
+    leftIcon: 'ion-document',
   },
   // {
   //   key: "create-resume",
@@ -15,9 +15,9 @@ const options = [
   //   leftIcon: "ion-document",
   // },
   {
-    key: "templates",
-    label: "Templates",
-    leftIcon: "ion-document",
+    key: 'templates',
+    label: 'Templates',
+    leftIcon: 'ion-document',
   },
 ]
 export default options

@@ -1,14 +1,14 @@
-import React from "react"
-import { useDispatch, useSelector } from "react-redux"
-import clone from "clone"
-import { Layout } from "antd"
-import options from "./options"
-import Scrollbars from "@iso/components/utility/customScrollBar"
-import Menu from "@iso/components/uielements/menu"
-import appActions from "@iso/redux/app/actions"
-import Logo from "@iso/components/utility/logo"
-import SidebarWrapper from "./Sidebar.styles"
-import SidebarMenu from "./SidebarMenu"
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import clone from 'clone'
+import { Layout } from 'antd'
+import options from './options'
+import Scrollbars from '@iso/components/utility/customScrollBar'
+import Menu from '@iso/components/uielements/menu'
+import appActions from '@iso/redux/app/actions'
+import Logo from '@iso/components/utility/logo'
+import SidebarWrapper from './Sidebar.styles'
+import SidebarMenu from './SidebarMenu'
 
 const { Sider } = Layout
 
@@ -35,7 +35,7 @@ export default function Sidebar() {
 
   function handleClick(e) {
     dispatch(changeCurrent([e.key]))
-    if (view === "MobileView") {
+    if (view === 'MobileView') {
       setTimeout(() => {
         dispatch(toggleCollapsed())
         // dispatch(toggleOpenDrawer());
@@ -60,13 +60,13 @@ export default function Sidebar() {
   }
   const getAncestorKeys = (key) => {
     const map = {
-      sub3: ["sub2"],
+      sub3: ['sub2'],
     }
     return map[key] || []
   }
 
   const isCollapsed = clone(collapsed) && !clone(openDrawer)
-  const mode = isCollapsed === true ? "vertical" : "inline"
+  const mode = isCollapsed === true ? 'vertical' : 'inline'
   const onMouseEnter = (event) => {
     if (collapsed && openDrawer === false) {
       dispatch(toggleOpenDrawer())
@@ -80,14 +80,14 @@ export default function Sidebar() {
     return
   }
   const styling = {
-    backgroundColor: "#323332",
+    backgroundColor: '#323332',
   }
   const submenuStyle = {
-    backgroundColor: "rgba(0,0,0,0.3)",
-    color: "#788195",
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    color: '#788195',
   }
   const submenuColor = {
-    color: "#788195",
+    color: '#788195',
   }
   return (
     <SidebarWrapper>
@@ -112,12 +112,12 @@ export default function Sidebar() {
             selectedKeys={current}
             onOpenChange={onOpenChange}
           >
-            {options.map((singleOption) => (
+            {options.map((d) => (
               <SidebarMenu
-                key={singleOption.key}
+                key={d.key}
                 submenuStyle={submenuStyle}
                 submenuColor={submenuColor}
-                singleOption={singleOption}
+                singleOption={d}
               />
             ))}
           </Menu>

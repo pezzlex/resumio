@@ -1,6 +1,8 @@
 import React from 'react'
 import clone from 'clone'
 import { Button } from 'antd'
+import { Link } from 'react-router-dom'
+import CardWrapper from '../../Invoice/Invoice.styles'
 
 import {
   DateCell,
@@ -49,9 +51,29 @@ const columns = [
     render: (object) => renderCell(object, 'DateCell', 'createdDate'),
   },
   {
-    title: 'Actions',
     width: 100,
-    render: () => <Button>Edit</Button>,
+    render: () => (
+      <CardWrapper>
+        <div className="isoInvoiceBtnView">
+          <Link>
+            <Button color="primary" className="invoiceViewBtn">
+              View
+            </Button>
+          </Link>
+          <Button
+            className="invoiceDltBtn"
+            // icon="delete"
+            onClick={() => {
+              // notification('error', '1 invoice deleted')
+              // dispatch(deleteInvoice([invoice.key]))
+              // setSelected([])
+            }}
+          >
+            <i className="ion-android-delete" />
+          </Button>
+        </div>
+      </CardWrapper>
+    ),
   },
 ]
 const smallColumns = columns.filter((d) => d.key !== 'avatar')
