@@ -1,6 +1,5 @@
 import LayoutContent from '@iso/components/utility/layoutContent'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
-import PageHeader from '@iso/components/utility/pageHeader'
 import React, { useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { fetchResumes } from '../redux/resumes/actions'
@@ -10,13 +9,11 @@ import { Link, useRouteMatch } from 'react-router-dom'
 
 import Table from './Tables/AntTables/AntTables'
 
-const MyResumes = ({ resumes, fetchResumes, shouldFetchResumes }) => {
-  const { path, url } = useRouteMatch()
-  console.log('path', path)
-  const userId = useSelector((state) => state.Auth.id)
+const MyResumes = ({ resumes, fetchResumes, userId, shouldFetchResumes }) => {
+  const { url } = useRouteMatch()
   useEffect(() => {
     // if (shouldFetchResumes) {
-    fetchResumes(userId)
+    fetchResumes({ userId })
     // }
   }, [])
 
@@ -29,7 +26,7 @@ const MyResumes = ({ resumes, fetchResumes, shouldFetchResumes }) => {
             <Button type="primary">Build Resume</Button>
           </Link>
         </Header>
-        <Table resumes={resumes} />
+        <Table resumes={resumes} url={url} />
       </LayoutContent>
     </LayoutContentWrapper>
   )
@@ -37,6 +34,7 @@ const MyResumes = ({ resumes, fetchResumes, shouldFetchResumes }) => {
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.Auth.id,
     resumes: state.resumeData.resumes,
     shouldFetchResumes: state.resumeData.shouldFetchResumes,
   }
@@ -44,8 +42,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchResumes: (user) => {
-      dispatch(fetchResumes(user))
+    fetchResumes: ({ userId }) => {
+      dispatch(fetchResumes({ userId }))
     },
   }
 }

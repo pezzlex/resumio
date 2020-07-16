@@ -3,11 +3,13 @@ import React, { lazy, Suspense } from 'react'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
 
 const routes = [
-  // {
-  //   path: '',
-  //   component: lazy(() => import('../MyResumes')),
-  //   exact: true,
-  // },
+  {
+    component: lazy(() => import('../MyResumes')),
+  },
+  {
+    path: ':resumeId',
+    component: lazy(() => import('../ResumeDetails')),
+  },
   {
     path: 'create-resume',
     component: lazy(() => import('../CreateResume')),
@@ -32,18 +34,14 @@ export default function AppRouter() {
   return (
     <Suspense fallback={<Loader />}>
       <Switch>
-        <Route
-          exact
-          path={url}
-          component={lazy(() => import('../MyResumes'))}
-        />
-        {routes.map((route, idx) => (
-          <Route
-            key={idx}
-            path={`${url}/${route.path}`}
-            component={route.component}
-          />
-        ))}
+        {routes.map((d, i) => {
+          console.log(d.path ? `${url}/${d.path}` : url)
+          return (
+            <Route key={i} path={d.path ? `${url}/${d.path}` : url}>
+              {d.component}
+            </Route>
+          )
+        })}
       </Switch>
     </Suspense>
   )

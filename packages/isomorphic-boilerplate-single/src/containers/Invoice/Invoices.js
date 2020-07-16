@@ -88,7 +88,7 @@ export default function Invoices() {
             <Button color="primary" className="invoiceViewBtn">
               View
             </Button>
-          </Link>{' '}
+          </Link>
           <Button
             className="invoiceDltBtn"
             // icon="delete"

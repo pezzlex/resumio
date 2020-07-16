@@ -1,19 +1,19 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { CaretDownOutlined } from '@ant-design/icons';
-import { Layout, Button, Popover, Checkbox } from 'antd';
-import SearchInput from '@iso/components/ScrumBoard/SearchInput/SearchInput';
-import { Scrollbars } from 'react-custom-scrollbars';
-import modalActions from '@iso/redux/modal/actions';
-import scrumBoardActions from '@iso/redux/scrumBoard/actions';
-import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style';
+import React from 'react'
+import { connect } from 'react-redux'
+import { CaretDownOutlined } from '@ant-design/icons'
+import { Layout, Button, Popover, Checkbox } from 'antd'
+import SearchInput from '@iso/components/ScrumBoard/SearchInput/SearchInput'
+import { Scrollbars } from 'react-custom-scrollbars'
+import modalActions from '@iso/redux/modal/actions'
+import scrumBoardActions from '@iso/redux/scrumBoard/actions'
+import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style'
 
-const { Content } = Layout;
+const { Content } = Layout
 
 const ALL_TYPES = [
   { label: 'Private', value: 'Private' },
   { label: 'Public', value: 'Public' },
-];
+]
 
 const CATEGORIES = [
   { label: 'Software', value: 'Software' },
@@ -21,7 +21,7 @@ const CATEGORIES = [
   { label: 'Service Desk', value: 'Service Desk' },
   { label: 'Business', value: 'Business' },
   { label: 'General', value: 'General' },
-];
+]
 
 const AppLayout = ({ children, setSearchText, history, match }) => (
   <Layout style={{ backgroundColor: '#fff', minHeight: '100vh' }}>
@@ -82,8 +82,8 @@ const AppLayout = ({ children, setSearchText, history, match }) => (
       </Scrollbars>
     </Content>
   </Layout>
-);
+)
 
 export default connect(null, { ...modalActions, ...scrumBoardActions })(
   AppLayout
-);
+)

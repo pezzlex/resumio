@@ -8,11 +8,11 @@ import SimpleView from './TableViews/SimpleView'
 import { fetchResumes } from '../../../redux/resumes/actions'
 import { connect } from 'react-redux'
 
-const AntTable = ({ resumes }) => {
-  const renderTable = (tableinfo) => {
+const AntTable = ({ resumes, url }) => {
+  const RenderTable = ({ columns }) => {
     return (
       <SimpleView
-        columns={tableinfo.columns}
+        columns={columns}
         resumes={resumes.map((d) => ({
           ...d,
           key: d._id,
@@ -22,7 +22,7 @@ const AntTable = ({ resumes }) => {
   }
   return (
     <TableDemoStyle className="isoLayoutContent">
-      {renderTable(tableinfo)}
+      <RenderTable columns={tableinfo.columns} />
     </TableDemoStyle>
   )
 }

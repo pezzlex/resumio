@@ -1,27 +1,27 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useRouteMatch } from 'react-router-dom';
-import notification from '@iso/components/Notification';
-import HelperText from '@iso/components/utility/helper-text';
-import LayoutWrapper from '@iso/components/utility/layoutWrapper';
-import PageHeader from '@iso/components/utility/pageHeader';
-import IntlMessages from '@iso/components/utility/intlMessages';
-import Scrollbars from '@iso/components/utility/customScrollBar';
-import { Button } from 'antd';
-import invoiceActions from '@iso/redux/invoice/actions';
-import CardWrapper, { Box, StatusTag } from './Invoice.styles';
-import TableWrapper from '../Tables/AntTables/AntTables.styles';
-const { initData, deleteInvoice } = invoiceActions;
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useRouteMatch } from 'react-router-dom'
+import notification from '@iso/components/Notification'
+import HelperText from '@iso/components/utility/helper-text'
+import LayoutWrapper from '@iso/components/utility/layoutWrapper'
+import PageHeader from '@iso/components/utility/pageHeader'
+import IntlMessages from '@iso/components/utility/intlMessages'
+import Scrollbars from '@iso/components/utility/customScrollBar'
+import { Button } from 'antd'
+import invoiceActions from '@iso/redux/invoice/actions'
+import CardWrapper, { Box, StatusTag } from './Invoice.styles'
+import TableWrapper from '../Tables/AntTables/AntTables.styles'
+const { initData, deleteInvoice } = invoiceActions
 export default function Invoices() {
-  const [selected, setSelected] = React.useState([]);
-  const { initialInvoices, invoices } = useSelector((state) => state.Invoices);
-  const dispatch = useDispatch();
-  const match = useRouteMatch();
+  const [selected, setSelected] = React.useState([])
+  const { initialInvoices, invoices } = useSelector((state) => state.Invoices)
+  const dispatch = useDispatch()
+  const match = useRouteMatch()
   React.useEffect(() => {
     if (!initialInvoices) {
-      dispatch(initData());
+      dispatch(initData())
     }
-  }, [dispatch, initialInvoices]);
+  }, [dispatch, initialInvoices])
 
   const columns = [
     {
@@ -58,23 +58,23 @@ export default function Invoices() {
       rowKey: 'orderStatus',
       width: '13%',
       render: (text, orderStatus) => {
-        let className;
+        let className
         if (text === 'shipped' || text === 'Shipped' || text === 'SHIPPED') {
-          className = 'shipped';
+          className = 'shipped'
         } else if (
           text === 'delivered' ||
           text === 'Delivered' ||
           text === 'DELIVERED'
         ) {
-          className = 'delivered';
+          className = 'delivered'
         } else if (
           text === 'pending' ||
           text === 'Pending' ||
           text === 'PENDING'
         ) {
-          className = 'pending';
+          className = 'pending'
         }
-        return <StatusTag className={className}>{text}</StatusTag>;
+        return <StatusTag className={className}>{text}</StatusTag>
       },
     },
     {
@@ -88,14 +88,14 @@ export default function Invoices() {
             <Button color="primary" className="invoiceViewBtn">
               View
             </Button>
-          </Link>{' '}
+          </Link>
           <Button
             className="invoiceDltBtn"
             // icon="delete"
             onClick={() => {
-              notification('error', '1 invoice deleted');
-              dispatch(deleteInvoice([invoice.key]));
-              setSelected([]);
+              notification('error', '1 invoice deleted')
+              dispatch(deleteInvoice([invoice.key]))
+              setSelected([])
             }}
           >
             <i className="ion-android-delete" />
@@ -103,8 +103,8 @@ export default function Invoices() {
         </div>
       ),
     },
-  ];
-  const getnewInvoiceId = () => new Date().getTime();
+  ]
+  const getnewInvoiceId = () => new Date().getTime()
   // const { match, invoices, deleteInvoice } = this.props;
   const rowSelection = {
     hideDefaultSelections: true,
@@ -126,15 +126,15 @@ export default function Invoices() {
         text: 'Delete selected',
         onSelect: (changableRowKeys) => {
           if (selected.length > 0) {
-            dispatch(deleteInvoice(selected));
-            setSelected([]);
-            notification('error', `${selected.length} invoices deleted`);
+            dispatch(deleteInvoice(selected))
+            setSelected([])
+            notification('error', `${selected.length} invoices deleted`)
           }
         },
       },
     ],
     onSelection: (selected) => setSelected(selected),
-  };
+  }
   return (
     <LayoutWrapper>
       <PageHeader>
@@ -170,5 +170,5 @@ export default function Invoices() {
         </CardWrapper>
       </Box>
     </LayoutWrapper>
-  );
+  )
 }

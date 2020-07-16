@@ -1,8 +1,9 @@
 import React from 'react'
 import clone from 'clone'
 import { Button } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useRouteMatch } from 'react-router-dom'
 import CardWrapper from '../../Invoice/Invoice.styles'
+import { deleteResume } from '../../../redux/resumes/actions'
 
 import {
   DateCell,
@@ -10,6 +11,7 @@ import {
   LinkCell,
   TextCell,
 } from '@iso/components/Tables/HelperCells'
+import { connect } from 'react-redux'
 
 const renderCell = (object, type, key) => {
   const value = object[key]
@@ -24,26 +26,59 @@ const renderCell = (object, type, key) => {
       return TextCell(value)
   }
 }
+
+const ActionButtons = ({ resumeId, userId, deleteResume }) => {
+  return (
+    <CardWrapper>
+      <div className="isoInvoiceBtnView">
+        <Link to={`dashboard/resumes/${resumeId}`}>
+          <Button color="primary" className="invoiceViewBtn">
+            View
+          </Button>
+        </Link>
+        <Button
+          className="invoiceDltBtn"
+          // icon="delete"
+          onClick={() => {
+            // notification('error', '1 invoice deleted')
+            deleteResume({ resumeId, userId })
+            // setSelected([])
+          }}
+        >
+          <i className="ion-android-delete" />
+        </Button>
+      </div>
+    </CardWrapper>
+  )
+}
+
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    userId: state.Auth.id,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteResume: ({ resumeId, userId }) => {
+      dispatch(deleteResume({ resumeId, userId }))
+    },
+  }
+}
+
+const ActionButtonsHoc = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ActionButtons)
+
 const columns = [
-  {
-    title: 'Image',
-    key: 'avatar',
-    width: '1%',
-    className: 'isoImageCell',
-    render: (object) => renderCell(object, 'ImageCell', 'avatar'),
-  },
   {
     title: 'File Name',
     key: 'fileName',
     width: 500,
     render: (object) => renderCell(object, 'TextCell', 'fileName'),
   },
-  // {
-  //   title: 'Last Name',
-  //   key: 'lastName',
-  //   width: 100,
-  //   render: (object) => renderCell(object, 'TextCell', 'lastName'),
-  // },
   {
     title: 'Date Created',
     key: 'createdDate',
@@ -52,36 +87,17 @@ const columns = [
   },
   {
     width: 100,
-    render: () => (
-      <CardWrapper>
-        <div className="isoInvoiceBtnView">
-          <Link>
-            <Button color="primary" className="invoiceViewBtn">
-              View
-            </Button>
-          </Link>
-          <Button
-            className="invoiceDltBtn"
-            // icon="delete"
-            onClick={() => {
-              // notification('error', '1 invoice deleted')
-              // dispatch(deleteInvoice([invoice.key]))
-              // setSelected([])
-            }}
-          >
-            <i className="ion-android-delete" />
-          </Button>
-        </div>
-      </CardWrapper>
-    ),
+    render: (object) => {
+      console.log(object)
+      return <ActionButtonsHoc resumeId={object._id} />
+    },
   },
 ]
-const smallColumns = columns.filter((d) => d.key !== 'avatar')
 
 const tableinfo = {
   title: 'Simple Table',
   value: 'simple',
-  columns: clone(smallColumns),
+  columns,
 }
 
 export { columns, tableinfo }
