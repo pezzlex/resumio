@@ -30,16 +30,17 @@ const routes = [
 
 export default function AppRouter() {
   const { url } = useRouteMatch()
-  console.log('url', url)
   return (
     <Suspense fallback={<Loader />}>
       <Switch>
-        {routes.map((d, i) => {
-          console.log(d.path ? `${url}/${d.path}` : url)
+        {routes.map((route, idx) => {
+          console.log('path', route.path ? `${url}/${route.path}` : url)
           return (
-            <Route key={i} path={d.path ? `${url}/${d.path}` : url}>
-              {d.component}
-            </Route>
+            <Route
+              key={idx}
+              path={route.path ? `${url}/${route.path}` : url}
+              component={route.component}
+            />
           )
         })}
       </Switch>
