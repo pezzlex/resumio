@@ -53,7 +53,6 @@ const ActionButtons = ({ resumeId, userId, deleteResume }) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     userId: state.Auth.id,
   }
@@ -88,7 +87,6 @@ const columns = [
   {
     width: 100,
     render: (object) => {
-      console.log(object)
       return <ActionButtonsHoc resumeId={object._id} />
     },
   },
