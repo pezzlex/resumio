@@ -21,6 +21,7 @@ export default React.memo(function SidebarMenu({
 
   const { key, label, leftIcon, children } = singleOption
   const url = stripTrailingSlash(match.url)
+  console.log(children)
   if (children) {
     return (
       <SubMenu
