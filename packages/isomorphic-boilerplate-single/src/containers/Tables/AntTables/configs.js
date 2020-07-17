@@ -27,11 +27,11 @@ const renderCell = (object, type, key) => {
   }
 }
 
-const ActionButtons = ({ resumeId, userId, deleteResume }) => {
+const ActionButtons = ({ url, resumeId, userId, deleteResume }) => {
   return (
     <CardWrapper>
       <div className="isoInvoiceBtnView">
-        <Link to={`dashboard/resumes/${resumeId}`}>
+        <Link to={`${url}/view-resume/${resumeId}`}>
           <Button color="primary" className="invoiceViewBtn">
             View
           </Button>
@@ -71,7 +71,7 @@ const ActionButtonsHoc = connect(
   mapDispatchToProps
 )(ActionButtons)
 
-const columns = [
+const columns = ({ url }) => [
   {
     title: 'File Name',
     key: 'fileName',
@@ -87,7 +87,7 @@ const columns = [
   {
     width: 100,
     render: (object) => {
-      return <ActionButtonsHoc resumeId={object._id} />
+      return <ActionButtonsHoc resumeId={object._id} url={url} />
     },
   },
 ]

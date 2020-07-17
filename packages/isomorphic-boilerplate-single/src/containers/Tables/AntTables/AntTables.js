@@ -20,9 +20,10 @@ const AntTable = ({ resumes, url }) => {
       />
     )
   }
+  console.log('tableinfo.columns', tableinfo.columns)
   return (
     <TableDemoStyle className="isoLayoutContent">
-      <RenderTable columns={tableinfo.columns} />
+      <RenderTable columns={tableinfo.columns({ url })} />
     </TableDemoStyle>
   )
 }
