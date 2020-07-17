@@ -31,7 +31,7 @@ const ActionButtons = ({ url, resumeId, userId, deleteResume }) => {
   return (
     <CardWrapper>
       <div className="isoInvoiceBtnView">
-        <Link to={`${url}/view-resume/${resumeId}`}>
+        <Link to={`${url}/resume/${resumeId}`}>
           <Button color="primary" className="invoiceViewBtn">
             View
           </Button>

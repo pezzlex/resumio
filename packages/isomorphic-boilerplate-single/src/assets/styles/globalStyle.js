@@ -1,6 +1,6 @@
-import { createGlobalStyle } from 'styled-components';
-import { palette, font } from 'styled-theme';
-import 'antd/dist/antd.css';
+import { createGlobalStyle } from 'styled-components'
+import { palette, font } from 'styled-theme'
+import 'antd/dist/antd.css'
 
 const GlobalStyles = createGlobalStyle`
   .header {
@@ -192,6 +192,6 @@ svg {
   width: 100%;
 }
 
-`;
+`
 
-export default GlobalStyles;
+export default GlobalStyles

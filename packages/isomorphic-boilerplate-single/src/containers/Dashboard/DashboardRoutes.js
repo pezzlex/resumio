@@ -11,16 +11,12 @@ const routes = [
   // Other routes
   {
     path: 'resume/:resumeId',
-    component: lazy(() => import('../ResumeDetails')),
+    component: lazy(() => import('../Resume/ResumeDetails')),
   },
   {
     path: 'create-resume',
     component: lazy(() => import('../CreateResume')),
   },
-  // {
-  //   path: 'edit-resume',
-  //   component: lazy(() => import('../EditResume')),
-  // },
   {
     path: 'templates',
     component: lazy(() => import('../Templates')),

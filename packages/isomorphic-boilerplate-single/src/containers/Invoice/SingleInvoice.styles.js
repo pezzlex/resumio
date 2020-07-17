@@ -20,7 +20,7 @@ const InvoicePageWrapper = styled.div`
     -webkit-justify-content: flex-end;
     -ms-flex-pack: justify;
     justify-content: flex-end;
-    margin-bottom: 30px;
+    // margin-bottom: 30px;
 
     &.viewMode {
       @media only screen and (max-width: 400px) {

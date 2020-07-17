@@ -1,20 +1,28 @@
-import { FETCH_RESUMES } from '../resumes/actions'
+import { FETCH_RESUMES, FETCH_RESUME_BY_ID } from '../resumes/actions'
 
 const initState = {
   resumes: [],
+  currentResume: {},
   shouldFetchResumes: true,
 }
 
 const resumeReducer = (state = initState, action) => {
-  if (action.type === FETCH_RESUMES) {
-    return {
-      ...state,
-      resumes: action.payload,
-      shouldFetchResumes: false,
-    }
+  console.log(action.type, action.payload)
+  switch (action.type) {
+    case FETCH_RESUMES:
+      return {
+        ...state,
+        resumes: action.payload,
+        shouldFetchResumes: false,
+      }
+    case FETCH_RESUME_BY_ID:
+      return {
+        ...state,
+        currentResume: action.payload,
+      }
+    default:
+      return state
   }
-
-  return state
 }
 
 export default resumeReducer

@@ -12,14 +12,15 @@ import Table from './Tables/AntTables/AntTables'
 const MyResumes = ({ resumes, fetchResumes, userId, shouldFetchResumes }) => {
   const { url } = useRouteMatch()
   useEffect(() => {
+    console.log('other useEffect called')
     // if (shouldFetchResumes) {
     fetchResumes({ userId })
     // }
   }, [])
 
   return (
-    <LayoutContentWrapper style={{ height: '100vh' }}>
-      <LayoutContent style={{ height: '' }}>
+    <LayoutContentWrapper>
+      <LayoutContent>
         <Header>
           <Title>My Resumes</Title>
           <Link to={`${url}/create-resume`}>
