@@ -1,9 +1,10 @@
-import React from 'react';
-import moment from 'moment';
-import InvoiceAddress from '@iso/components/Invoice/Address';
-import { ViewTable } from '@iso/components/Invoice/InvoiceTable';
+import React from 'react'
+import moment from 'moment'
+import InvoiceAddress from '@iso/components/Invoice/Address'
+import { ViewTable } from '@iso/components/Invoice/InvoiceTable'
 
 const Invoice = React.forwardRef(({ currentInvoice }, ref) => {
+  console.log('currentInvoice.invoiceList', currentInvoice.invoiceList)
   return (
     <div className="PageContent" style={{ padding: '20' }} ref={ref}>
       <div className="OrderInfo">
@@ -62,6 +63,6 @@ const Invoice = React.forwardRef(({ currentInvoice }, ref) => {
         </div>
       </div>
     </div>
-  );
-});
-export default Invoice;
+  )
+})
+export default Invoice
