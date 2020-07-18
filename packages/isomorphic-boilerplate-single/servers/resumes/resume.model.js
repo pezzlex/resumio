@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 const resumeSchema = new Schema({
-  fileName: String,
+  fileName: { type: String, unique: true },
   contact: {
     firstName: String,
     lastName: String,
