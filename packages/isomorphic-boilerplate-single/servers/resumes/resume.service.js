@@ -15,8 +15,14 @@ const getById = async (id) => {
 const create = async (resumeParam) => {
   if (
     await Resume.findOne({
-      fileName: resumeParam.fileName,
-      createdBy: resumeParam.createdBy,
+      $and: [
+        {
+          fileName: resumeParam.fileName,
+        },
+        {
+          createdBy: resumeParam.createdBy,
+        },
+      ],
     })
   ) {
     throw 'File name "' + resumeParam.fileName + '" is already taken'
