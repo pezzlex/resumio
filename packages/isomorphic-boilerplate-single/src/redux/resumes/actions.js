@@ -7,7 +7,7 @@ export const fetchResumes = ({ userId }) => {
   console.log('http://localhost:4000/resumes called. userId = ', userId)
   return (dispatch) => {
     axios
-      .post('http://localhost:4000/resumes', { id: userId })
+      .post('http://localhost:4000/resumes', { userId })
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data)
@@ -27,7 +27,7 @@ export const deleteResume = ({ resumeId, userId }) => {
   console.log('http://localhost:4000/resumes/delete/' + resumeId)
   return (dispatch) => {
     axios
-      .get(`http://localhost:4000/resumes/delete/${resumeId}`)
+      .delete(`http://localhost:4000/resumes/${resumeId}`)
       .then((response) => {
         console.log('deleting')
         if (response.status === 200) {

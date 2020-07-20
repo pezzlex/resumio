@@ -44,14 +44,14 @@ const getById = (req, res, next) => {
 const update = (req, res, next) => {
   userService
     .update(req.params.id, req.body)
-    .then(() => res.json({}))
+    .then((user) => (user ? res.json(user) : res.sendStatus(404)))
     .catch((err) => next(err))
 }
 
 const _delete = (req, res, next) => {
   userService
     .delete(req.params.id)
-    .then(() => res.json({}))
+    .then((user) => (user ? res.json(user) : res.sendStatus(404)))
     .catch((err) => next(err))
 }
 

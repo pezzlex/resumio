@@ -1,57 +1,53 @@
 const express = require('express')
 const router = express.Router()
-const { Resume } = require('../helpers/db')
+const resumeService = require('./resume.service')
 
-router.route('/').post(function (req, res) {
-  Resume.find(
-    {
-      createdBy: req.body.id,
-    },
-    function (err, resumes) {
-      if (err) {
-        console.log(err)
-      } else {
-        res.json(resumes)
-      }
-    }
-  )
-})
+const getAll = (req, res, next) => {
+  let userId = req.body.userId
+  resumeService
+    .getAll({ userId })
+    .then((resumes) => res.json(resumes))
+    .catch((err) => next(err))
+}
 
-router.route('/:id').get(function (req, res) {
+const getById = (req, res, next) => {
   let id = req.params.id
-  Resume.findById(id, function (err, resume) {
-    res.json(resume)
-  })
-})
+  resumeService
+    .getById(id)
+    .then((resume) => (resume ? res.json(resume) : res.sendStatus(404)))
+    .catch((err) => next(err))
+}
 
-router.route('/add').post(function (req, res) {
+const create = (req, res, next) => {
+  const resumeParam = req.body
+  resumeService
+    .create(resumeParam)
+    .then((resume) => res.json(resume))
+    .catch((err) => next(err))
+}
+
+const update = (req, res, next) => {
+  const id = req.params.id
+  const resumeParam = req.body
   console.log(req.body)
-  let resume = new Resume(req.body)
-  resume
-    .save()
-    .then((resume) => {
-      res.status(200).json({ resume: 'resume added successfully' })
-    })
-    .catch((err) => {
-      res.status(400).send(err, 'adding new resume failed')
-    })
-})
+  resumeService
+    .update(id, resumeParam)
+    .then((resume) => (resume ? res.json(resume) : res.sendStatus(404)))
+    .catch((err) => next(err))
+}
 
-router.route('/update/:id').post(function (req, res) {
-  Resume.findByIdAndUpdate(req.params.id, req.body, function (err, resume) {
-    if (!resume) {
-      res.status(404).send('data is not found')
-    } else {
-      res.json('Resume updated')
-    }
-  })
-})
+const _delete = (req, res, next) => {
+  resumeService
+    .delete(req.params.id)
+    .then((resume) => (resume ? res.json(resume) : res.sendStatus(404)))
+    .catch((err) => next(err))
+}
 
-router.route('/delete/:id').get(function (req, res) {
-  Resume.findByIdAndDelete(req.params.id, function (err, resume) {
-    if (!resume) res.status(404).send('data is not found')
-    else res.json('Resume deleted')
-  })
-})
+// routes
+router.post('/', getAll)
+router.get('/:id', getById)
+router.post('/add', create)
+router.put('/:id', update)
+router.delete('/:id', _delete)
 
 module.exports = router
