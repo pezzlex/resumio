@@ -17,10 +17,10 @@ const create = async (resumeParam) => {
     await Resume.findOne({
       $and: [
         {
-          fileName: resumeParam.fileName,
+          createdBy: resumeParam.createdBy,
         },
         {
-          createdBy: resumeParam.createdBy,
+          fileName: resumeParam.fileName,
         },
       ],
     })
