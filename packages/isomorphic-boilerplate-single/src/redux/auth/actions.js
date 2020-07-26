@@ -9,18 +9,24 @@ export const fetchToken = ({ username, password }) => {
   console.log('fetching token')
   return (dispatch) => {
     axios
-      .post(`http://localhost:4000/users/authenticate`, {
+      .post(`http://localhost:4000/users/login`, {
         username,
         password,
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data)
+          const filter = ({ firstName, lastName, username, email, token }) => ({
+            firstName,
+            lastName,
+            username,
+            email,
+            token,
+          })
           dispatch({
             type: LOGIN_USER,
-            payload: response.data,
+            payload: filter(response.data.data),
           })
-          localStorage.setItem('jwtToken', response.data.token)
+          localStorage.setItem('jwtToken', response.data.data.token)
           axios.defaults.headers.common[
             'Authorization'
           ] = `Bearer ${response.data.token}`

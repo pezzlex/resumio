@@ -13,7 +13,7 @@ const userSchema = new Schema({
   },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  createdDate: {
+  createdAt: {
     type: Date,
     default: Date.now,
     immutable: true,

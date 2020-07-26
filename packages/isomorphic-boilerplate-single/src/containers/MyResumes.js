@@ -9,12 +9,12 @@ import { Link, useRouteMatch } from 'react-router-dom'
 
 import Table from './Tables/AntTables/AntTables'
 
-const MyResumes = ({ resumes, fetchResumes, userId, shouldFetchResumes }) => {
+const MyResumes = ({ resumes, fetchResumes, shouldFetchResumes }) => {
   const { url } = useRouteMatch()
   useEffect(() => {
     console.log('other useEffect called')
     // if (shouldFetchResumes) {
-    fetchResumes({ userId })
+    fetchResumes()
     // }
   }, [])
 
@@ -35,7 +35,6 @@ const MyResumes = ({ resumes, fetchResumes, userId, shouldFetchResumes }) => {
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.Auth.id,
     resumes: state.resumeData.resumes,
     shouldFetchResumes: state.resumeData.shouldFetchResumes,
   }
@@ -43,8 +42,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchResumes: ({ userId }) => {
-      dispatch(fetchResumes({ userId }))
+    fetchResumes: () => {
+      dispatch(fetchResumes())
     },
   }
 }

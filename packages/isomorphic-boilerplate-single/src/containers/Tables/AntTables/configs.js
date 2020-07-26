@@ -27,7 +27,7 @@ const renderCell = (object, type, key) => {
   }
 }
 
-const ActionButtons = ({ url, resumeId, userId, deleteResume }) => {
+const ActionButtons = ({ url, resumeId, deleteResume }) => {
   return (
     <CardWrapper>
       <div className="isoInvoiceBtnView">
@@ -41,7 +41,7 @@ const ActionButtons = ({ url, resumeId, userId, deleteResume }) => {
           // icon="delete"
           onClick={() => {
             // notification('error', '1 invoice deleted')
-            deleteResume({ resumeId, userId })
+            deleteResume(resumeId)
             // setSelected([])
           }}
         >
@@ -60,8 +60,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteResume: ({ resumeId, userId }) => {
-      dispatch(deleteResume({ resumeId, userId }))
+    deleteResume: (id) => {
+      dispatch(deleteResume(id))
     },
   }
 }
@@ -80,9 +80,9 @@ const columns = ({ url }) => [
   },
   {
     title: 'Date Created',
-    key: 'createdDate',
+    key: 'createdAt',
     width: 100,
-    render: (object) => renderCell(object, 'DateCell', 'createdDate'),
+    render: (object) => renderCell(object, 'DateCell', 'createdAt'),
   },
   {
     width: 100,

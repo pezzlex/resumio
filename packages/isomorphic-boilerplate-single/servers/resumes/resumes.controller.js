@@ -17,11 +17,11 @@ const getById = (req, res, next) => {
   resumeService
     .getById(req.params.id)
     .then((resume) =>
-      res.json({
-        data: resume,
-        error: false,
-        message: 'Resume created successfully',
-      })
+      resume
+        ? res.json({ data: resume, error: false, message: 'Resume found' })
+        : res
+            .sendStatus(404)
+            .json({ data: null, error: true, message: 'Resume not found' })
     )
     .catch((err) => next(err))
 }
@@ -29,7 +29,13 @@ const getById = (req, res, next) => {
 const create = (req, res, next) => {
   resumeService
     .create({ ...req.body, createdBy: req.user.sub })
-    .then((resume) => res.json(resume))
+    .then((resume) =>
+      res.json({
+        data: resume,
+        error: false,
+        message: 'Resume created successfully',
+      })
+    )
     .catch((err) => next(err))
 }
 
