@@ -1,14 +1,23 @@
 const express = require('express')
 const router = express.Router()
 const userService = require('./user.service')
+const authorize = require('../helpers/authorize')
 
-const authenticate = (req, res, next) => {
+const login = (req, res, next) => {
   userService
-    .authenticate(req.body)
+    .login(req.body)
     .then((user) =>
       user
-        ? res.json(user)
-        : res.status(400).json({ message: 'Username or password is incorrect' })
+        ? res.json({
+            data: user,
+            error: false,
+            message: 'User found successfully',
+          })
+        : res.status(400).json({
+            data: null,
+            error: true,
+            message: 'Username or password is incorrect',
+          })
     )
     .catch((err) => next(err))
 }
@@ -16,52 +25,88 @@ const authenticate = (req, res, next) => {
 const register = (req, res, next) => {
   userService
     .create(req.body)
-    .then(() => res.json({ user: 'user added successfully' }))
+    .then((user) =>
+      res.json({ data: user, error: false, message: 'User added successfully' })
+    )
     .catch((err) => next(err))
 }
 
 const getAll = (req, res, next) => {
   userService
-    .getAll()
-    .then((users) => res.json(users))
+    .getAll(req.query)
+    .then((users) =>
+      res.json({ data: users, error: false, message: 'Users found' })
+    )
     .catch((err) => next(err))
 }
 
 const getCurrent = (req, res, next) => {
   userService
     .getById(req.user.sub)
-    .then((user) => (user ? res.json(user) : res.sendStatus(404)))
+    .then((user) =>
+      user
+        ? res.json({ data: user, error: false, message: 'User found' })
+        : res
+            .sendStatus(404)
+            .json({ data: null, error: true, message: 'User not found' })
+    )
     .catch((err) => next(err))
 }
 
 const getById = (req, res, next) => {
   userService
     .getById(req.params.id)
-    .then((user) => (user ? res.json(user) : res.sendStatus(404)))
+    .then((user) =>
+      user
+        ? res.json({ data: user, error: false, message: 'User found' })
+        : res
+            .sendStatus(404)
+            .json({ data: null, error: true, message: 'User not found' })
+    )
     .catch((err) => next(err))
 }
 
-const update = (req, res, next) => {
+const updateById = (req, res, next) => {
   userService
-    .update(req.params.id, req.body)
-    .then((user) => (user ? res.json(user) : res.sendStatus(404)))
+    .updateById(req.params.id, req.body)
+    .then((user) =>
+      user
+        ? res.json({
+            data: user,
+            error: false,
+            message: 'User updated successfully',
+          })
+        : res
+            .sendStatus(404)
+            .json({ data: null, error: true, message: 'User not found' })
+    )
     .catch((err) => next(err))
 }
 
-const _delete = (req, res, next) => {
+const deleteById = (req, res, next) => {
   userService
-    .delete(req.params.id)
-    .then((user) => (user ? res.json(user) : res.sendStatus(404)))
+    .deleteById(req.params.id)
+    .then((user) =>
+      user
+        ? res.json({
+            data: user,
+            error: false,
+            message: 'User deleted successfully',
+          })
+        : res
+            .sendStatus(404)
+            .json({ data: null, error: true, message: 'User not found' })
+    )
     .catch((err) => next(err))
 }
 
 // routes
-router.post('/authenticate', authenticate)
+router.post('/login', login)
 router.post('/register', register)
-router.get('/', getAll)
-router.get('/current', getCurrent)
+router.get('/me', getCurrent)
 router.get('/:id', getById)
-router.put('/:id', update)
-router.delete('/:id', _delete)
+router.get('/', authorize(), getAll)
+router.put('/:id', authorize(), updateById)
+router.delete('/:id', authorize(), deleteById)
 
 module.exports = router

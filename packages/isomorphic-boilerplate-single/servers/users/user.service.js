@@ -3,10 +3,23 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { User } = require('../helpers/db')
 
-const authenticate = async ({ username, password }) => {
+const Joi = require('joi')
+
+const schema = Joi.object()
+  .keys({
+    firstName: Joi.string().trim(),
+    lastName: Joi.string().trim(),
+    username: Joi.string().trim().min(6),
+    email: Joi.string().trim().email(),
+    password: Joi.string().min(6),
+  })
+  .unknown(true)
+
+const login = async ({ username, password }) => {
   const user = await User.findOne({ username })
+  console.log(user)
   if (user && bcrypt.compareSync(password, user.hash)) {
-    const token = jwt.sign({ sub: user.id }, config.secret, {
+    const token = jwt.sign({ sub: user.id, role: user.role }, config.secret, {
       expiresIn: '7d',
     })
     return {
@@ -16,8 +29,19 @@ const authenticate = async ({ username, password }) => {
   }
 }
 
-const getAll = async () => {
+const getAll = async ({ limit, skip, q }) => {
+  const perPage = limit ? parseInt(limit) : 10
+  const page = skip ? parseInt(skip) : 0
+  const qRegex = new RegExp(q)
   return await User.find()
+    .or([
+      { firstName: qRegex },
+      { lastName: qRegex },
+      { email: qRegex },
+      { username: qRegex },
+    ])
+    .limit(perPage)
+    .skip(perPage * page)
 }
 
 const getById = async (id) => {
@@ -25,9 +49,16 @@ const getById = async (id) => {
 }
 
 const create = async (userParam) => {
-  // validate
+  const { value, error } = schema.validate(userParam)
+  console.log(value)
+  // validate fields
+  if (error) {
+    throw error
+  }
+  Object.assign(userParam, value)
+  // unique username
   if (await User.findOne({ username: userParam.username })) {
-    throw 'Username "' + userParam.username + '" is already taken'
+    throw `Username "${userParam.username}" is already taken`
   }
   const user = new User(userParam)
   // hash password
@@ -38,35 +69,39 @@ const create = async (userParam) => {
   return await user.save()
 }
 
-const update = async (id, userParam) => {
+const updateById = async (id, userParam) => {
   const user = await User.findById(id)
   // validate
+  const { value, error } = schema.validate(userParam)
+  if (error) {
+    throw error
+  }
+  Object.assign(userParam, value)
   if (!user) throw 'User not found'
   if (
     user.username !== userParam.username &&
     (await User.findOne({ username: userParam.username }))
   ) {
-    throw 'Username "' + userParam.username + '" is already taken'
+    throw `Username "${userParam.username}" is already taken`
   }
   // hash password if it was entered
   if (userParam.password) {
     userParam.hash = bcrypt.hashSync(userParam.password, 10)
   }
   // copy userParam properties to user
-  // Object.assign(user, userParam)
-  user = { ...user, userParam }
+  Object.assign(user, userParam)
   return await user.save()
 }
 
-const _delete = async (id) => {
+const deleteById = async (id) => {
   return await User.findByIdAndRemove(id)
 }
 
 module.exports = {
-  authenticate,
+  login,
   getAll,
   getById,
   create,
-  update,
-  delete: _delete,
+  updateById,
+  deleteById,
 }

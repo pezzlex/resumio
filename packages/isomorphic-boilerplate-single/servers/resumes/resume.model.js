@@ -47,15 +47,19 @@ const resumeSchema = new Schema({
       },
     ],
   },
-  skills: [
-    {
-      headerName: { type: String, default: 'Skills' },
-      content: { heading: String, details: String },
-    },
-  ],
+  skills: {
+    headerName: { type: String, default: 'Skills' },
+    content: [
+      {
+        subHeader: { type: String, required: true },
+        details: { type: String, required: true },
+      },
+    ],
+  },
   template: { type: String, default: 'BASIC_TEMPLATE', required: true },
   createdBy: { type: Schema.Types.ObjectId, ref: 'User', immutable: true },
-  createdDate: { type: Date, default: Date.now, immutable: true },
+  createdAt: { type: Date, default: Date.now, immutable: true },
+  updatedAt: { type: Date, default: Date.now },
 })
 
 module.exports = mongoose.model('Resume', resumeSchema)
