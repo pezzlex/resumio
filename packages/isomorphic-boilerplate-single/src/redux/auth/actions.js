@@ -3,6 +3,7 @@ export const LOGIN_USER = 'LOGIN_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const REGISTER_USER = 'REGISTER_USER'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
+export const REGISTER_FAILURE = 'REGISTER_FAILURE'
 export const CLEAR_ERROR = 'CLEAR_ERROR'
 
 const actions = {}
@@ -76,7 +77,13 @@ export const registerUser = ({
           dispatch(fetchToken({ username, password }))
         }
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err.response.data.message)
+        dispatch({
+          type: REGISTER_FAILURE,
+          payload: err.response.data.message,
+        })
+      })
   }
 }
 

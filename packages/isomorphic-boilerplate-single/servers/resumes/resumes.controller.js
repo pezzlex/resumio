@@ -7,15 +7,19 @@ const getAll = (req, res, next) => {
   console.log(req.user.sub)
   resumeService
     .getAll({ ...req.query, userId })
-    .then((resumes) =>
+    .then((resumes) => {
       res.json({ data: resumes, error: false, message: 'Resumes found' })
-    )
-    .catch((err) => next(err))
+    })
+    .catch((err) => {
+      res.json({ data: null, error: true, message: err })
+      next(err)
+    })
 }
 
 const getById = (req, res, next) => {
   resumeService
     .getById(req.params.id)
+
     .then((resume) =>
       resume
         ? res.json({ data: resume, error: false, message: 'Resume found' })
@@ -23,7 +27,10 @@ const getById = (req, res, next) => {
             .sendStatus(404)
             .json({ data: null, error: true, message: 'Resume not found' })
     )
-    .catch((err) => next(err))
+    .catch((err) => {
+      res.status(400).json({ data: null, error: true, message: err })
+      next(err)
+    })
 }
 
 const create = (req, res, next) => {
@@ -36,7 +43,11 @@ const create = (req, res, next) => {
         message: 'Resume created successfully',
       })
     )
-    .catch((err) => next(err))
+    .catch((err) => {
+      res.status(400).json({ data: null, error: true, message: err })
+
+      next(err)
+    })
 }
 
 const update = (req, res, next) => {
@@ -54,7 +65,10 @@ const update = (req, res, next) => {
             .sendStatus(404)
             .json({ data: null, error: false, message: 'Resume not found' })
     )
-    .catch((err) => next(err))
+    .catch((err) => {
+      res.json({ data: null, error: true, message: err })
+      next(err)
+    })
 }
 
 const _delete = (req, res, next) => {
@@ -71,7 +85,11 @@ const _delete = (req, res, next) => {
             .sendStatus(404)
             .json({ data: null, error: true, message: 'Resume not found' })
     )
-    .catch((err) => next(err))
+    .catch((err) => {
+      res.status(400).json({ data: null, error: true, message: err })
+
+      next(err)
+    })
 }
 
 // routes

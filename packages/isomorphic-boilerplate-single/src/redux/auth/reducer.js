@@ -3,6 +3,7 @@ import {
   LOGOUT_USER,
   REGISTER_USER,
   LOGIN_FAILURE,
+  REGISTER_FAILURE,
   CLEAR_ERROR,
 } from './actions'
 
@@ -32,6 +33,12 @@ export default function authReducer(state = initState, action) {
         ...action.payload,
       }
     case LOGIN_FAILURE:
+      console.log(action.payload)
+      return {
+        ...initState,
+        error: action.payload,
+      }
+    case REGISTER_FAILURE:
       console.log(action.payload)
       return {
         ...initState,
