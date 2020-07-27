@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch, connect } from 'react-redux'
-import Input from '@iso/components/uielements/input'
-import Checkbox from '@iso/components/uielements/checkbox'
-import Button from '@iso/components/uielements/button'
+// import Input from '@iso/components/uielements/input'
+// import Checkbox from '@iso/components/uielements/checkbox'
+// import Button from '@iso/components/uielements/button'
 import FirebaseLoginForm from '../../FirebaseForm/FirebaseForm'
-import { fetchToken } from '../../../redux/auth/actions'
+import { fetchToken, clearError } from '../../../redux/auth/actions'
 import appAction from '../../../redux/app/actions'
 import Auth0 from '../../Authentication/Auth0/Auth0'
 import {
@@ -14,15 +14,14 @@ import {
 } from '@iso/lib/firebase/firebase.authentication.util'
 import SignInStyleWrapper from './SignIn.styles'
 import { useForm } from 'react-hook-form'
+import { Form, Input, Button, Checkbox } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
-const SignIn = ({ signIn, isSignedIn }) => {
-  const { handleSubmit, register, errors } = useForm()
-  const onSubmit = (data) => signIn(data)
-
+const SignIn = ({ signIn, isSignedIn, error, clearError }) => {
   let location = useLocation()
-
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   useEffect(() => {
+    clearError()
     console.log('useEffect')
     if (isSignedIn) {
       setRedirectToReferrer(true)
@@ -34,6 +33,15 @@ const SignIn = ({ signIn, isSignedIn }) => {
     console.log('redirectToReferrer', redirectToReferrer)
     return <Redirect to={from} />
   }
+
+  const onFinish = (values) => {
+    signIn(values)
+  }
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo)
+  }
+
   return (
     <SignInStyleWrapper className="isoSignInPage">
       <div className="isoLoginContentWrapper">
@@ -42,66 +50,64 @@ const SignIn = ({ signIn, isSignedIn }) => {
             <Link to="/dashboard">RESUMIO</Link>
           </div>
           <div className="isoSignInForm">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="isoInputWrapper">
-                <input
-                  name="username"
-                  type="text"
-                  className="form-control"
-                  autoComplete="true"
+            <Form
+              layout="vertical"
+              name="basic"
+              initialValues={{
+                remember: true,
+              }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+            >
+              <Form.Item
+                label="Username"
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your username!',
+                  },
+                  { min: 5, message: 'Username must be minimum 5 characters.' },
+                ]}
+              >
+                <Input
+                  prefix={<UserOutlined className="site-form-item-icon" />}
                   placeholder="Username"
-                  ref={register()}
                 />
-              </div>
-              <div className="isoInputWrapper">
-                <input
-                  name="password"
-                  type="password"
-                  className="form-control"
-                  autoComplete="false"
+              </Form.Item>
+
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your password!',
+                  },
+                  { min: 6, message: 'Password must be minimum 6 characters.' },
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Password"
-                  ref={register()}
                 />
-              </div>
-              <div className="isoInputWrapper isoLeftRightComponent">
-                <Checkbox>Remember Me</Checkbox>
+              </Form.Item>
+
+              {error && (
+                <Form.Item validateStatus="error" help={error}></Form.Item>
+              )}
+
+              {/* <Form.Item name="remember" valuePropName="checked">
+                <Checkbox>Remember me</Checkbox>
+              </Form.Item> */}
+
+              <Form.Item>
                 <Button type="primary" htmlType="submit">
-                  Sign In
+                  Submit
                 </Button>
-              </div>
-            </form>
-            {/* <div className="isoInputWrapper isoOtherLogin">
-              <Button
-                onClick={signInWithFacebook}
-                type="primary"
-                className="btnFacebook"
-              >
-                Sign in with Facebook
-              </Button>
-              <Button
-                onClick={signInWithGoogle}
-                type="primary"
-                className="btnGooglePlus"
-              >
-                Sign in with Google Plus
-              </Button>
+              </Form.Item>
+            </Form>
 
-              <Button
-                onClick={() => {
-                  Auth0.login()
-                }}
-                type="primary"
-                className="btnAuthZero"
-              >
-                Sign in with Auth0
-              </Button>
-
-              <FirebaseLoginForm
-              // history={history}
-              // login={(token) => dispatch(login(token))}
-              />
-            </div>
-            */}
             <div className="isoCenterComponent isoHelperWrapper">
               <Link to="/forgotpassword" className="isoForgotPass">
                 Forgot password
@@ -118,6 +124,7 @@ const SignIn = ({ signIn, isSignedIn }) => {
 const mapStateToProps = (state) => {
   return {
     isSignedIn: state.Auth.token,
+    error: state.Auth.error,
   }
 }
 
@@ -126,6 +133,7 @@ const mapDispatchToProps = (dispatch) => {
     signIn: (data) => {
       dispatch(fetchToken(data))
     },
+    clearError: () => dispatch(clearError()),
   }
 }
 

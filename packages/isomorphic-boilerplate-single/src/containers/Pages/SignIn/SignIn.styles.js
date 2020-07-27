@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import bgImage1 from '@iso/assets/images/landing-pg-1.png';
-import WithDirection from '@iso/lib/helpers/rtl';
+import styled from 'styled-components'
+import { palette } from 'styled-theme'
+import bgImage1 from '@iso/assets/images/landing-pg-1.png'
+import WithDirection from '@iso/lib/helpers/rtl'
 
 const SignInStyleWrapper = styled.div`
   width: 100%;
@@ -28,7 +28,7 @@ const SignInStyleWrapper = styled.div`
   }
 
   .isoLoginContentWrapper {
-    width: 500px;
+    width: 400px;
     height: 100%;
     overflow-y: auto;
     z-index: 10;
@@ -206,9 +206,12 @@ const SignInStyleWrapper = styled.div`
 
       button {
         font-weight: 500;
+        width: 100%;
+        height: 42px;
+        border: 0;
       }
     }
   }
-`;
+`
 
-export default WithDirection(SignInStyleWrapper);
+export default WithDirection(SignInStyleWrapper)

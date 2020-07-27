@@ -9,7 +9,7 @@ const schema = Joi.object()
   .keys({
     firstName: Joi.string().trim(),
     lastName: Joi.string().trim(),
-    username: Joi.string().trim().min(6),
+    username: Joi.string().trim().min(5),
     email: Joi.string().trim().email(),
     password: Joi.string().min(6),
   })

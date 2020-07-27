@@ -21,11 +21,10 @@ export const fetchResumes = () => {
   }
 }
 
-export const deleteResume = (resumeId) => {
-  console.log('http://localhost:4000/resumes/delete/' + resumeId)
+export const deleteResume = (id) => {
   return (dispatch) => {
     axios
-      .delete(`http://localhost:4000/resumes/${resumeId}`)
+      .delete(`http://localhost:4000/resumes/${id}`)
       .then((response) => {
         console.log('deleting')
         if (response.status === 200) {
@@ -38,10 +37,10 @@ export const deleteResume = (resumeId) => {
   }
 }
 
-export const fetchResumeById = ({ resumeId }) => {
+export const fetchResumeById = (id) => {
   return (dispatch) => {
     axios
-      .get(`http://localhost:4000/resumes/${resumeId}`)
+      .get(`http://localhost:4000/resumes/${id}`)
       .then((response) => {
         if (response.status === 200) {
           dispatch({

@@ -15,9 +15,8 @@ const ResumeDetails = (props) => {
   const { resumeId } = useParams()
 
   useEffect(() => {
-    props.fetchResumeById({ resumeId })
+    props.fetchResumeById(resumeId)
   }, [])
-  console.log('currentResume', props.currentResume)
 
   return (
     <LayoutContentWrapper>
@@ -31,9 +30,11 @@ const ResumeDetails = (props) => {
                   <span>Back to My Resumes</span>
                 </Button>
               </Link>
-              <Button color="secondary" onClick={() => toggleView(true)}>
-                <span>Edit Resume</span>
-              </Button>
+              <Link to={`/dashboard/edit-resume/${resumeId}`}>
+                <Button color="secondary">
+                  <span>Edit Resume</span>
+                </Button>
+              </Link>
             </div>
           </InvoicePageWrapper>
         </Header>
@@ -59,7 +60,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchResumeById: ({ resumeId }) => dispatch(fetchResumeById({ resumeId })),
+    fetchResumeById: (resumeId) => dispatch(fetchResumeById(resumeId)),
   }
 }
 

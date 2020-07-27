@@ -14,6 +14,10 @@ const routes = [
     component: lazy(() => import('../Resume/ResumeDetails')),
   },
   {
+    path: 'edit-resume/:resumeId',
+    component: lazy(() => import('../EditResume')),
+  },
+  {
     path: 'create-resume',
     component: lazy(() => import('../CreateResume')),
   },

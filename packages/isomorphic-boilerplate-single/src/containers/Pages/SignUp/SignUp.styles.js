@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import bgImage2 from '@iso/assets/images/landing-pg-2.png';
-import WithDirection from '@iso/lib/helpers/rtl';
+import styled from 'styled-components'
+import { palette } from 'styled-theme'
+import bgImage2 from '@iso/assets/images/landing-pg-2.png'
+import WithDirection from '@iso/lib/helpers/rtl'
 
 const SignUpStyleWrapper = styled.div`
   width: 100%;
@@ -28,7 +28,7 @@ const SignUpStyleWrapper = styled.div`
   }
 
   .isoSignUpContentWrapper {
-    width: 500px;
+    width: 400px;
     height: 100%;
     overflow-y: auto;
     z-index: 10;
@@ -175,6 +175,6 @@ const SignUpStyleWrapper = styled.div`
       }
     }
   }
-`;
+`
 
-export default WithDirection(SignUpStyleWrapper);
+export default WithDirection(SignUpStyleWrapper)

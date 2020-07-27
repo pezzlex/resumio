@@ -2,6 +2,8 @@ import axios from 'axios'
 export const LOGIN_USER = 'LOGIN_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const REGISTER_USER = 'REGISTER_USER'
+export const LOGIN_FAILURE = 'LOGIN_FAILURE'
+export const CLEAR_ERROR = 'CLEAR_ERROR'
 
 const actions = {}
 
@@ -14,6 +16,7 @@ export const fetchToken = ({ username, password }) => {
         password,
       })
       .then((response) => {
+        console.log('about to get response')
         if (response.status === 200) {
           const filter = ({ firstName, lastName, username, email, token }) => ({
             firstName,
@@ -31,9 +34,13 @@ export const fetchToken = ({ username, password }) => {
             'Authorization'
           ] = `Bearer ${response.data.token}`
         }
+        console.log('leaving actions')
       })
       .catch((err) => {
-        console.log('Error: ', err)
+        dispatch({
+          type: LOGIN_FAILURE,
+          payload: err.response.data.message,
+        })
       })
   }
 }
@@ -71,6 +78,13 @@ export const registerUser = ({
       })
       .catch((err) => console.log(err))
   }
+}
+
+export const clearError = () => {
+  return (dispatch) =>
+    dispatch({
+      type: CLEAR_ERROR,
+    })
 }
 
 export default actions
