@@ -10,7 +10,7 @@ function authorize() {
       console.log('req.user', req.user)
       if (req.user.role !== 'Admin') {
         // user's role is not authorized
-        return res.sendStatus(401).json({
+        return res.status(401).json({
           data: null,
           error: true,
           message: 'Unauthorized. Only for Admins.',

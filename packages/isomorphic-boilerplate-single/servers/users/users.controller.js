@@ -13,15 +13,14 @@ const login = (req, res, next) => {
             error: false,
             message: 'User found successfully',
           })
-        : res.sendStatus(400).json({
+        : res.status(400).json({
             data: null,
             error: true,
             message: 'Username or password is incorrect',
           })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
-
+      res.status(400).json({ data: null, error: true, message: err })
       next(err)
     })
 }
@@ -33,8 +32,7 @@ const register = (req, res, next) => {
       res.json({ data: user, error: false, message: 'User added successfully' })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
-
+      res.status(400).json({ data: null, error: true, message: err })
       next(err)
     })
 }
@@ -46,7 +44,7 @@ const getAll = (req, res, next) => {
       res.json({ data: users, error: false, message: 'Users found' })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err })
 
       next(err)
     })
@@ -59,11 +57,11 @@ const getCurrent = (req, res, next) => {
       user
         ? res.json({ data: user, error: false, message: 'User found' })
         : res
-            .sendStatus(404)
+            .status(404)
             .json({ data: null, error: true, message: 'User not found' })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err })
 
       next(err)
     })
@@ -76,11 +74,11 @@ const getById = (req, res, next) => {
       user
         ? res.json({ data: user, error: false, message: 'User found' })
         : res
-            .sendStatus(404)
+            .status(404)
             .json({ data: null, error: true, message: 'User not found' })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err })
 
       next(err)
     })
@@ -97,11 +95,11 @@ const updateById = (req, res, next) => {
             message: 'User updated successfully',
           })
         : res
-            .sendStatus(404)
+            .status(404)
             .json({ data: null, error: true, message: 'User not found' })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err })
 
       next(err)
     })
@@ -118,11 +116,11 @@ const deleteById = (req, res, next) => {
             message: 'User deleted successfully',
           })
         : res
-            .sendStatus(404)
+            .status(404)
             .json({ data: null, error: true, message: 'User not found' })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err })
 
       next(err)
     })

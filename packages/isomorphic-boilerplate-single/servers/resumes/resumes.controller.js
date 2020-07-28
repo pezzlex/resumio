@@ -24,11 +24,11 @@ const getById = (req, res, next) => {
       resume
         ? res.json({ data: resume, error: false, message: 'Resume found' })
         : res
-            .sendStatus(404)
+            .status(404)
             .json({ data: null, error: true, message: 'Resume not found' })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err })
       next(err)
     })
 }
@@ -44,7 +44,7 @@ const create = (req, res, next) => {
       })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err })
 
       next(err)
     })
@@ -62,7 +62,7 @@ const update = (req, res, next) => {
             message: 'Resume updated successfully',
           })
         : res
-            .sendStatus(404)
+            .status(404)
             .json({ data: null, error: false, message: 'Resume not found' })
     )
     .catch((err) => {
@@ -82,11 +82,11 @@ const _delete = (req, res, next) => {
             message: 'Resume deleted successfully',
           })
         : res
-            .sendStatus(404)
+            .status(404)
             .json({ data: null, error: true, message: 'Resume not found' })
     )
     .catch((err) => {
-      res.sendStatus(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err })
 
       next(err)
     })
