@@ -28,7 +28,7 @@ const getById = (req, res, next) => {
             .json({ data: null, error: true, message: 'Resume not found' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.sendStatus(400).json({ data: null, error: true, message: err })
       next(err)
     })
 }
@@ -44,7 +44,7 @@ const create = (req, res, next) => {
       })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.sendStatus(400).json({ data: null, error: true, message: err })
 
       next(err)
     })
@@ -86,7 +86,7 @@ const _delete = (req, res, next) => {
             .json({ data: null, error: true, message: 'Resume not found' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.sendStatus(400).json({ data: null, error: true, message: err })
 
       next(err)
     })

@@ -76,7 +76,7 @@ const create = async (resumeParam) => {
   console.log('value', value)
   // validate fields
   if (error) {
-    throw error
+    throw error.message
   }
   Object.assign(resumeParam, value)
   if (
@@ -94,7 +94,7 @@ const create = async (resumeParam) => {
 const update = async (id, userId, resumeParam) => {
   const { value, error } = schema.validate(resumeParam)
   if (error) {
-    throw error
+    throw error.message
   }
   Object.assign(resumeParam, value)
   const resume = await Resume.findOne({ _id: id, createdBy: userId })

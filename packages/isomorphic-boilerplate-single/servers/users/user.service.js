@@ -52,7 +52,7 @@ const create = async (userParam) => {
   console.log(value)
   // validate fields
   if (error) {
-    throw error
+    throw error.message
   }
   Object.assign(userParam, value)
   // unique username
@@ -73,7 +73,7 @@ const updateById = async (id, userParam) => {
   // validate
   const { value, error } = schema.validate(userParam)
   if (error) {
-    throw error
+    throw error.message
   }
   Object.assign(userParam, value)
   if (!user) throw 'User not found'
