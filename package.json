@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "joi": "^17.1.1",
-    "jwt-simple": "^0.5.6"
+    "jwt-simple": "^0.5.6",
+    "nodemailer": "^6.4.10"
   }
 }

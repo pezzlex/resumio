@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const jwtSimple = require('jwt-simple')
 const bcrypt = require('bcryptjs')
 const { User } = require('../helpers/db')
+const nodemailer = require('nodemailer')
 
 const Joi = require('joi')
 
@@ -97,12 +98,36 @@ const deleteById = async (id) => {
   return await User.findByIdAndRemove(id)
 }
 
-const getResetPasswordLinkByEmail = async ({ email }) => {
+const getTempLink = async ({ email }) => {
   const user = await User.findOne({ email })
   if (!user) throw new Error('Email not registered')
-  const tempSecret = `${user.hash}-${new Date(user.createdAt).toISOString()}`
+  const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
   const token = jwtSimple.encode({ sub: user._id }, tempSecret)
   return `/users/reset-password/${user._id}/${token}`
+}
+
+const sendResetEmail = async (link, emailId) => {
+  const transport = nodemailer.createTransport({
+    host: 'smtp.mailtrap.io',
+    port: 2525,
+    auth: {
+      user: '52a69a277a4b8d',
+      pass: '56c905fd822cde',
+    },
+  })
+  const message = {
+    from: 'resumio@email.com', // Sender address
+    to: emailId, // List of recipients
+    subject: 'Resumio password reset link', // Subject line
+    html: `<p>Click on this <a href="${link}">link</a> to securely reset your password.</p>`,
+  }
+  transport.sendMail(message, (err, info) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(info)
+    }
+  })
 }
 
 module.exports = {
@@ -112,5 +137,6 @@ module.exports = {
   create,
   updateById,
   deleteById,
-  getResetPasswordLinkByEmail,
+  getTempLink,
+  sendResetEmail,
 }

@@ -3,6 +3,7 @@ const router = express.Router()
 const userService = require('./user.service')
 const authorize = require('../helpers/authorize')
 const jwtSimple = require('jwt-simple')
+const nodemailer = require('nodemailer')
 
 const login = (req, res, next) => {
   userService
@@ -126,17 +127,27 @@ const deleteById = (req, res, next) => {
     })
 }
 
-const emailResetPasswordLink = (req, res, next) => {
+const getTempLink = (req, res, next) => {
   userService
-    .getResetPasswordLinkByEmail(req.body)
+    .getTempLink(req.body)
     .then((link) => {
-      console.log('(TODO) emailing link ' + link)
+      console.log('Emailing link ' + link)
       // Send via email
-      res.json({
-        data: null,
-        error: false,
-        message: 'Reset password link sent via email',
-      })
+      userService
+        .sendResetEmail(link, req.body.email)
+        .then(
+          res.json({
+            data: null,
+            error: false,
+            message: 'Reset password link sent via email',
+          })
+        )
+        .catch((err) => {
+          res
+            .status(400)
+            .json({ data: null, error: true, message: err.message })
+          next(err)
+        })
     })
     .catch((err) => {
       res.status(400).json({ data: null, error: true, message: err.message })
@@ -145,7 +156,6 @@ const emailResetPasswordLink = (req, res, next) => {
 }
 
 const resetPasswordGet = (req, res, next) => {
-  console.log('reached')
   const { id, token } = req.params
   userService
     .getById(id)
@@ -153,7 +163,7 @@ const resetPasswordGet = (req, res, next) => {
       console.log(user)
       const { hash, createdAt } = user
       console.log(createdAt.toISOString())
-      const tempSecret = `${hash}-${new Date(user.createdAt).toISOString()}`
+      const tempSecret = `${hash}-${new Date(user.createdAt).toTimeString()}`
       const { sub } = jwtSimple.decode(token, tempSecret)
       if (sub === id) {
         res.json({
@@ -161,9 +171,10 @@ const resetPasswordGet = (req, res, next) => {
           error: false,
           message: 'Reset password token verified',
         })
+      } else {
+        // Technically unreachable
+        throw new Error('Unexpected error')
       }
-      // Technically unreachable
-      throw new Error('Unexpected error')
     })
     .catch((err) => {
       res.status(400).json({
@@ -176,10 +187,9 @@ const resetPasswordGet = (req, res, next) => {
 }
 
 const resetPasswordPost = (req, res, next) => {
-  console.log(req.user)
   userService
     .updateById(req.user.sub, { password: req.body.password })
-    .then((user) =>
+    .then((user) => {
       user
         ? res.json({
             data: null,
@@ -189,7 +199,7 @@ const resetPasswordPost = (req, res, next) => {
         : res
             .status(404)
             .json({ data: null, error: true, message: 'User not found' })
-    )
+    })
     .catch((err) => {
       res.status(400).json({ data: null, error: true, message: err.message })
       next(err)
@@ -200,12 +210,12 @@ const resetPasswordPost = (req, res, next) => {
 router.post('/login', login)
 router.post('/register', register)
 router.get('/me', getCurrent)
-router.post('/reset-password', resetPasswordPost)
 router.get('/:id', getById)
-router.post('/get-temp-link', emailResetPasswordLink)
 router.get('/', authorize(), getAll)
 router.put('/:id', authorize(), updateById)
 router.delete('/:id', authorize(), deleteById)
+router.post('/get-temp-link', getTempLink)
 router.get('/reset-password/:id/:token', resetPasswordGet)
+router.post('/reset-password', resetPasswordPost)
 
 module.exports = router
