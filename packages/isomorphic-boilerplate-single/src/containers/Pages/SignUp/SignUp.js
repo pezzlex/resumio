@@ -27,71 +27,13 @@ const SignUp = ({ registerUser, isSignedIn, error, clearError }) => {
   let location = useLocation()
   let { from } = location.state || { from: { pathname: '/dashboard' } }
 
-  const onSubmit = (data) => {
-    console.log(data)
-    registerUser(data)
-    console.log('registered')
-    if (isSignedIn) {
-      console.log('isSignedIn', isSignedIn)
-      setRedirectToReferrer(true)
-    }
-  }
-
   if (redirectToReferrer) {
     console.log('redirectToReferrer', redirectToReferrer)
     return <Redirect to={from} />
   }
 
-  // const layout = {
-  //   labelCol: {
-  //     span: 6,
-  //   },
-  //   wrapperCol: {
-  //     span: 18,
-  //   },
-  // }
-  // const tailLayout = {
-  //   wrapperCol: {
-  //     offset: 6,
-  //     span: 24,
-  //   },
-  // }
-
-  const formItemLayout = {
-    labelCol: {
-      xs: {
-        span: 12,
-      },
-      sm: {
-        span: 6,
-      },
-    },
-    wrapperCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 16,
-      },
-    },
-  }
-
-  const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-        offset: 0,
-      },
-      sm: {
-        span: 16,
-        offset: 8,
-      },
-    },
-  }
-
-  const layout = {}
-
   const onFinish = (values) => {
+    clearError()
     registerUser(values)
   }
 
@@ -108,75 +50,6 @@ const SignUp = ({ registerUser, isSignedIn, error, clearError }) => {
           </div>
 
           <div className="isoSignUpForm">
-            {/* <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="isoInputWrapper isoLeftRightComponent">
-                <input
-                  className="form-control"
-                  name="firstName"
-                  placeholder="First name"
-                  ref={register()}
-                  autoComplete="true"
-                />
-                <input
-                  className="form-control"
-                  name="lastName"
-                  placeholder="Last name"
-                  ref={register()}
-                  autoComplete="true"
-                />
-              </div>
-
-              <div className="isoInputWrapper">
-                <input
-                  className="form-control"
-                  name="username"
-                  placeholder="Username"
-                  ref={register()}
-                  autoComplete="true"
-                />
-              </div>
-              <div className="isoInputWrapper">
-                <input
-                  className="form-control"
-                  name="email"
-                  placeholder="Email"
-                  ref={register()}
-                  autoComplete="true"
-                />
-              </div>
-              <div className="isoInputWrapper">
-                <input
-                  className="form-control"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  ref={register()}
-                  autoComplete="false"
-                />
-              </div>
-              <div className="isoInputWrapper">
-                <input
-                  className="form-control"
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Confirm Password"
-                  ref={register()}
-                  autoComplete="false"
-                />
-              </div>
-
-              <div className="isoInputWrapper" style={{ marginBottom: '50px' }}>
-                <Checkbox>I agree with terms and conditions</Checkbox>
-              </div>
-
-              <div className="isoInputWrapper">
-                <Button type="primary" htmlType="submit">
-                  Sign Up
-                </Button>
-              </div>
-            </form>
-           */}
-
             {/* <Form
               {...layout}
               name="basic"
@@ -235,7 +108,6 @@ const SignUp = ({ registerUser, isSignedIn, error, clearError }) => {
 
             <Form
               form={form}
-              {...layout}
               layout="vertical"
               name="register"
               initialValues={{

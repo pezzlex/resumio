@@ -28,7 +28,7 @@ const SignInStyleWrapper = styled.div`
   }
 
   .isoLoginContentWrapper {
-    width: 400px;
+    width: 500px;
     height: 100%;
     overflow-y: auto;
     z-index: 10;

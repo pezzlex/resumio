@@ -2,12 +2,11 @@ import { FETCH_RESUMES, FETCH_RESUME_BY_ID } from '../resumes/actions'
 
 const initState = {
   resumes: [],
-  currentResume: {},
+  currentResume: null,
   shouldFetchResumes: true,
 }
 
 const resumeReducer = (state = initState, action) => {
-  console.log(action.type, action.payload)
   switch (action.type) {
     case FETCH_RESUMES:
       return {

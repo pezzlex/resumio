@@ -76,7 +76,7 @@ const create = async (resumeParam) => {
   console.log('value', value)
   // validate fields
   if (error) {
-    throw error.message
+    throw error
   }
   Object.assign(resumeParam, value)
   if (
@@ -85,7 +85,7 @@ const create = async (resumeParam) => {
       fileName: resumeParam.fileName,
     })
   ) {
-    throw `File name "${resumeParam.fileName}" is already taken`
+    throw new Error(`File name "${resumeParam.fileName}" is already taken`)
   }
   let resume = new Resume(resumeParam)
   return await resume.save()
@@ -94,11 +94,11 @@ const create = async (resumeParam) => {
 const update = async (id, userId, resumeParam) => {
   const { value, error } = schema.validate(resumeParam)
   if (error) {
-    throw error.message
+    throw error
   }
   Object.assign(resumeParam, value)
   const resume = await Resume.findOne({ _id: id, createdBy: userId })
-  if (!resume) throw 'Resume not found'
+  if (!resume) throw new Error('Resume not found')
   // filename must be unique
   if (
     resume.fileName !== resumeParam.fileName &&
@@ -107,7 +107,9 @@ const update = async (id, userId, resumeParam) => {
       fileName: resumeParam.fileName,
     }))
   ) {
-    throw `Resume File Name "${resumeParam.fileName}" is already taken`
+    throw new Error(
+      `Resume File Name "${resumeParam.fileName}" is already taken`
+    )
   }
   Object.assign(resume, { ...resumeParam, updatedAt: Date.now() })
   return await resume.save()
@@ -115,7 +117,7 @@ const update = async (id, userId, resumeParam) => {
 
 const _delete = async (id, userId) => {
   const resume = await Resume.findOne({ _id: id, createdBy: userId })
-  if (!resume) throw 'Resume not found'
+  if (!resume) throw new Error('Resume not found')
   return await Resume.findByIdAndDelete(id)
 }
 

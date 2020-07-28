@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const userService = require('./user.service')
 const authorize = require('../helpers/authorize')
+const jwtSimple = require('jwt-simple')
 
 const login = (req, res, next) => {
   userService
@@ -20,7 +21,7 @@ const login = (req, res, next) => {
           })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err.message })
       next(err)
     })
 }
@@ -32,7 +33,7 @@ const register = (req, res, next) => {
       res.json({ data: user, error: false, message: 'User added successfully' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err.message })
       next(err)
     })
 }
@@ -44,7 +45,7 @@ const getAll = (req, res, next) => {
       res.json({ data: users, error: false, message: 'Users found' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err.message })
 
       next(err)
     })
@@ -61,7 +62,7 @@ const getCurrent = (req, res, next) => {
             .json({ data: null, error: true, message: 'User not found' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err.message })
 
       next(err)
     })
@@ -78,7 +79,7 @@ const getById = (req, res, next) => {
             .json({ data: null, error: true, message: 'User not found' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err.message })
 
       next(err)
     })
@@ -99,7 +100,7 @@ const updateById = (req, res, next) => {
             .json({ data: null, error: true, message: 'User not found' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err.message })
 
       next(err)
     })
@@ -120,8 +121,77 @@ const deleteById = (req, res, next) => {
             .json({ data: null, error: true, message: 'User not found' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err.message })
+      next(err)
+    })
+}
 
+const emailResetPasswordLink = (req, res, next) => {
+  userService
+    .getResetPasswordLinkByEmail(req.body)
+    .then((link) => {
+      console.log('(TODO) emailing link ' + link)
+      // Send via email
+      res.json({
+        data: null,
+        error: false,
+        message: 'Reset password link sent via email',
+      })
+    })
+    .catch((err) => {
+      res.status(400).json({ data: null, error: true, message: err.message })
+      next(err)
+    })
+}
+
+const resetPasswordGet = (req, res, next) => {
+  console.log('reached')
+  const { id, token } = req.params
+  userService
+    .getById(id)
+    .then((user) => {
+      console.log(user)
+      const { hash, createdAt } = user
+      console.log(createdAt.toISOString())
+      const tempSecret = `${hash}-${new Date(user.createdAt).toISOString()}`
+      const { sub } = jwtSimple.decode(token, tempSecret)
+      if (sub === id) {
+        res.json({
+          data: null,
+          error: false,
+          message: 'Reset password token verified',
+        })
+      }
+      // Technically unreachable
+      throw new Error('Unexpected error')
+    })
+    .catch((err) => {
+      res.status(400).json({
+        data: null,
+        error: true,
+        message: err.message,
+      })
+      next(err)
+    })
+}
+
+const resetPasswordPost = (req, res, next) => {
+  console.log(req.user)
+  userService
+    .updateById(req.user.sub, { password: req.body.password })
+    .then((user) =>
+      user
+        ? res.json({
+            data: null,
+            error: false,
+            message: 'Password reset successfully',
+          })
+        : res
+            .status(404)
+            .json({ data: null, error: true, message: 'User not found' })
+    )
+    .catch((err) => {
+      res.status(400).json({ data: null, error: true, message: err.message })
       next(err)
     })
 }
@@ -130,9 +200,12 @@ const deleteById = (req, res, next) => {
 router.post('/login', login)
 router.post('/register', register)
 router.get('/me', getCurrent)
+router.post('/reset-password', resetPasswordPost)
 router.get('/:id', getById)
+router.post('/get-temp-link', emailResetPasswordLink)
 router.get('/', authorize(), getAll)
 router.put('/:id', authorize(), updateById)
 router.delete('/:id', authorize(), deleteById)
+router.get('/reset-password/:id/:token', resetPasswordGet)
 
 module.exports = router

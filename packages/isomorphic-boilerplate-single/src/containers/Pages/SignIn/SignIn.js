@@ -35,6 +35,7 @@ const SignIn = ({ signIn, isSignedIn, error, clearError }) => {
   }
 
   const onFinish = (values) => {
+    clearError()
     signIn(values)
   }
 

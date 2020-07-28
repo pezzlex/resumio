@@ -6,10 +6,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const REGISTER_FAILURE = 'REGISTER_FAILURE'
 export const CLEAR_ERROR = 'CLEAR_ERROR'
 
-const actions = {}
-
 export const fetchToken = ({ username, password }) => {
-  console.log('fetching token')
   return (dispatch) => {
     axios
       .post(`http://localhost:4000/users/login`, {
@@ -93,5 +90,3 @@ export const clearError = () => {
       type: CLEAR_ERROR,
     })
 }
-
-export default actions

@@ -11,7 +11,7 @@ const getAll = (req, res, next) => {
       res.json({ data: resumes, error: false, message: 'Resumes found' })
     })
     .catch((err) => {
-      res.json({ data: null, error: true, message: err })
+      res.json({ data: null, error: true, message: err.message })
       next(err)
     })
 }
@@ -28,7 +28,7 @@ const getById = (req, res, next) => {
             .json({ data: null, error: true, message: 'Resume not found' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err.message })
       next(err)
     })
 }
@@ -44,7 +44,7 @@ const create = (req, res, next) => {
       })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
+      res.status(400).json({ data: null, error: true, message: err.message })
 
       next(err)
     })
@@ -66,7 +66,7 @@ const update = (req, res, next) => {
             .json({ data: null, error: false, message: 'Resume not found' })
     )
     .catch((err) => {
-      res.json({ data: null, error: true, message: err })
+      res.json({ data: null, error: true, message: err.message })
       next(err)
     })
 }
@@ -86,8 +86,7 @@ const _delete = (req, res, next) => {
             .json({ data: null, error: true, message: 'Resume not found' })
     )
     .catch((err) => {
-      res.status(400).json({ data: null, error: true, message: err })
-
+      res.status(400).json({ data: null, error: true, message: err.message })
       next(err)
     })
 }

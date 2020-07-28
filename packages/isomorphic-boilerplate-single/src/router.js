@@ -34,7 +34,7 @@ const publicRoutes = [
   {
     path: PUBLIC_ROUTE.FORGET_PASSWORD,
     component: lazy(() =>
-      import('@iso/containers/Pages/ForgotPassword/ForgotPassword')
+      import('./containers/Pages/ForgotPassword/ForgotPassword')
     ),
   },
   {

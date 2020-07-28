@@ -28,7 +28,7 @@ const SignUpStyleWrapper = styled.div`
   }
 
   .isoSignUpContentWrapper {
-    width: 400px;
+    width: 500px;
     height: 100%;
     overflow-y: auto;
     z-index: 10;

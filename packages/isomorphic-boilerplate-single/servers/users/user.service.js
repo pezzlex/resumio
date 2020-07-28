@@ -1,5 +1,6 @@
 const config = require('../config')
 const jwt = require('jsonwebtoken')
+const jwtSimple = require('jwt-simple')
 const bcrypt = require('bcryptjs')
 const { User } = require('../helpers/db')
 
@@ -18,7 +19,7 @@ const schema = Joi.object()
 const login = async ({ username, password }) => {
   const user = await User.findOne({ username })
   if (user && bcrypt.compareSync(password, user.hash)) {
-    const token = jwt.sign({ sub: user.id, role: user.role }, config.secret, {
+    const token = jwt.sign({ sub: user._id, role: user.role }, config.secret, {
       expiresIn: '7d',
     })
     return {
@@ -52,12 +53,12 @@ const create = async (userParam) => {
   console.log(value)
   // validate fields
   if (error) {
-    throw error.message
+    throw error
   }
   Object.assign(userParam, value)
   // unique username
   if (await User.findOne({ username: userParam.username })) {
-    throw `Username "${userParam.username}" is already taken`
+    throw new Error(`Username "${userParam.username}" is already taken`)
   }
   const user = new User(userParam)
   // hash password
@@ -73,15 +74,15 @@ const updateById = async (id, userParam) => {
   // validate
   const { value, error } = schema.validate(userParam)
   if (error) {
-    throw error.message
+    throw error
   }
   Object.assign(userParam, value)
-  if (!user) throw 'User not found'
+  if (!user) throw new Error('User not found')
   if (
     user.username !== userParam.username &&
     (await User.findOne({ username: userParam.username }))
   ) {
-    throw `Username "${userParam.username}" is already taken`
+    throw new Error(`Username "${userParam.username}" is already taken`)
   }
   // hash password if it was entered
   if (userParam.password) {
@@ -96,6 +97,14 @@ const deleteById = async (id) => {
   return await User.findByIdAndRemove(id)
 }
 
+const getResetPasswordLinkByEmail = async ({ email }) => {
+  const user = await User.findOne({ email })
+  if (!user) throw new Error('Email not registered')
+  const tempSecret = `${user.hash}-${new Date(user.createdAt).toISOString()}`
+  const token = jwtSimple.encode({ sub: user._id }, tempSecret)
+  return `/users/reset-password/${user._id}/${token}`
+}
+
 module.exports = {
   login,
   getAll,
@@ -103,4 +112,5 @@ module.exports = {
   create,
   updateById,
   deleteById,
+  getResetPasswordLinkByEmail,
 }
