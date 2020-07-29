@@ -103,7 +103,8 @@ const getTempLink = async ({ email }) => {
   if (!user) throw new Error('Email not registered')
   const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
   const token = jwtSimple.encode({ sub: user._id }, tempSecret)
-  return `/users/reset-password/${user._id}/${token}`
+  // API link: /users/reset-password/${user._id}/${token}
+  return `/reset-password/${user._id}/${token}`
 }
 
 const sendResetEmail = async (link, emailId) => {

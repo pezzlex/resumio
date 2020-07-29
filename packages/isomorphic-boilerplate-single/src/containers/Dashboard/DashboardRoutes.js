@@ -3,12 +3,9 @@ import React, { lazy, Suspense } from 'react'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
 
 const routes = [
-  // Default /dashboard
   {
-    exact: true,
     component: lazy(() => import('../MyResumes')),
   },
-  // Other routes
   {
     path: 'resume/:resumeId',
     component: lazy(() => import('../Resume/ResumeDetails')),
@@ -39,7 +36,7 @@ export default function AppRouter() {
         {routes.map((route, idx) => (
           <Route
             key={idx}
-            exact={route.exact}
+            exact
             path={route.path ? `${url}/${route.path}` : url}
             component={route.component}
           />

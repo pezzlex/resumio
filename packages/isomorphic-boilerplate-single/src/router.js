@@ -16,7 +16,6 @@ const Dashboard = lazy(() => import('./containers/Dashboard/Dashboard'))
 const publicRoutes = [
   {
     path: PUBLIC_ROUTE.LANDING,
-    exact: true,
     component: lazy(() => import('@iso/containers/Pages/SignIn/SignIn')),
   },
   {
@@ -48,11 +47,6 @@ const publicRoutes = [
     component: lazy(() =>
       import('@iso/containers/Authentication/Auth0/Auth0Callback')
     ),
-  },
-  {
-    path: PUBLIC_ROUTE.PAGE_404,
-    exact: true,
-    component: lazy(() => import('@iso/containers/Pages/404/404')),
   },
 ]
 
@@ -86,13 +80,19 @@ export default function Routes() {
         <Router>
           <Switch>
             {publicRoutes.map((route, index) => (
-              <Route key={index} strict path={route.path} exact={route.exact}>
-                <route.component />
-              </Route>
+              <Route
+                key={index}
+                exact
+                path={route.path}
+                component={route.component}
+              />
             ))}
             <PrivateRoute strict path="/dashboard">
               <Dashboard />
             </PrivateRoute>
+            <Route
+              component={lazy(() => import('@iso/containers/Pages/404/404'))}
+            />
           </Switch>
         </Router>
       </Suspense>
