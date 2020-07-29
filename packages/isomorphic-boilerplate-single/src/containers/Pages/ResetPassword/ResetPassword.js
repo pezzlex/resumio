@@ -1,10 +1,43 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import Input from '@iso/components/uielements/input'
 import Button from '@iso/components/uielements/button'
 import ResetPasswordStyleWrapper from './ResetPassword.styles'
+import { clearStatus } from '../../../redux/auth/actions'
 
-export default function () {
+const ResetPassword = () => {
+  const [redirectToReferrer, setRedirectToReferrer] = useState(false)
+  const dispatch = useDispatch()
+  const isSignedIn = useSelector((state) => state.Auth.token)
+
+  useEffect(() => {
+    dispatch(clearStatus())
+  })
+
+  useEffect(() => {
+    if (isSignedIn) {
+      setRedirectToReferrer(true)
+    }
+  }, [isSignedIn])
+
+  let location = useLocation()
+  let { from } = location.state || { from: { pathname: '/dashboard' } }
+
+  if (redirectToReferrer) {
+    console.log('redirectToReferrer', redirectToReferrer)
+    return <Redirect to={from} />
+  }
+
+  const onFinish = (values) => {
+    clearStatus()
+    // signIn(values)
+  }
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo)
+  }
+
   return (
     <ResetPasswordStyleWrapper className="isoResetPassPage">
       <div className="isoFormContentWrapper">
@@ -40,3 +73,5 @@ export default function () {
     </ResetPasswordStyleWrapper>
   )
 }
+
+export default ResetPassword

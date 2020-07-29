@@ -342,7 +342,7 @@ const options = [
         withoutDashboard: true,
       },
       {
-        key: 'resetpassword',
+        key: 'reset-password',
         label: 'sidebar.resetPw',
         withoutDashboard: true,
       },
@@ -364,5 +364,5 @@ const options = [
     label: 'sidebar.blankPage',
     leftIcon: 'ion-document',
   },
-];
-export default options;
+]
+export default options

@@ -9,21 +9,47 @@ import appActions from '@iso/redux/app/actions'
 import Auth0 from '../../Authentication/Auth0/Auth0'
 import SignUpStyleWrapper from './SignUp.styles'
 import { useForm } from 'react-hook-form'
-import { registerUser, clearError } from '../../../redux/auth/actions'
-import { Form, Input, Button, Checkbox } from 'antd'
+import { registerUser, clearStatus } from '../../../redux/auth/actions'
+import { Form, Input, Button, Checkbox, notification } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
-const SignUp = ({ registerUser, isSignedIn, error, clearError }) => {
+const SignUp = () => {
   const [form] = Form.useForm()
-
-  const { handleSubmit, register, errors } = useForm()
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
+  const dispatch = useDispatch()
+  const isSignedIn = useSelector((state) => state.Auth.token)
+  const error = useSelector((state) => state.Auth.error)
+  const success = useSelector((state) => state.Auth.success)
+
   useEffect(() => {
-    clearError()
+    dispatch(clearStatus())
+  })
+
+  useEffect(() => {
     if (isSignedIn) {
       setRedirectToReferrer(true)
     }
   }, [isSignedIn])
+
+  useEffect(() => {
+    // message.error(error)
+    if (error) {
+      notification['error']({
+        message: 'Error',
+        description: error,
+      })
+    }
+  })
+  useEffect(() => {
+    // message.success(success)
+    if (success) {
+      notification['success']({
+        message: 'Success',
+        description: success,
+      })
+    }
+  })
+
   let location = useLocation()
   let { from } = location.state || { from: { pathname: '/dashboard' } }
 
@@ -33,8 +59,8 @@ const SignUp = ({ registerUser, isSignedIn, error, clearError }) => {
   }
 
   const onFinish = (values) => {
-    clearError()
-    registerUser(values)
+    dispatch(clearStatus())
+    dispatch(registerUser(values))
   }
 
   const onFinishFailed = (errorInfo) => {
@@ -50,62 +76,6 @@ const SignUp = ({ registerUser, isSignedIn, error, clearError }) => {
           </div>
 
           <div className="isoSignUpForm">
-            {/* <Form
-              {...layout}
-              name="basic"
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-            >
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your username!',
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your password!',
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              {error && (
-                <Form.Item {...tailLayout}>
-                  <small className="text-danger">{error}</small>
-                </Form.Item>
-              )}
-
-              <Form.Item
-                {...tailLayout}
-                name="remember"
-                valuePropName="checked"
-              >
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form> */}
-
             <Form
               form={form}
               layout="vertical"
@@ -185,11 +155,6 @@ const SignUp = ({ registerUser, isSignedIn, error, clearError }) => {
                 ]}
                 hasFeedback
               >
-                {/* <Input
-                  // prefix={<LockOutlined className="site-form-item-icon" />}
-                  // placeholder="Password"
-                  type="password"
-                /> */}
                 <Input.Password
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Password"
@@ -223,54 +188,12 @@ const SignUp = ({ registerUser, isSignedIn, error, clearError }) => {
                 />
               </Form.Item>
 
-              {error && (
-                <Form.Item validateStatus="error" help={error}></Form.Item>
-              )}
-
-              {/* <Form.Item name="remember" valuePropName="checked">
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item> */}
-
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Submit
                 </Button>
               </Form.Item>
             </Form>
-
-            {/*             
-            <div className="isoInputWrapper isoOtherLogin">
-              <Button
-                onClick={handleLogin}
-                type="primary"
-                className="btnFacebook"
-              >
-                Sign up with Facebook
-              </Button>
-              <Button
-                onClick={handleLogin}
-                type="primary"
-                className="btnGooglePlus"
-              >
-                Sign up with Google Plus
-              </Button>
-              <Button
-                onClick={() => {
-                  Auth0.login();
-                }}
-                type="primary"
-                className="btnAuthZero"
-              >
-                Sign up with Auth0
-              </Button>
-
-              <FirebaseSignUpForm
-                signup={true}
-                history={history}
-                login={() => dispatch(login())}
-              />
-            </div>
-             */}
 
             <div className="isoInputWrapper isoCenterComponent isoHelperWrapper">
               <Link to="/signin">Already have an account? Sign in.</Link>
@@ -282,20 +205,4 @@ const SignUp = ({ registerUser, isSignedIn, error, clearError }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isSignedIn: state.Auth.token,
-    error: state.Auth.error,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    registerUser: (data) => {
-      dispatch(registerUser(data))
-    },
-    clearError: () => dispatch(clearError()),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+export default SignUp

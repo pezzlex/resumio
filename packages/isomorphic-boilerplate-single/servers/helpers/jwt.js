@@ -13,6 +13,7 @@ function jwt() {
       '/users/register',
       '/users/reset-password/:id',
       new RegExp('^/users/reset-password/.*'),
+      '/users/get-temp-link',
     ],
   })
 }

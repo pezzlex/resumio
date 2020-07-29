@@ -98,8 +98,13 @@ const deleteById = async (id) => {
   return await User.findByIdAndRemove(id)
 }
 
-const getTempLink = async ({ email }) => {
-  const user = await User.findOne({ email })
+const getTempLink = async (email) => {
+  console.log('email', email)
+  const emailSchema = Joi.string().trim().email()
+  const { value, error } = emailSchema.validate(email)
+  console.log('value', value)
+  if (error) throw error
+  const user = await User.findOne({ email: value })
   if (!user) throw new Error('Email not registered')
   const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
   const token = jwtSimple.encode({ sub: user._id }, tempSecret)
@@ -107,7 +112,7 @@ const getTempLink = async ({ email }) => {
   return `/reset-password/${user._id}/${token}`
 }
 
-const sendResetEmail = async (link, emailId) => {
+const sendResetEmail = async (link, email) => {
   const transport = nodemailer.createTransport({
     host: 'smtp.mailtrap.io',
     port: 2525,
@@ -118,7 +123,7 @@ const sendResetEmail = async (link, emailId) => {
   })
   const message = {
     from: 'resumio@email.com', // Sender address
-    to: emailId, // List of recipients
+    to: email, // List of recipients
     subject: 'Resumio password reset link', // Subject line
     html: `<p>Click on this <a href="${link}">link</a> to securely reset your password.</p>`,
   }

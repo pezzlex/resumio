@@ -3,8 +3,12 @@ export const LOGIN_USER = 'LOGIN_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const REGISTER_USER = 'REGISTER_USER'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const REGISTER_FAILURE = 'REGISTER_FAILURE'
-export const CLEAR_ERROR = 'CLEAR_ERROR'
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
+export const CLEAR_STATUS = 'CLEAR_STATUS'
+export const EMAIL_FAILURE = 'EMAIL_FAILURE'
+export const EMAIL_SUCCESS = 'EMAIL_SUCCESS'
 
 export const fetchToken = ({ username, password }) => {
   return (dispatch) => {
@@ -14,7 +18,6 @@ export const fetchToken = ({ username, password }) => {
         password,
       })
       .then((response) => {
-        console.log('about to get response')
         if (response.status === 200) {
           const filter = ({ firstName, lastName, username, email, token }) => ({
             firstName,
@@ -27,12 +30,15 @@ export const fetchToken = ({ username, password }) => {
             type: LOGIN_USER,
             payload: filter(response.data.data),
           })
+          dispatch({
+            type: LOGIN_SUCCESS,
+            payload: response.data.message,
+          })
           localStorage.setItem('jwtToken', response.data.data.token)
           axios.defaults.headers.common[
             'Authorization'
           ] = `Bearer ${response.data.token}`
         }
-        console.log('leaving actions')
       })
       .catch((err) => {
         dispatch({
@@ -45,7 +51,7 @@ export const fetchToken = ({ username, password }) => {
 
 export const logoutUser = () => {
   localStorage.removeItem('jwtToken')
-
+  delete axios.defaults.headers.common['Authorization']
   return (dispatch) =>
     dispatch({
       type: LOGOUT_USER,
@@ -69,13 +75,15 @@ export const registerUser = ({
         password,
       })
       .then((response) => {
-        console.log(response)
         if (response.status === 200) {
           dispatch(fetchToken({ username, password }))
+          dispatch({
+            type: REGISTER_SUCCESS,
+            payload: response.data.message,
+          })
         }
       })
       .catch((err) => {
-        console.log(err.response.data.message)
         dispatch({
           type: REGISTER_FAILURE,
           payload: err.response.data.message,
@@ -84,9 +92,32 @@ export const registerUser = ({
   }
 }
 
-export const clearError = () => {
+export const clearStatus = () => {
   return (dispatch) =>
     dispatch({
-      type: CLEAR_ERROR,
+      type: CLEAR_STATUS,
     })
+}
+
+export const getTempLink = (email) => {
+  return (dispatch) => {
+    axios
+      .post(`http://localhost:4000/users/get-temp-link`, {
+        email,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch({
+            type: EMAIL_SUCCESS,
+            payload: response.data.message,
+          })
+        }
+      })
+      .catch((err) => {
+        dispatch({
+          type: EMAIL_FAILURE,
+          payload: err.response.data.message,
+        })
+      })
+  }
 }

@@ -5,7 +5,7 @@ import { useSelector, useDispatch, connect } from 'react-redux'
 // import Checkbox from '@iso/components/uielements/checkbox'
 // import Button from '@iso/components/uielements/button'
 import FirebaseLoginForm from '../../FirebaseForm/FirebaseForm'
-import { fetchToken, clearError } from '../../../redux/auth/actions'
+import { fetchToken as signIn, clearStatus } from '../../../redux/auth/actions'
 import appAction from '../../../redux/app/actions'
 import Auth0 from '../../Authentication/Auth0/Auth0'
 import {
@@ -14,19 +14,46 @@ import {
 } from '@iso/lib/firebase/firebase.authentication.util'
 import SignInStyleWrapper from './SignIn.styles'
 import { useForm } from 'react-hook-form'
-import { Form, Input, Button, Checkbox } from 'antd'
+import { Form, Input, Button, Checkbox, notification } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
-const SignIn = ({ signIn, isSignedIn, error, clearError }) => {
+const SignIn = () => {
+  const dispatch = useDispatch()
+  const isSignedIn = useSelector((state) => state.Auth.token)
+  const error = useSelector((state) => state.Auth.error)
+  const success = useSelector((state) => state.Auth.success)
   let location = useLocation()
+
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   useEffect(() => {
-    clearError()
-    console.log('useEffect')
+    dispatch(clearStatus())
+  })
+
+  useEffect(() => {
     if (isSignedIn) {
       setRedirectToReferrer(true)
     }
   }, [isSignedIn])
+
+  useEffect(() => {
+    // message.error(error)
+    if (error) {
+      notification['error']({
+        message: 'Error',
+        description: error,
+      })
+    }
+  })
+  useEffect(() => {
+    // message.success(success)
+    if (success) {
+      notification['success']({
+        message: 'Success',
+        description: success,
+      })
+    }
+  })
+
   let { from } = location.state || { from: { pathname: '/dashboard' } }
 
   if (redirectToReferrer) {
@@ -35,8 +62,8 @@ const SignIn = ({ signIn, isSignedIn, error, clearError }) => {
   }
 
   const onFinish = (values) => {
-    clearError()
-    signIn(values)
+    dispatch(clearStatus())
+    dispatch(signIn(values))
   }
 
   const onFinishFailed = (errorInfo) => {
@@ -53,7 +80,7 @@ const SignIn = ({ signIn, isSignedIn, error, clearError }) => {
           <div className="isoSignInForm">
             <Form
               layout="vertical"
-              name="basic"
+              name="signIn"
               initialValues={{
                 remember: true,
               }}
@@ -94,10 +121,6 @@ const SignIn = ({ signIn, isSignedIn, error, clearError }) => {
                 />
               </Form.Item>
 
-              {error && (
-                <Form.Item validateStatus="error" help={error}></Form.Item>
-              )}
-
               {/* <Form.Item name="remember" valuePropName="checked">
                 <Checkbox>Remember me</Checkbox>
               </Form.Item> */}
@@ -110,7 +133,7 @@ const SignIn = ({ signIn, isSignedIn, error, clearError }) => {
             </Form>
 
             <div className="isoCenterComponent isoHelperWrapper">
-              <Link to="/forgotpassword" className="isoForgotPass">
+              <Link to="/forgot-password" className="isoForgotPass">
                 Forgot password
               </Link>
               <Link to="/signup">Create a Resumio Account</Link>
@@ -122,20 +145,4 @@ const SignIn = ({ signIn, isSignedIn, error, clearError }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isSignedIn: state.Auth.token,
-    error: state.Auth.error,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signIn: (data) => {
-      dispatch(fetchToken(data))
-    },
-    clearError: () => dispatch(clearError()),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn)
+export default SignIn

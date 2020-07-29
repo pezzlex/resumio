@@ -3,7 +3,6 @@ const router = express.Router()
 const userService = require('./user.service')
 const authorize = require('../helpers/authorize')
 const jwtSimple = require('jwt-simple')
-const nodemailer = require('nodemailer')
 
 const login = (req, res, next) => {
   userService
@@ -13,7 +12,7 @@ const login = (req, res, next) => {
         ? res.json({
             data: user,
             error: false,
-            message: 'User found successfully',
+            message: `Welcome to Resumio, ${user.firstName}`,
           })
         : res.status(400).json({
             data: null,
@@ -31,7 +30,11 @@ const register = (req, res, next) => {
   userService
     .create(req.body)
     .then((user) =>
-      res.json({ data: user, error: false, message: 'User added successfully' })
+      res.json({
+        data: user,
+        error: false,
+        message: 'Registration to Resumio successful',
+      })
     )
     .catch((err) => {
       res.status(400).json({ data: null, error: true, message: err.message })
@@ -129,7 +132,7 @@ const deleteById = (req, res, next) => {
 
 const getTempLink = (req, res, next) => {
   userService
-    .getTempLink(req.body)
+    .getTempLink(req.body.email)
     .then((link) => {
       console.log('Emailing link ' + link)
       // Send via email
@@ -139,7 +142,7 @@ const getTempLink = (req, res, next) => {
           res.json({
             data: null,
             error: false,
-            message: 'Reset password link sent via email',
+            message: `Reset password link sent to email. Please check ${req.body.email} to find the link.`,
           })
         )
         .catch((err) => {
@@ -163,7 +166,7 @@ const resetPasswordGet = (req, res, next) => {
       console.log(user)
       const { hash, createdAt } = user
       console.log(createdAt.toISOString())
-      const tempSecret = `${hash}-${new Date(user.createdAt).toTimeString()}`
+      const tempSecret = `${hash}-${new Date(createdAt).toTimeString()}`
       const { sub } = jwtSimple.decode(token, tempSecret)
       if (sub === id) {
         res.json({

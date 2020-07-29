@@ -6,7 +6,7 @@ import userpic from '@iso/assets/images/pezzlex-profile.png'
 import { logoutUser } from '@iso/redux/auth/actions'
 import TopbarDropdownWrapper from './TopbarDropdown.styles'
 
-const TopbarUser = ({ logout }) => {
+const TopbarUser = () => {
   const [visible, setVisibility] = React.useState(false)
   const dispatch = useDispatch()
   function handleVisibleChange() {
@@ -18,10 +18,7 @@ const TopbarUser = ({ logout }) => {
       <Link className="isoDropdownLink" to={'/dashboard/my-profile'}>
         My Profile
       </Link>
-      <a className="isoDropdownLink" href="# ">
-        Settings
-      </a>
-      <a className="isoDropdownLink" onClick={() => logout()} href="# ">
+      <a className="isoDropdownLink" onClick={() => dispatch(logoutUser())}>
         Logout
       </a>
     </TopbarDropdownWrapper>
@@ -44,8 +41,4 @@ const TopbarUser = ({ logout }) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return { logout: () => dispatch(logoutUser()) }
-}
-
-export default connect(null, mapDispatchToProps)(TopbarUser)
+export default TopbarUser
