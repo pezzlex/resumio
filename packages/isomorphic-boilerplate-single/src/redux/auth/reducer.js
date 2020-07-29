@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import {
   LOGIN_USER,
   LOGOUT_USER,
@@ -25,6 +27,10 @@ export default function authReducer(state = initState, action) {
   switch (action.type) {
     case LOGIN_USER:
       console.log('about to login user')
+      localStorage.setItem('jwtToken', action.payload.token)
+      axios.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${action.payload.token}`
       return {
         ...state,
         ...action.payload,

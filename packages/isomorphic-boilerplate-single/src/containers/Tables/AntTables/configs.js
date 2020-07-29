@@ -3,6 +3,7 @@ import clone from 'clone'
 import { Button } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
 import CardWrapper from '../../Invoice/Invoice.styles'
+import { useSelector, useDispatch } from 'react-redux'
 import { deleteResume } from '../../../redux/resumes/actions'
 
 import {
@@ -27,7 +28,8 @@ const renderCell = (object, type, key) => {
   }
 }
 
-const ActionButtons = ({ url, resumeId, deleteResume }) => {
+const ActionButtons = ({ url, resumeId }) => {
+  const dispatch = useDispatch()
   return (
     <CardWrapper>
       <div className="isoInvoiceBtnView">
@@ -41,7 +43,7 @@ const ActionButtons = ({ url, resumeId, deleteResume }) => {
           // icon="delete"
           onClick={() => {
             // notification('error', '1 invoice deleted')
-            deleteResume(resumeId)
+            dispatch(deleteResume(resumeId))
             // setSelected([])
           }}
         >
@@ -51,25 +53,6 @@ const ActionButtons = ({ url, resumeId, deleteResume }) => {
     </CardWrapper>
   )
 }
-
-const mapStateToProps = (state) => {
-  return {
-    userId: state.Auth.id,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteResume: (id) => {
-      dispatch(deleteResume(id))
-    },
-  }
-}
-
-const ActionButtonsHoc = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ActionButtons)
 
 const columns = ({ url }) => [
   {
@@ -87,7 +70,7 @@ const columns = ({ url }) => [
   {
     width: 100,
     render: (object) => {
-      return <ActionButtonsHoc resumeId={object._id} url={url} />
+      return <ActionButtons resumeId={object._id} url={url} />
     },
   },
 ]

@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export const FETCH_RESUMES = 'FETCH_RESUMES'
 export const FETCH_RESUME_BY_ID = 'FETCH_RESUME_BY_ID'
+export const FAILURE = 'FAILURE'
 
 export const fetchResumes = () => {
   return (dispatch) => {
@@ -9,6 +10,7 @@ export const fetchResumes = () => {
       .get('http://localhost:4000/resumes')
       .then((response) => {
         if (response.status === 200) {
+          console.log('found resumes ', response.data.data)
           dispatch({
             type: FETCH_RESUMES,
             payload: response.data.data,
@@ -16,7 +18,10 @@ export const fetchResumes = () => {
         }
       })
       .catch((err) => {
-        console.log('Error: ', err)
+        dispatch({
+          type: FAILURE,
+          payload: err.response.data.message,
+        })
       })
   }
 }
@@ -32,7 +37,10 @@ export const deleteResume = (id) => {
         }
       })
       .catch((err) => {
-        console.log('Error: ', err)
+        dispatch({
+          type: FAILURE,
+          payload: err.response.data.message,
+        })
       })
   }
 }
@@ -50,7 +58,10 @@ export const fetchResumeById = (id) => {
         }
       })
       .catch((err) => {
-        console.log('Error: ', err)
+        dispatch({
+          type: FAILURE,
+          payload: err.response.data.message,
+        })
       })
   }
 }

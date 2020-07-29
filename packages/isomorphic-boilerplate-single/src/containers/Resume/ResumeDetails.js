@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link, useRouteMatch, useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import Box from '@iso/components/utility/box'
 import { Button } from 'antd'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
@@ -10,12 +11,13 @@ import { Title, Filters, Header, HeaderSecondary } from '../AppLayout.style'
 import { connect } from 'react-redux'
 import { fetchResumeById } from '../../redux/resumes/actions'
 
-const ResumeDetails = (props) => {
-  const { currentInvoice, toggleView, redirectPath } = props
+const ResumeDetails = ({ currentInvoice, toggleView, redirectPath }) => {
+  const dispatch = useDispatch()
   const { resumeId } = useParams()
+  const currentResume = useSelector((state) => state.resumeData.currentResume)
 
   useEffect(() => {
-    props.fetchResumeById(resumeId)
+    dispatch(fetchResumeById(resumeId))
   }, [])
 
   return (
@@ -52,16 +54,4 @@ const ResumeDetails = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentResume: state.resumeData.currentResume,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchResumeById: (resumeId) => dispatch(fetchResumeById(resumeId)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResumeDetails)
+export default ResumeDetails

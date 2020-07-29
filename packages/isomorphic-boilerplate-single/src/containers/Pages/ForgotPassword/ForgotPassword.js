@@ -17,7 +17,7 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     dispatch(clearStatus())
-  })
+  }, [error, success])
 
   useEffect(() => {
     if (isSignedIn) {
@@ -33,7 +33,7 @@ const ForgotPassword = () => {
         description: error,
       })
     }
-  })
+  }, [error])
   useEffect(() => {
     // message.success(success)
     if (success) {
@@ -42,7 +42,7 @@ const ForgotPassword = () => {
         description: success,
       })
     }
-  })
+  }, [success])
 
   let location = useLocation()
   let { from } = location.state || { from: { pathname: '/dashboard' } }

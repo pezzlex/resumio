@@ -7,7 +7,7 @@ import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style'
 import { Link, useRouteMatch } from 'react-router-dom'
 import { Button } from 'antd'
 
-const Templates = ({ templates }) => {
+const Templates = () => {
   const { path, url } = useRouteMatch()
   console.log('path', path)
   return (
@@ -21,10 +21,4 @@ const Templates = ({ templates }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    templates: state.templateData.templates,
-  }
-}
-
-export default connect(mapStateToProps)(Templates)
+export default Templates

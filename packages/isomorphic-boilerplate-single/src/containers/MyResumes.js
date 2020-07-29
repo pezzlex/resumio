@@ -1,7 +1,7 @@
 import LayoutContent from '@iso/components/utility/layoutContent'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
 import React, { useEffect } from 'react'
-import { connect, useSelector } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import { fetchResumes } from '../redux/resumes/actions'
 import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style'
 import { Button } from 'antd'
@@ -9,14 +9,21 @@ import { Link, useRouteMatch } from 'react-router-dom'
 
 import Table from './Tables/AntTables/AntTables'
 
-const MyResumes = ({ resumes, fetchResumes, shouldFetchResumes }) => {
+const MyResumes = () => {
   const { url } = useRouteMatch()
+  const dispatch = useDispatch()
+  const shouldFetchResumes = useSelector(
+    (state) => state.resumeData.shouldFetchResumes
+  )
+  const resumes = useSelector((state) => state.resumeData.resumes)
+  const isSignedIn = useSelector((state) => state.Auth.token)
+
   useEffect(() => {
-    console.log('other useEffect called')
-    // if (shouldFetchResumes) {
-    fetchResumes()
-    // }
-  }, [])
+    if (isSignedIn) {
+      console.log('signed in!!')
+      dispatch(fetchResumes())
+    }
+  }, [isSignedIn])
 
   return (
     <LayoutContentWrapper>
@@ -33,19 +40,4 @@ const MyResumes = ({ resumes, fetchResumes, shouldFetchResumes }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    resumes: state.resumeData.resumes,
-    shouldFetchResumes: state.resumeData.shouldFetchResumes,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchResumes: () => {
-      dispatch(fetchResumes())
-    },
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyResumes)
+export default MyResumes

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
-import { useSelector, useDispatch, connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 // import Input from '@iso/components/uielements/input'
 // import Checkbox from '@iso/components/uielements/checkbox'
 // import Button from '@iso/components/uielements/button'
