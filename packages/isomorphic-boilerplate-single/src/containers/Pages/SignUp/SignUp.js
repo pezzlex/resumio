@@ -23,7 +23,7 @@ const SignUp = () => {
 
   useEffect(() => {
     dispatch(clearStatus())
-  })
+  }, [success, error])
 
   useEffect(() => {
     if (isSignedIn) {
@@ -39,7 +39,7 @@ const SignUp = () => {
         description: error,
       })
     }
-  })
+  }, [error])
   useEffect(() => {
     // message.success(success)
     if (success) {
@@ -48,7 +48,7 @@ const SignUp = () => {
         description: success,
       })
     }
-  })
+  }, [success])
 
   let location = useLocation()
   let { from } = location.state || { from: { pathname: '/dashboard' } }

@@ -27,7 +27,7 @@ const SignIn = () => {
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   useEffect(() => {
     dispatch(clearStatus())
-  })
+  }, [success, error])
 
   useEffect(() => {
     if (isSignedIn) {
@@ -43,16 +43,17 @@ const SignIn = () => {
         description: error,
       })
     }
-  })
+  }, [error])
   useEffect(() => {
     // message.success(success)
     if (success) {
+      console.log('SUCCESS FOUND!')
       notification['success']({
         message: 'Success',
         description: success,
       })
     }
-  })
+  }, [success])
 
   let { from } = location.state || { from: { pathname: '/dashboard' } }
 

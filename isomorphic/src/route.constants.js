@@ -7,7 +7,7 @@ export const PUBLIC_ROUTE = {
   PAGE_404: '/404',
   PAGE_500: '/500',
   AUTH0_CALLBACK: '/auth0loginCallback',
-};
+}
 
 export const PRIVATE_ROUTE = {
   DASHBOARD: '/',
@@ -76,4 +76,4 @@ export const PRIVATE_ROUTE = {
   CHAT: '/chat',
   PROFILE: '/my-profile',
   SWIPER_SLIDER: '/swiperslider',
-};
+}
