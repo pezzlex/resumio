@@ -10,7 +10,7 @@ import Auth0 from '../../Authentication/Auth0/Auth0'
 import SignUpStyleWrapper from './SignUp.styles'
 import { useForm } from 'react-hook-form'
 import { registerUser, clearStatus } from '../../../redux/auth/actions'
-import { Form, Input, Button, Checkbox, notification } from 'antd'
+import { Form, Input, Button, Checkbox, notification, Row, Col } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const SignUp = () => {
@@ -87,30 +87,36 @@ const SignUp = () => {
               onFinishFailed={onFinishFailed}
               scrollToFirstError
             >
-              <Form.Item
-                label="First Name"
-                name="firstName"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your first name!',
-                  },
-                ]}
-              >
-                <Input placeholder="First Name" />
-              </Form.Item>
-              <Form.Item
-                label="Last Name"
-                name="lastName"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your last name!',
-                  },
-                ]}
-              >
-                <Input placeholder="Last Name" />
-              </Form.Item>
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item
+                    label="First Name"
+                    name="firstName"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your first name!',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="First Name" />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label="Last Name"
+                    name="lastName"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your last name!',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="Last Name" />
+                  </Form.Item>
+                </Col>
+              </Row>
 
               <Form.Item
                 label="Email"

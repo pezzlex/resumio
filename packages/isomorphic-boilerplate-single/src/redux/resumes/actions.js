@@ -35,11 +35,11 @@ export const deleteResume = (id) => {
       .then((response) => {
         console.log('deleting')
         if (response.status === 200) {
+          dispatch(fetchResumes())
           dispatch({
             type: SUCCESS,
             payload: response.data.message,
           })
-          dispatch(fetchResumes())
         }
       })
       .catch((err) => {

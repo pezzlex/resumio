@@ -29,7 +29,7 @@ const renderCell = (object, type, key) => {
   }
 }
 
-const ActionButtons = ({ url, resumeId }) => {
+const ActionButtons = ({ url, resumeId, fileName }) => {
   const dispatch = useDispatch()
 
   return (
@@ -42,13 +42,13 @@ const ActionButtons = ({ url, resumeId }) => {
         </Link>
         <Popconfirm
           placement="leftBottom"
-          title="Sure you want to delete this resume?"
+          title={`Sure you want to delete "${fileName}"`}
           onConfirm={() => {
             dispatch(deleteResume(resumeId))
           }}
           icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-          okText="Yes"
-          cancelText="No"
+          okText="Delete"
+          cancelText="Cancel"
         >
           <Button className="invoiceDltBtn">
             <i className="ion-android-delete" />
@@ -75,7 +75,13 @@ const columns = ({ url }) => [
   {
     width: 100,
     render: (object) => {
-      return <ActionButtons resumeId={object._id} url={url} />
+      return (
+        <ActionButtons
+          resumeId={object._id}
+          fileName={object.fileName}
+          url={url}
+        />
+      )
     },
   },
 ]

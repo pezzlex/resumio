@@ -48,10 +48,6 @@ const MyResumes = () => {
     }
   }, [success])
 
-  const onShowSizeChange = (current, pageSize) => {
-    console.log(current, pageSize)
-  }
-
   return (
     <LayoutContentWrapper>
       <LayoutContent>
