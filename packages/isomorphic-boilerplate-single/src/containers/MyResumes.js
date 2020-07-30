@@ -6,6 +6,7 @@ import { fetchResumes, clearStatus } from '../redux/resumes/actions'
 import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style'
 import { Button, notification } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
+import { Pagination } from 'antd'
 
 import Table from './Tables/AntTables/AntTables'
 
@@ -47,6 +48,10 @@ const MyResumes = () => {
     }
   }, [success])
 
+  const onShowSizeChange = (current, pageSize) => {
+    console.log(current, pageSize)
+  }
+
   return (
     <LayoutContentWrapper>
       <LayoutContent>
@@ -57,6 +62,7 @@ const MyResumes = () => {
           </Link>
         </Header>
         <Table resumes={resumes} url={url} />
+        {/* <Pagination defaultCurrent={1} total={50} /> */}
       </LayoutContent>
     </LayoutContentWrapper>
   )
