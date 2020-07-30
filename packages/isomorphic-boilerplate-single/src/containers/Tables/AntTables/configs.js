@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import clone from 'clone'
-import { Button } from 'antd'
+import { Button, notification, Popconfirm } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
 import CardWrapper from '../../Invoice/Invoice.styles'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteResume } from '../../../redux/resumes/actions'
+import { deleteResume, clearStatus } from '../../../redux/resumes/actions'
+import { QuestionCircleOutlined } from '@ant-design/icons'
 
 import {
   DateCell,
@@ -30,6 +31,7 @@ const renderCell = (object, type, key) => {
 
 const ActionButtons = ({ url, resumeId }) => {
   const dispatch = useDispatch()
+
   return (
     <CardWrapper>
       <div className="isoInvoiceBtnView">
@@ -38,17 +40,20 @@ const ActionButtons = ({ url, resumeId }) => {
             View
           </Button>
         </Link>
-        <Button
-          className="invoiceDltBtn"
-          // icon="delete"
-          onClick={() => {
-            // notification('error', '1 invoice deleted')
+        <Popconfirm
+          placement="leftBottom"
+          title="Sure you want to delete this resume?"
+          onConfirm={() => {
             dispatch(deleteResume(resumeId))
-            // setSelected([])
           }}
+          icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+          okText="Yes"
+          cancelText="No"
         >
-          <i className="ion-android-delete" />
-        </Button>
+          <Button className="invoiceDltBtn">
+            <i className="ion-android-delete" />
+          </Button>
+        </Popconfirm>
       </div>
     </CardWrapper>
   )

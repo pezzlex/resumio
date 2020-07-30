@@ -79,7 +79,7 @@ const _delete = (req, res, next) => {
         ? res.json({
             data: resume,
             error: false,
-            message: 'Resume deleted successfully',
+            message: `Resume "${resume.fileName}" deleted successfully`,
           })
         : res
             .status(404)

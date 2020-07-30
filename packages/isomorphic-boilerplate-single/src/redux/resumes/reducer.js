@@ -1,10 +1,17 @@
-import { FETCH_RESUMES, FETCH_RESUME_BY_ID, FAILURE } from '../resumes/actions'
+import {
+  FETCH_RESUMES,
+  FETCH_RESUME_BY_ID,
+  ERROR,
+  SUCCESS,
+  CLEAR_STATUS,
+} from '../resumes/actions'
 
 const initState = {
   resumes: [],
   currentResume: null,
   shouldFetchResumes: true,
-  failure: '',
+  success: '',
+  error: '',
 }
 
 const resumeReducer = (state = initState, action) => {
@@ -20,10 +27,22 @@ const resumeReducer = (state = initState, action) => {
         ...state,
         currentResume: action.payload,
       }
-    case FAILURE:
+    case SUCCESS:
+      console.log('hit succ')
+      return {
+        ...state,
+        success: action.payload,
+      }
+    case ERROR:
       return {
         ...state,
         failure: action.payload,
+      }
+    case CLEAR_STATUS:
+      return {
+        ...state,
+        error: '',
+        success: '',
       }
     default:
       return state

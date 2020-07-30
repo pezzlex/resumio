@@ -2,9 +2,9 @@ import LayoutContent from '@iso/components/utility/layoutContent'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
 import React, { useEffect } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
-import { fetchResumes } from '../redux/resumes/actions'
+import { fetchResumes, clearStatus } from '../redux/resumes/actions'
 import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style'
-import { Button } from 'antd'
+import { Button, notification } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
 
 import Table from './Tables/AntTables/AntTables'
@@ -17,13 +17,35 @@ const MyResumes = () => {
   )
   const resumes = useSelector((state) => state.resumeData.resumes)
   const isSignedIn = useSelector((state) => state.Auth.token)
+  const success = useSelector((state) => state.resumeData.success)
+  const error = useSelector((state) => state.resumeData.error)
+
+  useEffect(() => {
+    dispatch(clearStatus())
+  }, [success, error])
 
   useEffect(() => {
     if (isSignedIn) {
-      console.log('signed in!!')
       dispatch(fetchResumes())
     }
   }, [isSignedIn])
+
+  useEffect(() => {
+    if (error) {
+      notification['error']({
+        message: 'Error',
+        description: error,
+      })
+    }
+  }, [error])
+  useEffect(() => {
+    if (success) {
+      notification['open']({
+        message: 'Notification',
+        description: success,
+      })
+    }
+  }, [success])
 
   return (
     <LayoutContentWrapper>

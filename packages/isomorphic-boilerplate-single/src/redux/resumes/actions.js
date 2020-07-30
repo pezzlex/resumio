@@ -2,7 +2,9 @@ import axios from 'axios'
 
 export const FETCH_RESUMES = 'FETCH_RESUMES'
 export const FETCH_RESUME_BY_ID = 'FETCH_RESUME_BY_ID'
-export const FAILURE = 'FAILURE'
+export const ERROR = 'ERROR'
+export const SUCCESS = 'SUCCESS'
+export const CLEAR_STATUS = 'CLEAR_STATUS'
 
 export const fetchResumes = () => {
   return (dispatch) => {
@@ -19,7 +21,7 @@ export const fetchResumes = () => {
       })
       .catch((err) => {
         dispatch({
-          type: FAILURE,
+          type: ERROR,
           payload: err.response.data.message,
         })
       })
@@ -33,12 +35,16 @@ export const deleteResume = (id) => {
       .then((response) => {
         console.log('deleting')
         if (response.status === 200) {
+          dispatch({
+            type: SUCCESS,
+            payload: response.data.message,
+          })
           dispatch(fetchResumes())
         }
       })
       .catch((err) => {
         dispatch({
-          type: FAILURE,
+          type: ERROR,
           payload: err.response.data.message,
         })
       })
@@ -59,9 +65,16 @@ export const fetchResumeById = (id) => {
       })
       .catch((err) => {
         dispatch({
-          type: FAILURE,
+          type: ERROR,
           payload: err.response.data.message,
         })
       })
   }
+}
+
+export const clearStatus = () => {
+  return (dispatch) =>
+    dispatch({
+      type: CLEAR_STATUS,
+    })
 }
