@@ -24,15 +24,37 @@ const AddEditResume = () => {
   const [contactText, setContactText] = useState('Contact')
   const [form] = Form.useForm()
 
+  useEffect(() => {
+    dispatch(clearStatus())
+  }, [success, error])
+
   const onFinish = (values) => {
     console.log(values)
-    // dispatch(clearStatus())
-    // dispatch(registerUser(values))
+    dispatch(addResume(values))
   }
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)
   }
+
+  useEffect(() => {
+    // message.error(error)
+    if (error) {
+      notification['error']({
+        message: 'Error',
+        description: error,
+      })
+    }
+  }, [error])
+  useEffect(() => {
+    // message.success(success)
+    if (success) {
+      notification['success']({
+        message: 'Success',
+        description: success,
+      })
+    }
+  }, [success])
 
   return (
     <LayoutContentWrapper>
