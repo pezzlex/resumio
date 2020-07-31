@@ -14,9 +14,11 @@ import {
 } from './AppLayout.style'
 import { Textarea } from '@iso/components/uielements/input'
 import DatePicker from '@iso/components/uielements/datePicker'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { addResume, clearStatus } from '../redux/resumes/actions'
 
 const AddEditResume = () => {
+  const dispatch = useDispatch()
   const { resumeId } = useParams()
   const { Text, Title } = Typography
   const match = useRouteMatch()
