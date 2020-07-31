@@ -72,6 +72,33 @@ export const fetchResumeById = (id) => {
   }
 }
 
+export const addResume = (resume) => {
+  return (dispatch) => {
+    axios
+      .post(`http://localhost:4000/resumes/add`, resume)
+      .then((response) => {
+        if (response.status === 200) {
+          // reset current resume
+          dispatch({
+            type: FETCH_RESUME_BY_ID,
+            payload: response.data.data,
+          })
+          dispatch({
+            type: SUCCESS,
+            payload: response.data.data,
+          })
+        }
+      })
+      .catch((err) => {
+        console.log('oops', err.response.data.message)
+        dispatch({
+          type: ERROR,
+          payload: err.response.data.message,
+        })
+      })
+  }
+}
+
 export const clearStatus = () => {
   return (dispatch) =>
     dispatch({
