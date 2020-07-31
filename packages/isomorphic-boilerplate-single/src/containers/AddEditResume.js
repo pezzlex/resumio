@@ -22,6 +22,8 @@ const AddEditResume = () => {
   const match = useRouteMatch()
   const isAddResume = match.path.endsWith('create-resume')
   const [contactText, setContactText] = useState('Contact')
+  const error = useSelector((state) => state.resumeData.error)
+  const success = useSelector((state) => state.resumeData.success)
   const [form] = Form.useForm()
 
   useEffect(() => {
