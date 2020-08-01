@@ -58,18 +58,21 @@ const AddEditResume = () => {
    */
   const defaultFileName = (resumes) => {
     console.log(resumes.map((res) => res.fileName))
-    let maxIndex = 0
+    let maxIndex = -1
     resumes.forEach((resume) => {
       if (resume.fileName.startsWith(defaultFileNamePrefix)) {
-        const fileIndex = parseInt(
-          resume.fileName.substr(defaultFileNamePrefix.length + 1)
-        )
+        const fileIndex =
+          resume.fileName === defaultFileNamePrefix
+            ? 0
+            : parseInt(resume.fileName.substr(defaultFileNamePrefix.length + 1))
         if (Number.isInteger(fileIndex)) {
           maxIndex = Math.max(maxIndex, fileIndex)
         }
       }
     })
-    return `${defaultFileNamePrefix} ${maxIndex + 1}`
+    return maxIndex === -1
+      ? defaultFileNamePrefix
+      : `${defaultFileNamePrefix} ${maxIndex + 1}`
   }
   const [fileName, setFileName] = useState(defaultFileName(resumes))
 

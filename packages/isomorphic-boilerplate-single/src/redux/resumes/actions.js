@@ -53,6 +53,7 @@ export const deleteResume = (id) => {
 }
 
 export const fetchResumeById = (id) => {
+  console.log('called??')
   return (dispatch) => {
     axios
       .get(`http://localhost:4000/resumes/${id}`)
