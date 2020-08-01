@@ -35,6 +35,7 @@ import {
   addResume,
   editResume,
   clearStatus,
+  fetchResumes,
   fetchResumeById,
   clearCurrentResume,
 } from '../redux/resumes/actions'
@@ -45,11 +46,33 @@ const AddEditResume = () => {
 
   const match = useRouteMatch()
   const isAddResume = match.path.endsWith('create-resume')
-  const [fileName, setFileName] = useState('New Resume')
+  const { error, success, currentResume, resumes } = useSelector(
+    (state) => state.resumeData
+  )
 
-  const error = useSelector((state) => state.resumeData.error)
-  const success = useSelector((state) => state.resumeData.success)
-  const currentResume = useSelector((state) => state.resumeData.currentResume)
+  const { firstName, lastName, email } = useSelector((state) => state.Auth)
+  const defaultFileNamePrefix = 'New Resume'
+  /**
+   * Generate default filenames like New Resume 1, New Resume 2, etc
+   * @param {list of resumes} resumes
+   */
+  const defaultFileName = (resumes) => {
+    console.log(resumes.map((res) => res.fileName))
+    let maxIndex = 0
+    resumes.forEach((resume) => {
+      if (resume.fileName.startsWith(defaultFileNamePrefix)) {
+        const fileIndex = parseInt(
+          resume.fileName.substr(defaultFileNamePrefix.length + 1)
+        )
+        if (Number.isInteger(fileIndex)) {
+          maxIndex = Math.max(maxIndex, fileIndex)
+        }
+      }
+    })
+    return `${defaultFileNamePrefix} ${maxIndex + 1}`
+  }
+  const [fileName, setFileName] = useState(defaultFileName(resumes))
+
   const [isLoading, setLoading] = useState(false)
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   const [isChangeDetected, setChangeDetected] = useState(false)
@@ -63,14 +86,12 @@ const AddEditResume = () => {
       dispatch(fetchResumeById(resumeId))
       // If iitially add, clear current resume
     } else {
-      console.log('useEffect1')
       dispatch(clearCurrentResume())
       setRedirectToReferrer(false)
     }
   }, [])
 
   useEffect(() => {
-    console.log('here')
     dispatch(clearStatus())
     setLoading(false)
   }, [success, error])
@@ -112,6 +133,7 @@ const AddEditResume = () => {
   }, [error])
   useEffect(() => {
     if (success) {
+      dispatch(fetchResumes)
       if (isAddResume) setRedirectToReferrer(true)
       if (!isAddResume) setChangeDetected(false)
     }
@@ -142,6 +164,9 @@ const AddEditResume = () => {
               ? {
                   remember: true,
                   fileName,
+                  firstName,
+                  lastName,
+                  email,
                 }
               : {
                   ...unstructured(currentResume),
