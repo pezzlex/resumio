@@ -6,7 +6,11 @@ import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
 import LayoutContent from '@iso/components/utility/layoutContent'
 import InvoicePageWrapper from '../Invoice/SingleInvoice.styles'
 import { Title, Header } from '../AppLayout.style'
-import { fetchResumeById, clearStatus } from '../../redux/resumes/actions'
+import {
+  fetchResumeById,
+  clearStatus,
+  clearCurrentResume,
+} from '../../redux/resumes/actions'
 
 const ResumeDetails = () => {
   const dispatch = useDispatch()
@@ -28,6 +32,7 @@ const ResumeDetails = () => {
         message: 'Error',
         description: error,
       })
+      dispatch(clearCurrentResume())
     }
   }, [error])
   useEffect(() => {
