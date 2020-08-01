@@ -169,10 +169,8 @@ const AddEditResume = () => {
                         <Button className="isoGoInvoBtn">Cancel</Button>
                       </Link>
                     ) : (
-                      <Link to={`/dashboard`}>
-                        <Button className="isoGoInvoBtn">
-                          Back to My Resumes
-                        </Button>
+                      <Link to={`/dashboard/resume/${resumeId}`}>
+                        <Button className="isoGoInvoBtn">Done</Button>
                       </Link>
                     )}
 

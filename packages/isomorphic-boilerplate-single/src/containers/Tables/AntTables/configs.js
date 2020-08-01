@@ -48,6 +48,7 @@ const ActionButtons = ({ url, resumeId, fileName }) => {
           }}
           icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
           okText="Delete"
+          okButtonProps={{ type: 'primary', danger: true }}
           cancelText="Cancel"
         >
           <Button className="invoiceDltBtn">

@@ -16,6 +16,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons'
 const SignUp = () => {
   const [form] = Form.useForm()
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const isSignedIn = useSelector((state) => state.Auth.token)
   const error = useSelector((state) => state.Auth.error)
@@ -23,6 +24,7 @@ const SignUp = () => {
 
   useEffect(() => {
     dispatch(clearStatus())
+    setLoading(false)
   }, [success, error])
 
   useEffect(() => {
@@ -59,6 +61,7 @@ const SignUp = () => {
   }
 
   const onFinish = (values) => {
+    setLoading(true)
     dispatch(clearStatus())
     dispatch(registerUser(values))
   }
@@ -195,7 +198,7 @@ const SignUp = () => {
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isLoading}>
                   Submit
                 </Button>
               </Form.Item>

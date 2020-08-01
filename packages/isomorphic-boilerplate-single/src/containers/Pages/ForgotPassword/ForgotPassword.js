@@ -10,12 +10,14 @@ import { getTempLink } from '../../../redux/auth/actions'
 
 const ForgotPassword = () => {
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   const dispatch = useDispatch()
   const isSignedIn = useSelector((state) => state.Auth.token)
   const error = useSelector((state) => state.Auth.error)
   const success = useSelector((state) => state.Auth.success)
 
   useEffect(() => {
+    setLoading(false)
     dispatch(clearStatus())
   }, [error, success])
 
@@ -53,6 +55,7 @@ const ForgotPassword = () => {
   }
 
   const onFinish = ({ email }) => {
+    setLoading(true)
     dispatch(clearStatus())
     dispatch(getTempLink(email))
   }
@@ -101,7 +104,7 @@ const ForgotPassword = () => {
                 </Form.Item>
 
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={isLoading}>
                     Send Request
                   </Button>
                 </Form.Item>

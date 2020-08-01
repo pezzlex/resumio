@@ -22,11 +22,14 @@ const SignIn = () => {
   const isSignedIn = useSelector((state) => state.Auth.token)
   const error = useSelector((state) => state.Auth.error)
   const success = useSelector((state) => state.Auth.success)
+  const [isLoading, setLoading] = useState(false)
+
   let location = useLocation()
 
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   useEffect(() => {
     dispatch(clearStatus())
+    setLoading(false)
   }, [success, error])
 
   useEffect(() => {
@@ -63,6 +66,7 @@ const SignIn = () => {
   }
 
   const onFinish = (values) => {
+    setLoading(true)
     dispatch(clearStatus())
     dispatch(signIn(values))
   }
@@ -127,7 +131,7 @@ const SignIn = () => {
               </Form.Item> */}
 
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isLoading}>
                   Submit
                 </Button>
               </Form.Item>
