@@ -2,7 +2,11 @@ import LayoutContent from '@iso/components/utility/layoutContent'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
 import React, { useEffect } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
-import { fetchResumes, clearStatus } from '../redux/resumes/actions'
+import {
+  fetchResumes,
+  clearStatus,
+  clearCurrentResume,
+} from '../redux/resumes/actions'
 import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style'
 import { Button, notification } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
@@ -23,6 +27,7 @@ const MyResumes = () => {
 
   useEffect(() => {
     dispatch(clearStatus())
+    dispatch(clearCurrentResume())
   }, [success, error])
 
   useEffect(() => {

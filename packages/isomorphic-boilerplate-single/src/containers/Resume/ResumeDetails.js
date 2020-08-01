@@ -1,62 +1,92 @@
 import React, { useEffect } from 'react'
 import { Link, useRouteMatch, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import Box from '@iso/components/utility/box'
-import { Button, Row, Col } from 'antd'
+import { Button, Row, Col, notification } from 'antd'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
 import LayoutContent from '@iso/components/utility/layoutContent'
 import InvoicePageWrapper from '../Invoice/SingleInvoice.styles'
-import Invoice from '../Invoice/Invoice'
-import { Title, Filters, Header, HeaderSecondary } from '../AppLayout.style'
-import { connect } from 'react-redux'
-import { fetchResumeById } from '../../redux/resumes/actions'
+import { Title, Header } from '../AppLayout.style'
+import { fetchResumeById, clearStatus } from '../../redux/resumes/actions'
 
-const ResumeDetails = ({ currentInvoice, toggleView, redirectPath }) => {
+const ResumeDetails = () => {
   const dispatch = useDispatch()
   const { resumeId } = useParams()
-  const currentResume = useSelector((state) => state.resumeData.currentResume)
+  const { currentResume, success, error } = useSelector(
+    (state) => state.resumeData
+  )
 
   useEffect(() => {
     dispatch(fetchResumeById(resumeId))
   }, [])
 
+  useEffect(() => {
+    dispatch(clearStatus())
+  }, [success, error])
+  useEffect(() => {
+    if (error) {
+      notification['error']({
+        message: 'Error',
+        description: error,
+      })
+    }
+  }, [error])
+  useEffect(() => {
+    if (success) {
+      notification['success']({
+        message: 'Success',
+        description: success,
+      })
+    }
+  }, [success])
+
   return (
     <LayoutContentWrapper>
       <LayoutContent>
-        <Header>
-          <Title>{`Resume "${currentResume.fileName}"`}</Title>
-          <InvoicePageWrapper className="InvoicePageWrapper">
-            <div className="PageHeader viewMode">
-              <Link to="/dashboard">
-                <Button className="isoGoInvoBtn">
-                  <span>Back to My Resumes</span>
-                </Button>
-              </Link>
-              <Link to={`/dashboard/edit-resume/${resumeId}`}>
-                <Button color="secondary">
-                  <span>Edit Resume</span>
-                </Button>
-              </Link>
-            </div>
-          </InvoicePageWrapper>
-        </Header>
+        {currentResume ? (
+          <>
+            <Header>
+              <Title>{`Resume "${currentResume.fileName}"`}</Title>
+              <InvoicePageWrapper className="InvoicePageWrapper">
+                <div className="PageHeader viewMode">
+                  <Link to="/dashboard">
+                    <Button className="isoGoInvoBtn">
+                      <span>Back to My Resumes</span>
+                    </Button>
+                  </Link>
+                  <Link to={`/dashboard/edit-resume/${resumeId}`}>
+                    <Button color="secondary">
+                      <span>Edit Resume</span>
+                    </Button>
+                  </Link>
+                </div>
+              </InvoicePageWrapper>
+            </Header>
 
-        {/* <Box style={{ padding: 20 }}>
-          <InvoicePageWrapper className="InvoicePageWrapper">
-            <Invoice
-              currentInvoice={currentInvoice}
-              ref={(invoice) => invoice}
-            />
-          </InvoicePageWrapper>
-        </Box> */}
-        <Row>
-          <Col flex="auto">
-            {/* <Skeleton active /> */}
-            <pre className="language-bash">
-              {JSON.stringify(currentResume, null, 2)}
-            </pre>
-          </Col>
-        </Row>
+            <Row>
+              <Col flex="auto">
+                {/* <Skeleton active /> */}
+                <pre className="language-bash">
+                  {JSON.stringify(currentResume, null, 2)}
+                </pre>
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <>
+            <Header>
+              <Title>Resume not found!</Title>
+              <InvoicePageWrapper className="InvoicePageWrapper">
+                <div className="PageHeader viewMode">
+                  <Link to="/dashboard">
+                    <Button className="isoGoInvoBtn">
+                      <span>Back to My Resumes</span>
+                    </Button>
+                  </Link>
+                </div>
+              </InvoicePageWrapper>
+            </Header>
+          </>
+        )}
       </LayoutContent>
     </LayoutContentWrapper>
   )

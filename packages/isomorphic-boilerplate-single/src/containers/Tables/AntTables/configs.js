@@ -4,7 +4,11 @@ import { Button, notification, Popconfirm } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
 import CardWrapper from '../../Invoice/Invoice.styles'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteResume, clearStatus } from '../../../redux/resumes/actions'
+import {
+  deleteResume,
+  fetchResumes,
+  clearStatus,
+} from '../../../redux/resumes/actions'
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
 import {
