@@ -41,8 +41,8 @@ const MyResumes = () => {
   }, [error])
   useEffect(() => {
     if (success) {
-      notification['open']({
-        message: 'Notification',
+      notification['success']({
+        message: 'Success',
         description: success,
       })
     }

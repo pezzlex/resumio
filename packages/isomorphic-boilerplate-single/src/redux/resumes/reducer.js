@@ -4,6 +4,7 @@ import {
   ERROR,
   SUCCESS,
   CLEAR_STATUS,
+  CLEAR_CURRENT_RESUME,
 } from '../resumes/actions'
 
 const initState = {
@@ -36,13 +37,18 @@ const resumeReducer = (state = initState, action) => {
     case ERROR:
       return {
         ...state,
-        failure: action.payload,
+        error: action.payload,
       }
     case CLEAR_STATUS:
       return {
         ...state,
         error: '',
         success: '',
+      }
+    case CLEAR_CURRENT_RESUME:
+      return {
+        ...state,
+        currentResume: null,
       }
     default:
       return state

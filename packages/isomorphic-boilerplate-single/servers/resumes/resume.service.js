@@ -72,6 +72,7 @@ const getById = async (id) => {
 }
 
 const create = async (resumeParam) => {
+  console.log(resumeParam)
   const { value, error } = schema.validate(resumeParam)
   console.log('value', value)
   // validate fields
@@ -85,7 +86,9 @@ const create = async (resumeParam) => {
       fileName: resumeParam.fileName,
     })
   ) {
-    throw new Error(`File name "${resumeParam.fileName}" is already taken`)
+    throw new Error(
+      `You already have a resume titled "${resumeParam.fileName}". Please pick another name`
+    )
   }
   let resume = new Resume(resumeParam)
   return await resume.save()
@@ -103,12 +106,12 @@ const update = async (id, userId, resumeParam) => {
   if (
     resume.fileName !== resumeParam.fileName &&
     (await Resume.findOne({
-      createdBy: resumeParam.createdBy,
+      createdBy: userId,
       fileName: resumeParam.fileName,
     }))
   ) {
     throw new Error(
-      `Resume File Name "${resumeParam.fileName}" is already taken`
+      `You already have a resume titled "${resumeParam.fileName}". Please pick another name`
     )
   }
   Object.assign(resume, { ...resumeParam, updatedAt: Date.now() })

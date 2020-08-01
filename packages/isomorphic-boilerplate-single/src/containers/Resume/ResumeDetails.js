@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, useRouteMatch, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import Box from '@iso/components/utility/box'
-import { Button } from 'antd'
+import { Button, Row, Col } from 'antd'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
 import LayoutContent from '@iso/components/utility/layoutContent'
 import InvoicePageWrapper from '../Invoice/SingleInvoice.styles'
@@ -24,7 +24,7 @@ const ResumeDetails = ({ currentInvoice, toggleView, redirectPath }) => {
     <LayoutContentWrapper>
       <LayoutContent>
         <Header>
-          <Title>Resume</Title>
+          <Title>{`Resume "${currentResume.fileName}"`}</Title>
           <InvoicePageWrapper className="InvoicePageWrapper">
             <div className="PageHeader viewMode">
               <Link to="/dashboard">
@@ -41,14 +41,22 @@ const ResumeDetails = ({ currentInvoice, toggleView, redirectPath }) => {
           </InvoicePageWrapper>
         </Header>
 
-        <Box style={{ padding: 20 }}>
+        {/* <Box style={{ padding: 20 }}>
           <InvoicePageWrapper className="InvoicePageWrapper">
             <Invoice
               currentInvoice={currentInvoice}
               ref={(invoice) => invoice}
             />
           </InvoicePageWrapper>
-        </Box>
+        </Box> */}
+        <Row>
+          <Col flex="auto">
+            {/* <Skeleton active /> */}
+            <pre className="language-bash">
+              {JSON.stringify(currentResume, null, 2)}
+            </pre>
+          </Col>
+        </Row>
       </LayoutContent>
     </LayoutContentWrapper>
   )

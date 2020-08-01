@@ -40,7 +40,7 @@ const create = (req, res, next) => {
       res.json({
         data: resume,
         error: false,
-        message: 'Resume created successfully',
+        message: `Resume "${resume.fileName}" created successfully`,
       })
     )
     .catch((err) => {
@@ -59,14 +59,14 @@ const update = (req, res, next) => {
         ? res.json({
             data: resume,
             error: false,
-            message: 'Resume updated successfully',
+            message: `Saved changes for "${req.body.fileName}"`,
           })
         : res
             .status(404)
             .json({ data: null, error: false, message: 'Resume not found' })
     )
     .catch((err) => {
-      res.json({ data: null, error: true, message: err.message })
+      res.status(400).json({ data: null, error: true, message: err.message })
       next(err)
     })
 }
