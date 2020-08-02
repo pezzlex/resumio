@@ -133,7 +133,6 @@ const AddEditResume = () => {
         message: 'Error',
         description: error,
       })
-      if (!isAddResume) dispatch(clearCurrentResume())
     }
   }, [error])
   useEffect(() => {
