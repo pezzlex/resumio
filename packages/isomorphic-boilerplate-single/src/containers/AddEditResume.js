@@ -1,42 +1,120 @@
+import Box from '@iso/components/utility/box'
 import LayoutContent from '@iso/components/utility/layoutContent'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
-import PageHeader from '@iso/components/utility/pageHeader'
-import React, { Component, useEffect, useState } from 'react'
 import Loader from '@iso/components/utility/loader'
-
 import {
-  Link,
-  Redirect,
-  useRouteMatch,
-  useParams,
-  useLocation,
-} from 'react-router-dom'
-import Box from '@iso/components/utility/box'
-import {
-  Button,
-  Typography,
-  Form,
-  Input,
-  Row,
-  Col,
-  Skeleton,
-  notification,
-} from 'antd'
-import InvoicePageWrapper from './Invoice/SingleInvoice.styles'
-import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style'
-import { Textarea } from '@iso/components/uielements/input'
-import DatePicker from '@iso/components/uielements/datePicker'
+  Document,
+  Font,
+  Page,
+  PDFViewer,
+  StyleSheet,
+  Text,
+  View,
+} from '@react-pdf/renderer'
+import { Button, Col, Form, Input, notification, Row } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link, Redirect, useParams, useRouteMatch } from 'react-router-dom'
 import {
   addResume,
-  editResume,
-  clearStatus,
-  fetchResumes,
-  fetchResumeById,
   clearCurrentResume,
+  clearStatus,
+  editResume,
+  fetchResumeById,
+  fetchResumes,
 } from '../redux/resumes/actions'
+import { Header, Title } from './AppLayout.style'
+import InvoicePageWrapper from './Invoice/SingleInvoice.styles'
+
+const RenderedPdf = () => {
+  Font.register({
+    family: 'Oswald',
+    src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf',
+  })
+
+  const styles = StyleSheet.create({
+    body: {
+      paddingTop: 35,
+      paddingBottom: 65,
+      paddingHorizontal: 35,
+    },
+    title: {
+      fontSize: 24,
+      textAlign: 'center',
+      fontFamily: 'Oswald',
+    },
+    author: {
+      fontSize: 12,
+      textAlign: 'center',
+      marginBottom: 40,
+    },
+    subtitle: {
+      fontSize: 18,
+      margin: 12,
+      fontFamily: 'Oswald',
+    },
+    text: {
+      margin: 12,
+      fontSize: 14,
+      textAlign: 'justify',
+      fontFamily: 'Times-Roman',
+    },
+    image: {
+      marginVertical: 15,
+      marginHorizontal: 100,
+    },
+    header: {
+      fontSize: 12,
+      marginBottom: 20,
+      textAlign: 'center',
+      color: 'grey',
+    },
+    pageNumber: {
+      position: 'absolute',
+      fontSize: 12,
+      bottom: 30,
+      left: 0,
+      right: 0,
+      textAlign: 'center',
+      color: 'grey',
+    },
+    page: {
+      flexDirection: 'row',
+      backgroundColor: '#E4E4E4',
+    },
+    section: {
+      width: 600,
+      '@media max-width: 400': {
+        width: 300,
+      },
+      '@media orientation: landscape': {
+        width: 400,
+      },
+    },
+  })
+  return (
+    <PDFViewer>
+      <Document>
+        <Page size="A4" style={styles.page} width="600">
+          <View style={styles.section}>
+            <Text>Section #1</Text>
+          </View>
+          <View style={styles.section}>
+            <Text>Section #2</Text>
+          </View>
+        </Page>
+      </Document>
+    </PDFViewer>
+  )
+}
 
 const AddEditResume = () => {
+  const [numPages, setNumPages] = useState(null)
+  const [pageNumber, setPageNumber] = useState(1)
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages)
+  }
   const dispatch = useDispatch()
   const { resumeId } = useParams()
 
@@ -159,9 +237,11 @@ const AddEditResume = () => {
   }
 
   return (
-    <LayoutContentWrapper>
-      <LayoutContent>
-        {!isPageLoading ? (
+    <>
+      <RenderedPdf />
+      <LayoutContentWrapper>
+        <LayoutContent>
+          {/* {!isPageLoading ? (
           isAddResume || currentResume ? (
             <Form
               form={form}
@@ -311,10 +391,8 @@ const AddEditResume = () => {
                     </Col>
 
                     <Col flex="auto">
-                      {/* <Skeleton active /> */}
-                      <pre className="language-bash">
-                        {JSON.stringify(currentResume, null, 2)}
-                      </pre>
+                      
+                      <RenderedPdf />
                     </Col>
                   </Row>
                 </InvoicePageWrapper>
@@ -336,9 +414,10 @@ const AddEditResume = () => {
           )
         ) : (
           <Loader />
-        )}
-      </LayoutContent>
-    </LayoutContentWrapper>
+        )} */}
+        </LayoutContent>
+      </LayoutContentWrapper>
+    </>
   )
 }
 

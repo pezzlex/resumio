@@ -1,16 +1,15 @@
 import LayoutContent from '@iso/components/utility/layoutContent'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
+import { Button, notification, Pagination } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { connect, useSelector, useDispatch } from 'react-redux'
-import {
-  fetchResumes,
-  clearStatus,
-  clearCurrentResume,
-} from '../redux/resumes/actions'
-import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style'
-import { Button, notification, Pagination, Space } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useRouteMatch } from 'react-router-dom'
-
+import {
+  clearCurrentResume,
+  clearStatus,
+  fetchResumes,
+} from '../redux/resumes/actions'
+import { Header, Title } from './AppLayout.style'
 import Table from './Tables/AntTables/AntTables'
 
 const MyResumes = () => {

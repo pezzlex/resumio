@@ -6,5 +6,6 @@
   "semi": false,
   "newline-before-return": true,
   "no-duplicate-variable": [true, "check-parameters"],
-  "no-var-keyword": true
+  "no-var-keyword": true,
+  "no-unused-declaration": true
 }

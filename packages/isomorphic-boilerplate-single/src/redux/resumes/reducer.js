@@ -8,7 +8,10 @@ import {
 } from '../resumes/actions'
 
 const initState = {
-  resumes: {},
+  resumes: {
+    resumes: [],
+    count: 0,
+  },
   currentResume: null,
   shouldFetchResumes: true,
   success: '',
