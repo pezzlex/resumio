@@ -64,6 +64,10 @@ export const fetchResumeById = (id) => {
             type: FETCH_RESUME_BY_ID,
             payload: response.data.data,
           })
+          dispatch({
+            type: SUCCESS,
+            payload: response.data.message,
+          })
         }
       })
       .catch((err) => {
