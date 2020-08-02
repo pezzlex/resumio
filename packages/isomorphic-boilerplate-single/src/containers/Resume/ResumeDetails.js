@@ -23,12 +23,15 @@ const ResumeDetails = () => {
 
   useEffect(() => {
     dispatch(fetchResumeById(resumeId))
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
-    dispatch(clearStatus())
-    setLoading(false)
+    if (error || success) {
+      dispatch(clearStatus())
+      setLoading(false)
+    }
   }, [success, error])
+
   useEffect(() => {
     if (error) {
       notification['error']({
