@@ -149,7 +149,7 @@ const AddEditResume = () => {
     fileName,
   }) => ({ fileName, firstName, lastName, phone, email })
 
-  if (redirectToReferrer) {
+  if (redirectToReferrer && currentResume) {
     console.log('redirecting...')
     let from = {
       pathname: `/dashboard/edit-resume/${currentResume._id}`,
