@@ -69,14 +69,16 @@ const MyResumes = () => {
         <Table resumes={resumes} url={url} isTableLoading={isTableLoading} />
         <br />
         <br />
-        <Pagination
-          defaultCurrent={1}
-          total={count}
-          onChange={(val) => {
-            setTableLoading(true)
-            dispatch(fetchResumes({ skip: val - 1 }))
-          }}
-        />
+        {count > 10 && (
+          <Pagination
+            defaultCurrent={1}
+            total={count}
+            onChange={(val) => {
+              setTableLoading(true)
+              dispatch(fetchResumes({ skip: val - 1 }))
+            }}
+          />
+        )}
       </LayoutContent>
     </LayoutContentWrapper>
   )
