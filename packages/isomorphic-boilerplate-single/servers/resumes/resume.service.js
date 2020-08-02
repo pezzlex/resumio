@@ -56,15 +56,23 @@ const schema = Joi.object()
   .unknown(true)
 
 const getAll = async ({ userId, limit, skip, q }) => {
+  console.log('got here')
+  console.log({ userId, limit, skip, q })
   const perPage = limit ? parseInt(limit) : 10
   const page = skip ? parseInt(skip) : 0
   const qRegex = new RegExp(q)
-  return await Resume.find({
+  const resumes = await Resume.find({
     createdBy: userId,
     fileName: qRegex,
   })
     .limit(perPage)
     .skip(perPage * page)
+
+  const count = await Resume.countDocuments({
+    createdBy: userId,
+    fileName: qRegex,
+  })
+  return { resumes, count }
 }
 
 const getById = async (id) => {

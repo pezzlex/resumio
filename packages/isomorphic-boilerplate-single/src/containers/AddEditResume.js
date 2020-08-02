@@ -42,9 +42,10 @@ const AddEditResume = () => {
 
   const match = useRouteMatch()
   const isAddResume = match.path.endsWith('create-resume')
-  const { error, success, currentResume, resumes } = useSelector(
+  const { error, success, currentResume } = useSelector(
     (state) => state.resumeData
   )
+  const { resumes, count } = useSelector((state) => state.resumeData.resumes)
 
   const { firstName, lastName, email } = useSelector((state) => state.Auth)
   const defaultFileNamePrefix = 'New Resume'
@@ -83,7 +84,6 @@ const AddEditResume = () => {
   useEffect(() => {
     // If initially edit, fetch resume => add currentResume
     if (!isAddResume) {
-      console.log('hm??')
       dispatch(fetchResumeById(resumeId))
       // If iitially add, clear current resume
     } else {

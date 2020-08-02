@@ -8,7 +8,7 @@ import SimpleView from './TableViews/SimpleView'
 import { fetchResumes } from '../../../redux/resumes/actions'
 import { connect } from 'react-redux'
 
-const AntTable = ({ resumes, url }) => {
+const Table = ({ resumes, url, isTableLoading }) => {
   const RenderTable = ({ columns }) => {
     return (
       <SimpleView
@@ -17,6 +17,7 @@ const AntTable = ({ resumes, url }) => {
           ...d,
           key: d._id,
         }))}
+        isTableLoading={isTableLoading}
       />
     )
   }
@@ -27,4 +28,4 @@ const AntTable = ({ resumes, url }) => {
   )
 }
 
-export default AntTable
+export default Table

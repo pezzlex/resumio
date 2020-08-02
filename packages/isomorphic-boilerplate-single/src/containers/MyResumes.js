@@ -1,6 +1,6 @@
 import LayoutContent from '@iso/components/utility/layoutContent'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import {
   fetchResumes,
@@ -8,9 +8,8 @@ import {
   clearCurrentResume,
 } from '../redux/resumes/actions'
 import { Title, Filters, Header, HeaderSecondary } from './AppLayout.style'
-import { Button, notification } from 'antd'
+import { Button, notification, Pagination, Space } from 'antd'
 import { Link, useRouteMatch } from 'react-router-dom'
-import { Pagination } from 'antd'
 
 import Table from './Tables/AntTables/AntTables'
 
@@ -20,13 +19,17 @@ const MyResumes = () => {
   const shouldFetchResumes = useSelector(
     (state) => state.resumeData.shouldFetchResumes
   )
-  const resumes = useSelector((state) => state.resumeData.resumes)
+  const { resumes, count } = useSelector((state) => state.resumeData.resumes)
   const isSignedIn = useSelector((state) => state.Auth.token)
   const success = useSelector((state) => state.resumeData.success)
   const error = useSelector((state) => state.resumeData.error)
+  const [isTableLoading, setTableLoading] = useState(false)
+
+  console.log(resumes, count)
 
   useEffect(() => {
     if (success || error) {
+      setTableLoading(false)
       dispatch(clearStatus())
       dispatch(clearCurrentResume())
     }
@@ -46,14 +49,14 @@ const MyResumes = () => {
       })
     }
   }, [error])
-  useEffect(() => {
-    if (success) {
-      notification['success']({
-        message: 'Success',
-        description: success,
-      })
-    }
-  }, [success])
+  // useEffect(() => {
+  //   if (success) {
+  //     notification['success']({
+  //       message: 'Success',
+  //       description: success,
+  //     })
+  //   }
+  // }, [success])
 
   return (
     <LayoutContentWrapper>
@@ -64,8 +67,17 @@ const MyResumes = () => {
             <Button type="primary">Build Resume</Button>
           </Link>
         </Header>
-        <Table resumes={resumes} url={url} />
-        {/* <Pagination defaultCurrent={1} total={50} /> */}
+        <Table resumes={resumes} url={url} isTableLoading={isTableLoading} />
+        <br />
+        <br />
+        <Pagination
+          defaultCurrent={1}
+          total={count}
+          onChange={(val) => {
+            setTableLoading(true)
+            dispatch(fetchResumes({ skip: val - 1 }))
+          }}
+        />
       </LayoutContent>
     </LayoutContentWrapper>
   )

@@ -7,16 +7,20 @@ export const SUCCESS = 'SUCCESS'
 export const CLEAR_STATUS = 'CLEAR_STATUS'
 export const CLEAR_CURRENT_RESUME = 'CLEAR_CURRENT_RESUME'
 
-export const fetchResumes = () => {
+export const fetchResumes = (params) => {
   return (dispatch) => {
     axios
-      .get('http://localhost:4000/resumes')
+      .get(`http://localhost:4000/resumes`, { params })
       .then((response) => {
         if (response.status === 200) {
           console.log('found resumes ', response.data.data)
           dispatch({
             type: FETCH_RESUMES,
             payload: response.data.data,
+          })
+          dispatch({
+            type: SUCCESS,
+            payload: response.data.message,
           })
         }
       })

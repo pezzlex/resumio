@@ -3,6 +3,7 @@ const router = express.Router()
 const resumeService = require('./resume.service')
 
 const getAll = (req, res, next) => {
+  console.log('req.query', req.query)
   const userId = req.user.sub
   console.log(req.user.sub)
   resumeService
