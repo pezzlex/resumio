@@ -26,8 +26,10 @@ const MyResumes = () => {
   const error = useSelector((state) => state.resumeData.error)
 
   useEffect(() => {
-    dispatch(clearStatus())
-    dispatch(clearCurrentResume())
+    if (success || error) {
+      dispatch(clearStatus())
+      dispatch(clearCurrentResume())
+    }
   }, [success, error])
 
   useEffect(() => {

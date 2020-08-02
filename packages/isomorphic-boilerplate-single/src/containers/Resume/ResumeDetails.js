@@ -84,20 +84,18 @@ const ResumeDetails = () => {
               </Row>
             </>
           ) : (
-            <>
-              <Header>
-                <Title>Resume not found!</Title>
-                <InvoicePageWrapper className="InvoicePageWrapper">
-                  <div className="PageHeader viewMode">
-                    <Link to="/dashboard">
-                      <Button className="isoGoInvoBtn">
-                        <span>Back to My Resumes</span>
-                      </Button>
-                    </Link>
-                  </div>
-                </InvoicePageWrapper>
-              </Header>
-            </>
+            <Header>
+              <Title>Resume not found!</Title>
+              <InvoicePageWrapper className="InvoicePageWrapper">
+                <div className="PageHeader viewMode">
+                  <Link to="/dashboard">
+                    <Button className="isoGoInvoBtn">
+                      <span>Back to My Resumes</span>
+                    </Button>
+                  </Link>
+                </div>
+              </InvoicePageWrapper>
+            </Header>
           )
         ) : (
           <Loader />
