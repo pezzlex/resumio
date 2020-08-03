@@ -2,7 +2,16 @@ import Box from '@iso/components/utility/box'
 import LayoutContent from '@iso/components/utility/layoutContent'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
 import Loader from '@iso/components/utility/loader'
-import { Button, Col, Form, Input, notification, Row, Skeleton } from 'antd'
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  notification,
+  Row,
+  Skeleton,
+  Spin,
+} from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Redirect, useParams, useRouteMatch } from 'react-router-dom'
@@ -76,6 +85,8 @@ const AddEditResume = () => {
   const [isChangeDetected, setChangeDetected] = useState(false)
   // Hackey workaround for React-PDF bug
   const [isReady, setReady] = useState(true)
+  const [isUpdating, setUpdating] = useState(false)
+  const [latestValue, setLatestValue] = useState('')
 
   const [liveResume, setLiveResume] = useState(
     isAddResume
@@ -94,14 +105,16 @@ const AddEditResume = () => {
 
   // useEffect(() => {
   //   if (liveResume) {
-  //     // setReady(false)
-  //     // setTimeout(() => {
-  //     //   console.log('its ready')
-  //     //   setReady(true)
-  //     // }, 100)
-  //     setReady(true)
+  //     setUpdating(true)
+  //     setTimeout(() => {
+  //       setUpdating(false)
+  //     }, 1000)
   //   }
   // }, [liveResume])
+
+  useEffect(() => {
+    if (!isUpdating) setLiveResume({ ...liveResume, ...latestValue })
+  }, [isUpdating])
 
   useEffect(() => {
     // If initially edit, fetch resume => add currentResume
@@ -209,9 +222,14 @@ const AddEditResume = () => {
                   onFinish={onFinish}
                   onFinishFailed={onFinishFailed}
                   onValuesChange={(value) => {
-                    console.log(value)
-                    console.log('liveResume', { ...liveResume, ...value })
-                    setLiveResume({ ...liveResume, ...value })
+                    setLatestValue(value)
+
+                    setUpdating(true)
+
+                    setTimeout(() => {
+                      setUpdating(false)
+                    }, 5000)
+
                     setChangeDetected(true)
                   }}
                   scrollToFirstError
@@ -347,29 +365,31 @@ const AddEditResume = () => {
                             // isReady
                             isReady ? (
                               <>
-                                <PDFViewer height="600" width="95%">
-                                  <RenderedPdf
-                                    resume={liveResume}
-                                    // resume={{ fileName: 'dummy' }}
-                                  />
-                                </PDFViewer>
-                                <Button type="primary">
-                                  <PDFDownloadLink
-                                    document={
-                                      <RenderedPdf
-                                        resume={liveResume}
-                                        // resume={{ fileName: 'dummy' }}
-                                      />
-                                    }
-                                    fileName={`${liveResume.fileName}.pdf`}
-                                  >
-                                    {({ blob, url, loading, error }) =>
-                                      loading
-                                        ? 'Loading document...'
-                                        : 'Download'
-                                    }
-                                  </PDFDownloadLink>
-                                </Button>
+                                <Spin spinning={isUpdating} delay={700}>
+                                  <PDFViewer height="600" width="95%">
+                                    <RenderedPdf
+                                      resume={liveResume}
+                                      // resume={{ fileName: 'dummy' }}
+                                    />
+                                  </PDFViewer>
+                                  <Button type="primary">
+                                    <PDFDownloadLink
+                                      document={
+                                        <RenderedPdf
+                                          resume={liveResume}
+                                          // resume={{ fileName: 'dummy' }}
+                                        />
+                                      }
+                                      fileName={`${liveResume.fileName}.pdf`}
+                                    >
+                                      {({ blob, url, loading, error }) =>
+                                        loading
+                                          ? 'Loading document...'
+                                          : 'Download'
+                                      }
+                                    </PDFDownloadLink>
+                                  </Button>
+                                </Spin>
                               </>
                             ) : (
                               // <Loader />
