@@ -94,11 +94,11 @@ const ResetPasswordStyleWrapper = styled.div`
       flex-direction: column;
 
       .isoInputWrapper {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
 
-        &:last-child {
-          margin-bottom: 0;
-        }
+        // &:last-child {
+        //   margin-bottom: 0;
+        // }
 
         input {
           &::-webkit-input-placeholder {

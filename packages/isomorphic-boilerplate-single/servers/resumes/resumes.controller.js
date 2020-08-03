@@ -7,7 +7,7 @@ const getAll = (req, res, next) => {
   const userId = req.user.sub
   console.log(req.user.sub)
   resumeService
-    .getAll({ ...req.query, userId })
+    .getAll(req.query, userId)
     .then((resumes) => {
       res.json({ data: resumes, error: false, message: 'Resumes found' })
     })

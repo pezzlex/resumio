@@ -71,7 +71,7 @@ const SignUpStyleWrapper = styled.div`
       flex-direction: column;
 
       .isoInputWrapper {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
 
         &:last-child {
           margin-bottom: 0;

@@ -11,7 +11,7 @@ function jwt() {
       // public routes that don't require authentication
       '/users/login',
       '/users/register',
-      '/users/reset-password/:id',
+      '/users/reset-password',
       new RegExp('^/users/reset-password/.*'),
       '/users/get-temp-link',
     ],

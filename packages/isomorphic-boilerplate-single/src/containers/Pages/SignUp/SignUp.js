@@ -82,7 +82,6 @@ const SignUp = () => {
             <Form
               form={form}
               layout="vertical"
-              name="register"
               initialValues={{
                 remember: true,
               }}
@@ -90,118 +89,132 @@ const SignUp = () => {
               onFinishFailed={onFinishFailed}
               scrollToFirstError
             >
-              <Row gutter={16}>
-                <Col span={12}>
-                  <Form.Item
-                    label="First Name"
-                    name="firstName"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your first name!',
-                      },
-                    ]}
-                  >
-                    <Input placeholder="First Name" />
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item
-                    label="Last Name"
-                    name="lastName"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your last name!',
-                      },
-                    ]}
-                  >
-                    <Input placeholder="Last Name" />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your email!',
-                  },
-                  { type: 'email' },
-                ]}
-              >
-                <Input placeholder="Email" />
-              </Form.Item>
-
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your username!',
-                  },
-                  { min: 5, message: 'Username must be minimum 5 characters.' },
-                ]}
-              >
-                <Input
-                  prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Username"
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your password!',
-                  },
-                  { min: 6, message: 'Password must be minimum 6 characters.' },
-                ]}
-                hasFeedback
-              >
-                <Input.Password
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  placeholder="Password"
-                />
-              </Form.Item>
-              <Form.Item
-                name="confirm"
-                label="Confirm Password"
-                dependencies={['password']}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please confirm your password!',
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(rule, value) {
-                      if (!value || getFieldValue('password') === value) {
-                        return Promise.resolve()
-                      }
-                      return Promise.reject(
-                        'The two passwords that you entered do not match!'
-                      )
+              <div className="isoInputWrapper">
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <Form.Item
+                      label="First Name"
+                      name="firstName"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your first name!',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="First Name" />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Last Name"
+                      name="lastName"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your last name!',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Last Name" />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </div>
+              <div className="isoInputWrapper">
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your email!',
                     },
-                  }),
-                ]}
-              >
-                <Input.Password
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  placeholder="Confirm Password"
-                />
-              </Form.Item>
-
-              <Form.Item>
-                <Button type="primary" htmlType="submit" loading={isLoading}>
-                  Submit
-                </Button>
-              </Form.Item>
+                    { type: 'email' },
+                  ]}
+                >
+                  <Input placeholder="Email" />
+                </Form.Item>
+              </div>
+              <div className="isoInputWrapper">
+                <Form.Item
+                  label="Username"
+                  name="username"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your username!',
+                    },
+                    {
+                      min: 5,
+                      message: 'Username must be minimum 5 characters.',
+                    },
+                  ]}
+                >
+                  <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Username"
+                  />
+                </Form.Item>
+              </div>
+              <div className="isoInputWrapper">
+                <Form.Item
+                  label="Password"
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your password!',
+                    },
+                    {
+                      min: 6,
+                      message: 'Password must be minimum 6 characters.',
+                    },
+                  ]}
+                  hasFeedback
+                >
+                  <Input.Password
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    placeholder="Password"
+                  />
+                </Form.Item>
+              </div>
+              <div className="isoInputWrapper">
+                <Form.Item
+                  name="confirm"
+                  label="Confirm Password"
+                  dependencies={['password']}
+                  hasFeedback
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please confirm your password!',
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (!value || getFieldValue('password') === value) {
+                          return Promise.resolve()
+                        }
+                        return Promise.reject(
+                          'The two passwords that you entered do not match!'
+                        )
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    placeholder="Confirm Password"
+                  />
+                </Form.Item>
+              </div>
+              <div className="isoInputWrapper">
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" loading={isLoading}>
+                    Submit
+                  </Button>
+                </Form.Item>
+              </div>
             </Form>
 
             <div className="isoInputWrapper isoCenterComponent isoHelperWrapper">

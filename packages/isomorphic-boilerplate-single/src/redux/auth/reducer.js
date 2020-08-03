@@ -11,6 +11,10 @@ import {
   CLEAR_STATUS,
   EMAIL_FAILURE,
   EMAIL_SUCCESS,
+  SUCCESS,
+  FAILURE,
+  IS_VALID_LINK,
+  IS_NOT_VALID_LINK,
 } from './actions'
 
 const initState = {
@@ -21,6 +25,7 @@ const initState = {
   token: '',
   error: '',
   success: '',
+  isValidLink: false,
 }
 
 export default function authReducer(state = initState, action) {
@@ -44,33 +49,17 @@ export default function authReducer(state = initState, action) {
         ...action.payload,
       }
     case EMAIL_SUCCESS:
-      return {
-        ...state,
-        success: action.payload,
-      }
     case LOGIN_SUCCESS:
-      return {
-        ...state,
-        success: action.payload,
-      }
-    case LOGIN_FAILURE:
-      console.log(action.payload)
-      return {
-        ...initState,
-        error: action.payload,
-      }
     case REGISTER_SUCCESS:
+    case SUCCESS:
       return {
         ...state,
         success: action.payload,
       }
     case REGISTER_FAILURE:
-      console.log(action.payload)
-      return {
-        ...initState,
-        error: action.payload,
-      }
+    case LOGIN_FAILURE:
     case EMAIL_FAILURE:
+    case FAILURE:
       return {
         ...initState,
         error: action.payload,
@@ -80,6 +69,18 @@ export default function authReducer(state = initState, action) {
         ...state,
         error: '',
         success: '',
+      }
+    case IS_VALID_LINK:
+      return {
+        ...state,
+        isValidLink: true,
+        success: action.payload,
+      }
+    case IS_NOT_VALID_LINK:
+      return {
+        ...state,
+        isValidLink: false,
+        error: action.payload,
       }
     default:
       return state

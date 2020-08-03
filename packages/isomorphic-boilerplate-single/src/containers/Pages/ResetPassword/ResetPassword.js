@@ -1,25 +1,83 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
+import {
+  Link,
+  Redirect,
+  useHistory,
+  useLocation,
+  useParams,
+} from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import Input from '@iso/components/uielements/input'
-import Button from '@iso/components/uielements/button'
+// import Input from '@iso/components/uielements/input'
+// import Button from '@iso/components/uielements/button'
 import ResetPasswordStyleWrapper from './ResetPassword.styles'
-import { clearStatus } from '../../../redux/auth/actions'
+import {
+  clearStatus,
+  resetPassword,
+  verifyValidLink,
+} from '../../../redux/auth/actions'
+import { notification, Form, Button, Input } from 'antd'
+import { LockOutlined } from '@ant-design/icons'
+import Loader from '@iso/components/utility/loader'
 
 const ResetPassword = () => {
+  const [form] = Form.useForm()
+  const { userId, token } = useParams()
+  console.log(userId)
+
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   const dispatch = useDispatch()
   const isSignedIn = useSelector((state) => state.Auth.token)
+  const isValidLink = useSelector((state) => state.Auth.isValidLink)
+
+  const { success, error } = useSelector((state) => state.Auth)
+  const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
-    dispatch(clearStatus())
-  })
+    dispatch(verifyValidLink({ userId, token }))
+  }, [])
+
+  useEffect(() => {
+    if (success || error) {
+      dispatch(clearStatus())
+    }
+  }, [success, error])
 
   useEffect(() => {
     if (isSignedIn) {
       setRedirectToReferrer(true)
     }
   }, [isSignedIn])
+
+  useEffect(() => {
+    dispatch(clearStatus())
+    setLoading(false)
+  }, [success, error])
+
+  useEffect(() => {
+    if (isSignedIn) {
+      setRedirectToReferrer(true)
+    }
+  }, [isSignedIn])
+
+  useEffect(() => {
+    // message.error(error)
+    if (error) {
+      notification['error']({
+        message: 'Error',
+        description: error,
+      })
+    }
+  }, [error])
+  useEffect(() => {
+    // message.success(success)
+    if (success) {
+      console.log('SUCCESS FOUND!')
+      notification['success']({
+        message: 'Success',
+        description: success,
+      })
+    }
+  }, [success])
 
   let location = useLocation()
   let { from } = location.state || { from: { pathname: '/dashboard' } }
@@ -29,9 +87,10 @@ const ResetPassword = () => {
     return <Redirect to={from} />
   }
 
-  const onFinish = (values) => {
+  const onFinish = ({ password }) => {
+    console.log(password)
     clearStatus()
-    // signIn(values)
+    dispatch(resetPassword({ userId, password }))
   }
 
   const onFinishFailed = (errorInfo) => {
@@ -48,25 +107,87 @@ const ResetPassword = () => {
 
           <div className="isoFormHeadText">
             <h3>Reset Password</h3>
-            <p>Enter new password and confirm it.</p>
+            {isValidLink ? (
+              <p>Enter new password and confirm it.</p>
+            ) : (
+              <p>The reset password link is invalid or has expired.</p>
+            )}
           </div>
 
           <div className="isoResetPassForm">
-            <div className="isoInputWrapper">
-              <Input size="large" type="password" placeholder="New Password" />
-            </div>
+            {isValidLink && (
+              <Form
+                form={form}
+                layout="vertical"
+                initialValues={{
+                  remember: true,
+                }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                scrollToFirstError
+              >
+                <div className="isoInputWrapper">
+                  <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your password!',
+                      },
+                      {
+                        min: 6,
+                        message: 'Password must be minimum 6 characters.',
+                      },
+                    ]}
+                    hasFeedback
+                  >
+                    <Input.Password
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      placeholder="Password"
+                    />
+                  </Form.Item>
+                </div>
+                <div className="isoInputWrapper">
+                  <Form.Item
+                    name="confirm"
+                    label="Confirm Password"
+                    dependencies={['password']}
+                    hasFeedback
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please confirm your password!',
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(rule, value) {
+                          if (!value || getFieldValue('password') === value) {
+                            return Promise.resolve()
+                          }
+                          return Promise.reject(
+                            'The two passwords that you entered do not match!'
+                          )
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input.Password
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      placeholder="Confirm Password"
+                    />
+                  </Form.Item>
+                </div>
 
-            <div className="isoInputWrapper">
-              <Input
-                size="large"
-                type="password"
-                placeholder="Confirm Password"
-              />
-            </div>
-
-            <div className="isoInputWrapper">
-              <Button type="primary">Save</Button>
-            </div>
+                <div className="isoInputWrapper">
+                  <Button type="primary" htmlType="submit">
+                    Save
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </div>
+          <div className="isoCenterComponent isoHelperWrapper">
+            <Link to="/">Return to Sign In</Link>
           </div>
         </div>
       </div>

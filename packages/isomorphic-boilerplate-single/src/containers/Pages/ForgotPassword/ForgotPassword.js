@@ -89,25 +89,32 @@ const ForgotPassword = () => {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
               >
-                <Form.Item
-                  label="Email"
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input your email!',
-                    },
-                    { type: 'email' },
-                  ]}
-                >
-                  <Input placeholder="Email" />
-                </Form.Item>
-
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={isLoading}>
-                    Send Request
-                  </Button>
-                </Form.Item>
+                <div className="isoInputWrapper">
+                  <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your email!',
+                      },
+                      { type: 'email' },
+                    ]}
+                  >
+                    <Input placeholder="Email" />
+                  </Form.Item>
+                </div>
+                <div className="isoInputWrapper">
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      loading={isLoading}
+                    >
+                      Send Request
+                    </Button>
+                  </Form.Item>
+                </div>
               </Form>
             </div>
           </div>

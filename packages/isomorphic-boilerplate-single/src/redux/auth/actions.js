@@ -9,6 +9,10 @@ export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 export const CLEAR_STATUS = 'CLEAR_STATUS'
 export const EMAIL_FAILURE = 'EMAIL_FAILURE'
 export const EMAIL_SUCCESS = 'EMAIL_SUCCESS'
+export const SUCCESS = 'SUCCESS'
+export const FAILURE = 'FAILURE'
+export const IS_VALID_LINK = 'IS_VALID_LINK'
+export const IS_NOT_VALID_LINK = 'IS_NOT_VALID_LINK'
 
 export const fetchToken = ({ username, password }) => {
   return (dispatch) => {
@@ -113,6 +117,49 @@ export const getTempLink = (email) => {
       .catch((err) => {
         dispatch({
           type: EMAIL_FAILURE,
+          payload: err.response.data.message,
+        })
+      })
+  }
+}
+
+export const verifyValidLink = ({ userId, token }) => {
+  return (dispatch) => {
+    axios
+      .get(`http://localhost:4000/users/reset-password/${userId}/${token}`)
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch({
+            type: IS_VALID_LINK,
+            payload: response.data.message,
+          })
+        }
+      })
+      .catch((err) => {
+        dispatch({
+          type: IS_NOT_VALID_LINK,
+          payload: err.response.data.message,
+        })
+      })
+  }
+}
+
+export const resetPassword = ({ userId, password }) => {
+  console.log(userId, password)
+  return (dispatch) => {
+    axios
+      .post(`http://localhost:4000/users/reset-password`, { userId, password })
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch({
+            type: SUCCESS,
+            payload: response.data.message,
+          })
+        }
+      })
+      .catch((err) => {
+        dispatch({
+          type: FAILURE,
           payload: err.response.data.message,
         })
       })

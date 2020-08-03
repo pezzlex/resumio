@@ -55,7 +55,7 @@ const schema = Joi.object()
   })
   .unknown(true)
 
-const getAll = async ({ userId, limit, skip, q }) => {
+const getAll = async ({ limit, skip, q }, userId) => {
   console.log('got here')
   console.log({ userId, limit, skip, q })
   const perPage = limit ? parseInt(limit) : 10

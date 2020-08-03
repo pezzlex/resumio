@@ -4,6 +4,7 @@ const jwtSimple = require('jwt-simple')
 const bcrypt = require('bcryptjs')
 const { User } = require('../helpers/db')
 const nodemailer = require('nodemailer')
+const { emailPassword } = require('../config')
 
 const Joi = require('joi')
 
@@ -61,6 +62,10 @@ const create = async (userParam) => {
   if (await User.findOne({ username: userParam.username })) {
     throw new Error(`Username "${userParam.username}" is already taken`)
   }
+  // unique email
+  if (await User.findOne({ username: userParam.email })) {
+    throw new Error(`Email "${userParam.email}" is already registered`)
+  }
   const user = new User(userParam)
   // hash password
   if (userParam.password) {
@@ -109,31 +114,51 @@ const getTempLink = async (email) => {
   const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
   const token = jwtSimple.encode({ sub: user._id }, tempSecret)
   // API link: /users/reset-password/${user._id}/${token}
-  return `/reset-password/${user._id}/${token}`
+  return `http://localhost:3007/reset-password/${user._id}/${token}`
 }
 
 const sendResetEmail = async (link, email) => {
+  console.log(emailPassword)
   const transport = nodemailer.createTransport({
-    host: 'smtp.mailtrap.io',
-    port: 2525,
+    // host: 'smtp.mailtrap.io',
+    service: 'gmail',
+    // port: 2525,
     auth: {
-      user: '52a69a277a4b8d',
-      pass: '56c905fd822cde',
+      user: 'itsresumio@gmail.com',
+      pass: emailPassword,
     },
   })
   const message = {
-    from: 'resumio@email.com', // Sender address
+    from: 'Resumio Support', // Sender address
     to: email, // List of recipients
     subject: 'Resumio password reset link', // Subject line
     html: `<p>Click on this <a href="${link}">link</a> to securely reset your password.</p>`,
   }
+
   transport.sendMail(message, (err, info) => {
     if (err) {
-      console.log(err)
+      throw new Error(err)
     } else {
       console.log(info)
     }
   })
+}
+
+const resetPassword = async ({ userId, password }) => {
+  const user = await User.findById(userId)
+  if (!user) throw new Error('User not found')
+  const passwordSchema = Joi.string().min(6)
+  const { value, error } = passwordSchema.validate(password)
+  if (error) {
+    throw error
+  }
+  const oldHash = user.hash
+  const newHash = bcrypt.hashSync(value, 10)
+  if (oldHash === newHash) {
+    throw new Error('You must choose a different password from your last one.')
+  }
+  // Object.assign(user, { hash: newHash })
+  return await user.save()
 }
 
 module.exports = {
@@ -145,4 +170,5 @@ module.exports = {
   deleteById,
   getTempLink,
   sendResetEmail,
+  resetPassword,
 }

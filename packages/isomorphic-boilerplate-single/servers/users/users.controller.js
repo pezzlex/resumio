@@ -110,6 +110,27 @@ const updateById = (req, res, next) => {
     })
 }
 
+const updateCurrent = (req, res, next) => {
+  userService
+    .updateById(req.user.sub, req.body)
+    .then((user) =>
+      user
+        ? res.json({
+            data: user,
+            error: false,
+            message: 'User updated successfully',
+          })
+        : res
+            .status(404)
+            .json({ data: null, error: true, message: 'User not found' })
+    )
+    .catch((err) => {
+      res.status(400).json({ data: null, error: true, message: err.message })
+
+      next(err)
+    })
+}
+
 const deleteById = (req, res, next) => {
   userService
     .deleteById(req.params.id)
@@ -138,13 +159,13 @@ const getTempLink = (req, res, next) => {
       // Send via email
       userService
         .sendResetEmail(link, req.body.email)
-        .then(
+        .then(() => {
           res.json({
             data: null,
             error: false,
-            message: `Reset password link sent to email. Please check ${req.body.email} to find the link.`,
+            message: `Reset password link has been sent. Please check ${req.body.email} to find the link.`,
           })
-        )
+        })
         .catch((err) => {
           res
             .status(400)
@@ -190,8 +211,9 @@ const resetPasswordGet = (req, res, next) => {
 }
 
 const resetPasswordPost = (req, res, next) => {
+  console.log(req.body)
   userService
-    .updateById(req.user.sub, { password: req.body.password })
+    .resetPassword(req.body)
     .then((user) => {
       user
         ? res.json({
@@ -213,6 +235,7 @@ const resetPasswordPost = (req, res, next) => {
 router.post('/login', login)
 router.post('/register', register)
 router.get('/me', getCurrent)
+router.put('/me', updateCurrent)
 router.get('/:id', getById)
 router.get('/', authorize(), getAll)
 router.put('/:id', authorize(), updateById)

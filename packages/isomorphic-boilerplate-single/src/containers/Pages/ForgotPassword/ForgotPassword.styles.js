@@ -94,7 +94,7 @@ const ForgotPasswordStyleWrapper = styled.div`
       flex-direction: column;
 
       .isoInputWrapper {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
 
         &:last-child {
           margin-bottom: 0;

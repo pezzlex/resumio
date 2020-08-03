@@ -92,54 +92,64 @@ const SignIn = () => {
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
             >
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your username!',
-                  },
-                  { min: 5, message: 'Username must be minimum 5 characters.' },
-                ]}
-              >
-                <Input
-                  prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Username"
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your password!',
-                  },
-                  { min: 6, message: 'Password must be minimum 6 characters.' },
-                ]}
-              >
-                <Input.Password
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  placeholder="Password"
-                />
-              </Form.Item>
+              <div className="isoInputWrapper">
+                <Form.Item
+                  label="Username"
+                  name="username"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your username!',
+                    },
+                    {
+                      min: 5,
+                      message: 'Username must be minimum 5 characters.',
+                    },
+                  ]}
+                >
+                  <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Username"
+                  />
+                </Form.Item>
+              </div>
+              <div className="isoInputWrapper">
+                <Form.Item
+                  label="Password"
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your password!',
+                    },
+                    {
+                      min: 6,
+                      message: 'Password must be minimum 6 characters.',
+                    },
+                  ]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    placeholder="Password"
+                  />
+                </Form.Item>
+              </div>
 
               {/* <Form.Item name="remember" valuePropName="checked">
                 <Checkbox>Remember me</Checkbox>
               </Form.Item> */}
-
-              <Form.Item>
-                <Button type="primary" htmlType="submit" loading={isLoading}>
-                  Submit
-                </Button>
-              </Form.Item>
+              <div className="isoInputWrapper">
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" loading={isLoading}>
+                    Submit
+                  </Button>
+                </Form.Item>
+              </div>
             </Form>
 
             <div className="isoCenterComponent isoHelperWrapper">
               <Link to="/forgot-password" className="isoForgotPass">
-                Forgot password
+                Forgot password?
               </Link>
               <Link to="/signup">Create a Resumio Account</Link>
             </div>

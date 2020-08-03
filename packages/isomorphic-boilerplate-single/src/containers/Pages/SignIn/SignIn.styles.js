@@ -71,7 +71,7 @@ const SignInStyleWrapper = styled.div`
       flex-direction: column;
 
       .isoInputWrapper {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
 
         &:last-of-type {
           margin-bottom: 0;
@@ -194,7 +194,7 @@ const SignInStyleWrapper = styled.div`
       }
 
       .isoForgotPass {
-        font-size: 12px;
+        font-size: 14px;
         color: ${palette('text', 3)};
         margin-bottom: 10px;
         text-decoration: none;

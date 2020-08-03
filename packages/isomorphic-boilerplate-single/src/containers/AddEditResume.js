@@ -365,7 +365,11 @@ const AddEditResume = () => {
                             // isReady
                             isReady ? (
                               <>
-                                <Spin spinning={isUpdating} delay={700}>
+                                <Spin
+                                  spinning={isUpdating}
+                                  delay={700}
+                                  tip="Updating Preview..."
+                                >
                                   <PDFViewer height="600" width="95%">
                                     <RenderedPdf
                                       resume={liveResume}

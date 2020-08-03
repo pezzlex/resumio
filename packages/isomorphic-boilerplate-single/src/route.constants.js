@@ -3,7 +3,7 @@ export const PUBLIC_ROUTE = {
   SIGN_IN: '/signin',
   SIGN_UP: '/signup',
   FORGET_PASSWORD: '/forgot-password',
-  RESET_PASSWORD: '/reset-password/:id/:token',
+  RESET_PASSWORD: '/reset-password/:userId/:token',
   PAGE_404: '/404',
   PAGE_500: '/500',
   AUTH0_CALLBACK: '/auth0loginCallback',
