@@ -19,6 +19,7 @@ import InvoicePageWrapper from './Invoice/SingleInvoice.styles'
 import RenderedPdf from './RenderedPdf'
 import Styles from './AddEditResume.scss'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
+import { Prompt } from 'react-router'
 
 export const unstructured = ({
   contact: { firstName, lastName, email, phone },
@@ -179,218 +180,227 @@ const AddEditResume = () => {
 
   return (
     <>
-      <LayoutContentWrapper>
-        <LayoutContent>
-          {!isPageLoading ? (
-            isAddResume || currentResume ? (
-              <Form
-                form={form}
-                layout="vertical"
-                initialValues={
-                  isAddResume
-                    ? {
-                        remember: true,
-                        fileName,
-                        firstName,
-                        lastName,
-                        email,
-                      }
-                    : {
-                        ...unstructured(currentResume),
-                      }
-                }
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                onValuesChange={(value) => {
-                  console.log(value)
-                  console.log('liveResume', { ...liveResume, ...value })
-                  setLiveResume({ ...liveResume, ...value })
-                  setChangeDetected(true)
-                }}
-                scrollToFirstError
-              >
-                <Header>
-                  <Title>
-                    {isAddResume
-                      ? fileName
-                        ? `Build Resume "${fileName}"`
-                        : 'Build Resume'
-                      : `Edit Resume "${currentResume.fileName}"`}
-                  </Title>
-                  <InvoicePageWrapper className="InvoicePageWrapper">
-                    <div className="PageHeader viewMode">
-                      {!isAddResume ? (
-                        <>
-                          {isChangeDetected ? (
-                            <Link to={`/dashboard/resume/${resumeId}`}>
+      <React.Fragment>
+        <Prompt
+          when={isChangeDetected}
+          message="You have unsaved changes. Are you sure you want to leave?"
+        />
+
+        <LayoutContentWrapper>
+          <LayoutContent>
+            {!isPageLoading ? (
+              isAddResume || currentResume ? (
+                <Form
+                  form={form}
+                  layout="vertical"
+                  initialValues={
+                    isAddResume
+                      ? {
+                          remember: true,
+                          fileName,
+                          firstName,
+                          lastName,
+                          email,
+                        }
+                      : {
+                          ...unstructured(currentResume),
+                        }
+                  }
+                  onFinish={onFinish}
+                  onFinishFailed={onFinishFailed}
+                  onValuesChange={(value) => {
+                    console.log(value)
+                    console.log('liveResume', { ...liveResume, ...value })
+                    setLiveResume({ ...liveResume, ...value })
+                    setChangeDetected(true)
+                  }}
+                  scrollToFirstError
+                >
+                  <Header>
+                    <Title>
+                      {isAddResume
+                        ? fileName
+                          ? `Build Resume "${fileName}"`
+                          : 'Build Resume'
+                        : `Edit Resume "${currentResume.fileName}"`}
+                    </Title>
+                    <InvoicePageWrapper className="InvoicePageWrapper">
+                      <div className="PageHeader viewMode">
+                        {!isAddResume ? (
+                          <>
+                            {isChangeDetected ? (
+                              <Link to={`/dashboard/resume/${resumeId}`}>
+                                <Button className="isoGoInvoBtn">Cancel</Button>
+                              </Link>
+                            ) : (
+                              <Link to={`/dashboard/resume/${resumeId}`}>
+                                <Button className="isoGoInvoBtn">Done</Button>
+                              </Link>
+                            )}
+
+                            {isChangeDetected ? (
+                              <Button
+                                type="primary"
+                                loading={isLoading}
+                                htmlType="submit"
+                              >
+                                Save Changes
+                              </Button>
+                            ) : (
+                              <Button type="primary" disabled>
+                                Changes Saved!
+                              </Button>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            <Link to="/dashboard">
                               <Button className="isoGoInvoBtn">Cancel</Button>
                             </Link>
-                          ) : (
-                            <Link to={`/dashboard/resume/${resumeId}`}>
-                              <Button className="isoGoInvoBtn">Done</Button>
-                            </Link>
-                          )}
-
-                          {isChangeDetected ? (
                             <Button
                               type="primary"
                               loading={isLoading}
                               htmlType="submit"
                             >
-                              Save Changes
+                              Save
                             </Button>
-                          ) : (
-                            <Button type="primary" disabled>
-                              Changes Saved!
-                            </Button>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          <Link to="/dashboard">
-                            <Button className="isoGoInvoBtn">Cancel</Button>
-                          </Link>
-                          <Button
-                            type="primary"
-                            loading={isLoading}
-                            htmlType="submit"
-                          >
-                            Save
-                          </Button>
-                        </>
-                      )}
+                          </>
+                        )}
+                      </div>
+                    </InvoicePageWrapper>
+                  </Header>
+
+                  <Box>
+                    <InvoicePageWrapper className="editView">
+                      <Row gutter={24}>
+                        <Col xl={12} lg={12} md={12} span={24}>
+                          <Row gutter={16}>
+                            <Col xl={12} lg={12} md={12} span={24}>
+                              <Form.Item
+                                label="File Name"
+                                name="fileName"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Please input a file name!',
+                                  },
+                                ]}
+                              >
+                                <Input
+                                  placeholder="File Name"
+                                  onChange={(e) => {
+                                    setFileName(e.target.value)
+                                  }}
+                                />
+                              </Form.Item>
+                            </Col>
+                          </Row>
+
+                          <Row gutter={16}>
+                            <Col xl={12} lg={12} md={12} span={24}>
+                              <Form.Item
+                                label="First Name"
+                                name="firstName"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Please input your first name!',
+                                  },
+                                ]}
+                              >
+                                <Input placeholder="First Name" />
+                              </Form.Item>
+                            </Col>
+                            <Col xl={12} lg={12} md={12} span={24}>
+                              <Form.Item
+                                label="Last Name"
+                                name="lastName"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Please input your last name!',
+                                  },
+                                ]}
+                              >
+                                <Input placeholder="Last Name" />
+                              </Form.Item>
+                            </Col>
+                            <Col xl={12} lg={12} md={12} span={24}>
+                              <Form.Item
+                                label="Email"
+                                name="email"
+                                rules={[{ type: 'email' }]}
+                              >
+                                <Input placeholder="Email" />
+                              </Form.Item>
+                            </Col>
+                            <Col xl={12} lg={12} md={12} span={24}>
+                              <Form.Item label="Contact Number" name="phone">
+                                <Input placeholder="Contact Number" />
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                        </Col>
+
+                        <Col flex="auto" className="iframeFull">
+                          {
+                            // isReady
+                            isReady ? (
+                              <>
+                                <PDFViewer height="600" width="95%">
+                                  <RenderedPdf
+                                    resume={liveResume}
+                                    // resume={{ fileName: 'dummy' }}
+                                  />
+                                </PDFViewer>
+                                <Button type="primary">
+                                  <PDFDownloadLink
+                                    document={
+                                      <RenderedPdf
+                                        resume={liveResume}
+                                        // resume={{ fileName: 'dummy' }}
+                                      />
+                                    }
+                                    fileName={`${liveResume.fileName}.pdf`}
+                                  >
+                                    {({ blob, url, loading, error }) =>
+                                      loading
+                                        ? 'Loading document...'
+                                        : 'Download'
+                                    }
+                                  </PDFDownloadLink>
+                                </Button>
+                              </>
+                            ) : (
+                              // <Loader />
+                              <Skeleton loading={true} active />
+                            )
+                          }
+                        </Col>
+                      </Row>
+                    </InvoicePageWrapper>
+                  </Box>
+                </Form>
+              ) : (
+                <Header>
+                  <Title>Resume not found!</Title>
+                  <InvoicePageWrapper className="InvoicePageWrapper">
+                    <div className="PageHeader viewMode">
+                      <Link to="/dashboard">
+                        <Button className="isoGoInvoBtn">
+                          <span>Back to My Resumes</span>
+                        </Button>
+                      </Link>
                     </div>
                   </InvoicePageWrapper>
                 </Header>
-
-                <Box>
-                  <InvoicePageWrapper className="editView">
-                    <Row gutter={24}>
-                      <Col xl={12} lg={12} md={12} span={24}>
-                        <Row gutter={16}>
-                          <Col xl={12} lg={12} md={12} span={24}>
-                            <Form.Item
-                              label="File Name"
-                              name="fileName"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please input a file name!',
-                                },
-                              ]}
-                            >
-                              <Input
-                                placeholder="File Name"
-                                onChange={(e) => {
-                                  setFileName(e.target.value)
-                                }}
-                              />
-                            </Form.Item>
-                          </Col>
-                        </Row>
-
-                        <Row gutter={16}>
-                          <Col xl={12} lg={12} md={12} span={24}>
-                            <Form.Item
-                              label="First Name"
-                              name="firstName"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please input your first name!',
-                                },
-                              ]}
-                            >
-                              <Input placeholder="First Name" />
-                            </Form.Item>
-                          </Col>
-                          <Col xl={12} lg={12} md={12} span={24}>
-                            <Form.Item
-                              label="Last Name"
-                              name="lastName"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please input your last name!',
-                                },
-                              ]}
-                            >
-                              <Input placeholder="Last Name" />
-                            </Form.Item>
-                          </Col>
-                          <Col xl={12} lg={12} md={12} span={24}>
-                            <Form.Item
-                              label="Email"
-                              name="email"
-                              rules={[{ type: 'email' }]}
-                            >
-                              <Input placeholder="Email" />
-                            </Form.Item>
-                          </Col>
-                          <Col xl={12} lg={12} md={12} span={24}>
-                            <Form.Item label="Contact Number" name="phone">
-                              <Input placeholder="Contact Number" />
-                            </Form.Item>
-                          </Col>
-                        </Row>
-                      </Col>
-
-                      <Col flex="auto" className="iframeFull">
-                        {
-                          // isReady
-                          isReady ? (
-                            <>
-                              <PDFViewer height="600" width="95%">
-                                <RenderedPdf
-                                  resume={liveResume}
-                                  // resume={{ fileName: 'dummy' }}
-                                />
-                              </PDFViewer>
-                              <Button type="primary">
-                                <PDFDownloadLink
-                                  document={
-                                    <RenderedPdf
-                                      resume={liveResume}
-                                      // resume={{ fileName: 'dummy' }}
-                                    />
-                                  }
-                                  fileName={`${liveResume.fileName}.pdf`}
-                                >
-                                  {({ blob, url, loading, error }) =>
-                                    loading ? 'Loading document...' : 'Download'
-                                  }
-                                </PDFDownloadLink>
-                              </Button>
-                            </>
-                          ) : (
-                            // <Loader />
-                            <Skeleton loading={true} active />
-                          )
-                        }
-                      </Col>
-                    </Row>
-                  </InvoicePageWrapper>
-                </Box>
-              </Form>
+              )
             ) : (
-              <Header>
-                <Title>Resume not found!</Title>
-                <InvoicePageWrapper className="InvoicePageWrapper">
-                  <div className="PageHeader viewMode">
-                    <Link to="/dashboard">
-                      <Button className="isoGoInvoBtn">
-                        <span>Back to My Resumes</span>
-                      </Button>
-                    </Link>
-                  </div>
-                </InvoicePageWrapper>
-              </Header>
-            )
-          ) : (
-            <Loader />
-          )}
-        </LayoutContent>
-      </LayoutContentWrapper>
+              <Loader />
+            )}
+          </LayoutContent>
+        </LayoutContentWrapper>
+      </React.Fragment>
     </>
   )
 }
