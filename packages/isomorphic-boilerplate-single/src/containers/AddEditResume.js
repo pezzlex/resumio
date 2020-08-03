@@ -20,6 +20,11 @@ import RenderedPdf from './RenderedPdf'
 import Styles from './AddEditResume.scss'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 
+export const unstructured = ({
+  contact: { firstName, lastName, email, phone },
+  fileName,
+}) => ({ fileName, firstName, lastName, phone, email })
+
 const AddEditResume = () => {
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
@@ -70,10 +75,7 @@ const AddEditResume = () => {
   const [isChangeDetected, setChangeDetected] = useState(false)
   // Hackey workaround for React-PDF bug
   const [isReady, setReady] = useState(true)
-  const unstructured = ({
-    contact: { firstName, lastName, email, phone },
-    fileName,
-  }) => ({ fileName, firstName, lastName, phone, email })
+
   const [liveResume, setLiveResume] = useState(
     isAddResume
       ? {

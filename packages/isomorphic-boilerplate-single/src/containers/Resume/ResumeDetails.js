@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useRouteMatch, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Row, Col, notification } from 'antd'
+import { Button, Row, Col, notification, Skeleton } from 'antd'
 import LayoutContentWrapper from '@iso/components/utility/layoutWrapper'
 import LayoutContent from '@iso/components/utility/layoutContent'
 import Loader from '@iso/components/utility/loader'
@@ -12,6 +12,10 @@ import {
   clearStatus,
   clearCurrentResume,
 } from '../../redux/resumes/actions'
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
+import RenderedPdf from '../RenderedPdf'
+
+import { unstructured } from '../AddEditResume'
 
 const ResumeDetails = () => {
   const dispatch = useDispatch()
@@ -20,6 +24,8 @@ const ResumeDetails = () => {
     (state) => state.resumeData
   )
   const [isLoading, setLoading] = useState(true)
+  // Hackey workaround for React-PDF bug
+  const [isReady, setReady] = useState(true)
 
   useEffect(() => {
     dispatch(fetchResumeById(resumeId))
@@ -76,10 +82,29 @@ const ResumeDetails = () => {
 
               <Row>
                 <Col flex="auto">
-                  {/* <Skeleton active /> */}
-                  <pre className="language-bash">
-                    {JSON.stringify(currentResume, null, 2)}
-                  </pre>
+                  <>
+                    <PDFViewer height="600" width="60%">
+                      <RenderedPdf
+                        resume={unstructured(currentResume)}
+                        // resume={{ fileName: 'dummy' }}
+                      />
+                    </PDFViewer>
+                    <Button type="primary">
+                      <PDFDownloadLink
+                        document={
+                          <RenderedPdf
+                            resume={unstructured(currentResume)}
+                            // resume={{ fileName: 'dummy' }}
+                          />
+                        }
+                        fileName={`${currentResume.fileName}.pdf`}
+                      >
+                        {({ blob, url, loading, error }) =>
+                          loading ? 'Loading document...' : 'Download'
+                        }
+                      </PDFDownloadLink>
+                    </Button>
+                  </>
                 </Col>
               </Row>
             </>
@@ -98,7 +123,7 @@ const ResumeDetails = () => {
             </Header>
           )
         ) : (
-          <Loader />
+          <Skeleton loading={true} active />
         )}
       </LayoutContent>
     </LayoutContentWrapper>
