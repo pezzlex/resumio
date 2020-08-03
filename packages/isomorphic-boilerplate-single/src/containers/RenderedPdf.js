@@ -9,8 +9,7 @@ import {
   View,
 } from '@react-pdf/renderer'
 
-const RenderedPdf = ({ resume, test }) => {
-  console.log(resume, test)
+const RenderedPdf = ({ resume }) => {
   Font.register({
     family: 'Oswald',
     src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf',
@@ -21,7 +20,6 @@ const RenderedPdf = ({ resume, test }) => {
       paddingTop: 35,
       paddingBottom: 65,
       paddingHorizontal: 35,
-      width: '100%',
     },
     title: {
       fontSize: 24,
@@ -63,26 +61,13 @@ const RenderedPdf = ({ resume, test }) => {
       textAlign: 'center',
       color: 'grey',
     },
-    page: {
-      flexDirection: 'row',
-      backgroundColor: '#E4E4E4',
-    },
-    section: {
-      width: 600,
-      '@media max-width: 400': {
-        width: 300,
-      },
-      '@media orientation: landscape': {
-        width: 400,
-      },
-    },
   })
+
   return (
-    <PDFViewer>
-      <Document style={styles}>
-        <Page size="A4" style={styles}>
+    <>
+      <Document>
+        <Page size="letter" style={styles}>
           <View style={styles.section}>
-            <Text>{test}</Text>
             {Object.keys(resume).map((key) => {
               console.log(key, resume[key])
               return (
@@ -94,7 +79,7 @@ const RenderedPdf = ({ resume, test }) => {
           </View>
         </Page>
       </Document>
-    </PDFViewer>
+    </>
   )
 }
 

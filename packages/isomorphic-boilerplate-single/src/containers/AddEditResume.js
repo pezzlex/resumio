@@ -18,6 +18,7 @@ import { Header, Title } from './AppLayout.style'
 import InvoicePageWrapper from './Invoice/SingleInvoice.styles'
 import RenderedPdf from './RenderedPdf'
 import Styles from './AddEditResume.scss'
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 
 const AddEditResume = () => {
   const [numPages, setNumPages] = useState(null)
@@ -88,15 +89,16 @@ const AddEditResume = () => {
 
   const [form] = Form.useForm()
 
-  useEffect(() => {
-    if (liveResume) {
-      setReady(false)
-      setTimeout(() => {
-        console.log('its ready')
-        setReady(true)
-      }, 1000)
-    }
-  }, [liveResume])
+  // useEffect(() => {
+  //   if (liveResume) {
+  //     // setReady(false)
+  //     // setTimeout(() => {
+  //     //   console.log('its ready')
+  //     //   setReady(true)
+  //     // }, 100)
+  //     setReady(true)
+  //   }
+  // }, [liveResume])
 
   useEffect(() => {
     // If initially edit, fetch resume => add currentResume
@@ -137,7 +139,7 @@ const AddEditResume = () => {
       setReady(false)
       setTimeout(() => {
         setReady(true)
-      }, 1500)
+      }, 100)
       dispatch(editResume(resumeId, structured(values)))
     }
     setLoading(true)
@@ -335,10 +337,29 @@ const AddEditResume = () => {
                         {
                           // isReady
                           isReady ? (
-                            <RenderedPdf
-                              resume={liveResume}
-                              // resume={{ fileName: 'dummy' }}
-                            />
+                            <>
+                              <PDFViewer height="600" width="95%">
+                                <RenderedPdf
+                                  resume={liveResume}
+                                  // resume={{ fileName: 'dummy' }}
+                                />
+                              </PDFViewer>
+                              <Button type="primary">
+                                <PDFDownloadLink
+                                  document={
+                                    <RenderedPdf
+                                      resume={liveResume}
+                                      // resume={{ fileName: 'dummy' }}
+                                    />
+                                  }
+                                  fileName={`${liveResume.fileName}.pdf`}
+                                >
+                                  {({ blob, url, loading, error }) =>
+                                    loading ? 'Loading document...' : 'Download'
+                                  }
+                                </PDFDownloadLink>
+                              </Button>
+                            </>
                           ) : (
                             // <Loader />
                             <Skeleton loading={true} active />
