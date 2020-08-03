@@ -16441,6 +16441,11 @@ psl@^1.1.28:
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.8.0.tgz#9326f8bcfb013adcc005fdff056acce020e51c24"
   integrity sha512-RIdOzyoavK+hA18OGGWDqUTsCLhtA7IcZ/6NCs4fFJaHBDab+pDDmDIByWFRQJq2Cd7r1OoQxBGKOaztq+hjIQ==
 
+pspdfkit@^2020.4.1:
+  version "2020.4.1"
+  resolved "https://registry.yarnpkg.com/pspdfkit/-/pspdfkit-2020.4.1.tgz#5942fa9bb47bffbd0e669afb1e71b4fba3b96471"
+  integrity sha512-kg07b45N2PeQhgB3miX8kJ1D+m17+bNTz6TFNuO8jLUiOw6zHdMXLfrrw7MAT+VgedS1Hl0gm7N7Uv+Ue21eRg==
+
 pstree.remy@^1.1.7:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/pstree.remy/-/pstree.remy-1.1.8.tgz#c242224f4a67c21f686839bbdb4ac282b8373d3a"
