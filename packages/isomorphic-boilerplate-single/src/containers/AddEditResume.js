@@ -29,7 +29,6 @@ import RenderedPdf from './RenderedPdf/RenderedPdf'
 import Styles from './AddEditResume.scss'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import { Prompt } from 'react-router'
-import _ from 'lodash'
 
 export const unstructured = ({
   contact: { firstName, lastName, email, phone },
@@ -100,6 +99,7 @@ const AddEditResume = () => {
         }
   )
   const [isSpinning, setSpinning] = useState(false)
+  const [canDownload, setCanDownload] = useState(true)
 
   const [delayedResume, setDelayedResume] = useState(liveResume)
 
@@ -165,6 +165,19 @@ const AddEditResume = () => {
       dispatch(editResume(resumeId, structured(values)))
     }
     setLoading(true)
+  }
+
+  const download = () => {
+    setCanDownload(false)
+    setSpinning(true)
+    setTimeout(() => {
+      setSpinning(false)
+    }, 500)
+    setDelayedResume({ ...delayedResume, ...liveResume })
+    setLiveChangeDetected(false)
+    setTimeout(() => {
+      setCanDownload(true)
+    }, 200)
   }
 
   const onFinishFailed = (errorInfo) => {
@@ -370,17 +383,14 @@ const AddEditResume = () => {
                                     // delay={700}
                                     tip="Updating Preview..."
                                   >
-                                    <PDFViewer height="600" width="95%">
-                                      <RenderedPdf
-                                        resume={delayedResume}
-                                        // resume={{ fileName: 'dummy' }}
-                                      />
+                                    <PDFViewer height="700" width="95%">
+                                      <RenderedPdf resume={delayedResume} />
                                     </PDFViewer>
 
                                     <Button
                                       type="primary"
-                                      disabled={isLiveChangeDetected}
-                                      loading={isLiveChangeDetected}
+                                      loading={!canDownload}
+                                      onClick={download}
                                     >
                                       <PDFDownloadLink
                                         document={
@@ -391,14 +401,7 @@ const AddEditResume = () => {
                                         }
                                         fileName={`${delayedResume.fileName}.pdf`}
                                       >
-                                        {/* {({ blob, url, loading, error }) =>
-                                          isLiveChangeDetected
-                                            ? 'Writing Changes...'
-                                            : 'Download!'
-                                        } */}
-                                        {isLiveChangeDetected
-                                          ? 'Writing Changes...'
-                                          : 'Download!'}
+                                        Download!
                                       </PDFDownloadLink>
                                     </Button>
                                   </Spin>

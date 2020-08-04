@@ -87,7 +87,7 @@ const ResumeDetails = () => {
                 <Col flex="auto">
                   {isPdfReady ? (
                     <>
-                      <PDFViewer height="600" width="60%">
+                      <PDFViewer height="900" width="60%">
                         <RenderedPdf
                           resume={unstructured(currentResume)}
                           // resume={{ fileName: 'dummy' }}

@@ -94,7 +94,6 @@ const Resume = ({ resume, ...rest }) => (
       </View>
       <Experience />
     </View>
-    {/* <Text style={styles.footer}>This IS the candidate you are looking for</Text> */}
   </Page>
 )
 
