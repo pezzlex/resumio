@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import bgImage from '@iso/assets/images/work.jpg';
-import WithDirection from '@iso/lib/helpers/rtl';
+import styled from 'styled-components'
+import { palette } from 'styled-theme'
+import bgImage from '@iso/assets/images/work.jpg'
+import WithDirection from '@iso/lib/helpers/rtl'
 
 const SignUpStyleWrapper = styled.div`
   width: 100%;
@@ -175,6 +175,6 @@ const SignUpStyleWrapper = styled.div`
       }
     }
   }
-`;
+`
 
-export default WithDirection(SignUpStyleWrapper);
+export default WithDirection(SignUpStyleWrapper)

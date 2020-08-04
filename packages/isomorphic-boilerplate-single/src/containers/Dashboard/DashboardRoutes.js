@@ -8,7 +8,7 @@ const routes = [
   },
   {
     path: 'resume/:resumeId',
-    component: lazy(() => import('../Resume/ResumeDetails')),
+    component: lazy(() => import('../ResumeDetails/ResumeDetails')),
   },
   {
     path: 'edit-resume/:resumeId',

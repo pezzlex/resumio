@@ -25,7 +25,7 @@ import {
 } from '../redux/resumes/actions'
 import { Header, Title } from './AppLayout.style'
 import InvoicePageWrapper from './Invoice/SingleInvoice.styles'
-import RenderedPdf from './RenderedPdf'
+import RenderedPdf from './RenderedPdf/RenderedPdf'
 import Styles from './AddEditResume.scss'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import { Prompt } from 'react-router'
@@ -408,6 +408,7 @@ const AddEditResume = () => {
                                         // resume={{ fileName: 'dummy' }}
                                       />
                                     </PDFViewer>
+
                                     <Button
                                       type="primary"
                                       disabled={isLiveChangeDetected}

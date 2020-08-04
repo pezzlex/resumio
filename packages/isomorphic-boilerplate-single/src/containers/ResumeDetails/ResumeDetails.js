@@ -13,7 +13,7 @@ import {
   clearCurrentResume,
 } from '../../redux/resumes/actions'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
-import RenderedPdf from '../RenderedPdf'
+import RenderedPdf from '../RenderedPdf/RenderedPdf'
 
 import { unstructured } from '../AddEditResume'
 
