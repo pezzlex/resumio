@@ -80,7 +80,7 @@ const AddEditResume = () => {
 
   const [isLoading, setLoading] = useState(false)
   // So it should be false initially, except if I'm on add resume page
-  const [isPageLoading, setPageLoading] = useState(!isAddResume)
+  const [isPageLoading, setPageLoading] = useState(true)
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   const [isChangeDetected, setChangeDetected] = useState(false)
   const [isLiveChangeDetected, setLiveChangeDetected] = useState(false)
@@ -101,29 +101,9 @@ const AddEditResume = () => {
   )
   const [isSpinning, setSpinning] = useState(false)
 
-  const [delayedResume, setDelayedResume] = useState(
-    isAddResume
-      ? {
-          fileName,
-          firstName,
-          lastName,
-          email,
-        }
-      : {
-          ...unstructured(currentResume),
-        }
-  )
+  const [delayedResume, setDelayedResume] = useState(liveResume)
 
   const [form] = Form.useForm()
-
-  // useEffect(() => {
-  //   if (liveResume) {
-  //     setUpdating(true)
-  //     setTimeout(() => {
-  //       setUpdating(false)
-  //     }, 1000)
-  //   }
-  // }, [liveResume])
 
   useEffect(() => {
     if (!isUpdating && isLiveChangeDetected) {
@@ -234,19 +214,7 @@ const AddEditResume = () => {
                   <Form
                     form={form}
                     layout="vertical"
-                    initialValues={
-                      isAddResume
-                        ? {
-                            remember: true,
-                            fileName,
-                            firstName,
-                            lastName,
-                            email,
-                          }
-                        : {
-                            ...unstructured(currentResume),
-                          }
-                    }
+                    initialValues={liveResume}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     onValuesChange={(value) => {
@@ -436,8 +404,7 @@ const AddEditResume = () => {
                                   </Spin>
                                 </>
                               ) : (
-                                // <Loader />
-                                <Skeleton loading={true} active />
+                                <Loader />
                               )
                             }
                           </Col>

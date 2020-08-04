@@ -32,7 +32,6 @@ const resumeReducer = (state = initState, action) => {
         currentResume: action.payload,
       }
     case SUCCESS:
-      console.log('hit succ')
       return {
         ...state,
         success: action.payload,

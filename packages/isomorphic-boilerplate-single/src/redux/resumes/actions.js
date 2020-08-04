@@ -143,5 +143,8 @@ export const clearStatus = () => {
 }
 
 export const clearCurrentResume = () => {
-  return (dispatch) => dispatch({ type: CLEAR_CURRENT_RESUME })
+  return (dispatch) => {
+    dispatch({ type: CLEAR_CURRENT_RESUME })
+    dispatch({ type: SUCCESS, payload: 'Cleared current resume' })
+  }
 }

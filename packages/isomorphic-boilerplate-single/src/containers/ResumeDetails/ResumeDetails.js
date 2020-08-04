@@ -25,16 +25,16 @@ const ResumeDetails = () => {
   )
   const [isLoading, setLoading] = useState(true)
   // Hackey workaround for React-PDF bug
-  const [isReady, setReady] = useState(true)
+
+  const [isPdfReady, setPdfReady] = useState(true)
 
   useEffect(() => {
     dispatch(fetchResumeById(resumeId))
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
     if (error || success) {
       dispatch(clearStatus())
-      setLoading(false)
     }
   }, [success, error])
 
@@ -47,14 +47,17 @@ const ResumeDetails = () => {
       dispatch(clearCurrentResume())
     }
   }, [error])
-  // useEffect(() => {
-  //   if (success) {
-  //     notification['success']({
-  //       message: 'Success',
-  //       description: success,
-  //     })
-  //   }
-  // }, [success])
+  useEffect(() => {
+    if (success) {
+      if (currentResume) {
+        setLoading(false)
+        setPdfReady(false)
+        setTimeout(() => {
+          setPdfReady(true)
+        }, 100)
+      }
+    }
+  }, [success])
 
   return (
     <LayoutContentWrapper>
@@ -82,29 +85,34 @@ const ResumeDetails = () => {
 
               <Row>
                 <Col flex="auto">
-                  <>
-                    <PDFViewer height="600" width="60%">
-                      <RenderedPdf
-                        resume={unstructured(currentResume)}
-                        // resume={{ fileName: 'dummy' }}
-                      />
-                    </PDFViewer>
-                    <Button type="primary">
-                      <PDFDownloadLink
-                        document={
-                          <RenderedPdf
-                            resume={unstructured(currentResume)}
-                            // resume={{ fileName: 'dummy' }}
-                          />
-                        }
-                        fileName={`${currentResume.fileName}.pdf`}
-                      >
-                        {({ blob, url, loading, error }) =>
-                          loading ? 'Loading document...' : 'Download'
-                        }
-                      </PDFDownloadLink>
-                    </Button>
-                  </>
+                  {isPdfReady ? (
+                    <>
+                      <PDFViewer height="600" width="60%">
+                        <RenderedPdf
+                          resume={unstructured(currentResume)}
+                          // resume={{ fileName: 'dummy' }}
+                        />
+                      </PDFViewer>
+                      <Button type="primary">
+                        <PDFDownloadLink
+                          document={
+                            <RenderedPdf
+                              resume={unstructured(currentResume)}
+                              // resume={{ fileName: 'dummy' }}
+                            />
+                          }
+                          fileName={`${currentResume.fileName}.pdf`}
+                        >
+                          {({ blob, url, loading, error }) =>
+                            loading ? 'Loading document...' : 'Download'
+                          }
+                        </PDFDownloadLink>
+                      </Button>
+                    </>
+                  ) : (
+                    // <Skeleton loading={true} active />
+                    <Loader />
+                  )}
                 </Col>
               </Row>
             </>
@@ -123,7 +131,8 @@ const ResumeDetails = () => {
             </Header>
           )
         ) : (
-          <Skeleton loading={true} active />
+          // <Skeleton loading={true} active />
+          <Loader />
         )}
       </LayoutContent>
     </LayoutContentWrapper>
