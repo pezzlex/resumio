@@ -88,8 +88,6 @@ const ResetPassword = () => {
   }
 
   const onFinish = ({ password }) => {
-    console.log(password)
-    clearStatus()
     dispatch(resetPassword({ userId, password }))
   }
 
@@ -128,12 +126,12 @@ const ResetPassword = () => {
               >
                 <div className="isoInputWrapper">
                   <Form.Item
-                    label="Password"
+                    label="New Password"
                     name="password"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your password!',
+                        message: 'Please input your new password!',
                       },
                       {
                         min: 6,
@@ -144,7 +142,7 @@ const ResetPassword = () => {
                   >
                     <Input.Password
                       prefix={<LockOutlined className="site-form-item-icon" />}
-                      placeholder="Password"
+                      placeholder="New Password"
                     />
                   </Form.Item>
                 </div>

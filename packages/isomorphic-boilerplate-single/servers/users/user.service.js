@@ -148,16 +148,15 @@ const resetPassword = async ({ userId, password }) => {
   const user = await User.findById(userId)
   if (!user) throw new Error('User not found')
   const passwordSchema = Joi.string().min(6)
-  const { value, error } = passwordSchema.validate(password)
+  const { error } = passwordSchema.validate(password)
   if (error) {
     throw error
   }
-  const oldHash = user.hash
-  const newHash = bcrypt.hashSync(value, 10)
-  if (oldHash === newHash) {
+  if (bcrypt.compareSync(password, user.hash)) {
     throw new Error('You must choose a different password from your last one.')
   }
-  // Object.assign(user, { hash: newHash })
+  const newHash = bcrypt.hashSync(password, 10)
+  Object.assign(user, { hash: newHash })
   return await user.save()
 }
 

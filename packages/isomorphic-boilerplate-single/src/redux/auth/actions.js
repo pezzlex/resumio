@@ -136,6 +136,7 @@ export const verifyValidLink = ({ userId, token }) => {
         }
       })
       .catch((err) => {
+        console.log('dispatching is not valid link')
         dispatch({
           type: IS_NOT_VALID_LINK,
           payload: err.response.data.message,
@@ -154,6 +155,9 @@ export const resetPassword = ({ userId, password }) => {
           dispatch({
             type: SUCCESS,
             payload: response.data.message,
+          })
+          dispatch({
+            type: IS_NOT_VALID_LINK,
           })
         }
       })

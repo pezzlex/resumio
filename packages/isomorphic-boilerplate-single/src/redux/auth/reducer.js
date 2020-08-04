@@ -58,10 +58,14 @@ export default function authReducer(state = initState, action) {
       }
     case REGISTER_FAILURE:
     case LOGIN_FAILURE:
-    case EMAIL_FAILURE:
-    case FAILURE:
       return {
         ...initState,
+        error: action.payload,
+      }
+    case FAILURE:
+    case EMAIL_FAILURE:
+      return {
+        ...state,
         error: action.payload,
       }
     case CLEAR_STATUS:
