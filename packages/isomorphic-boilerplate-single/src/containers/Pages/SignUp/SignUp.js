@@ -62,7 +62,6 @@ const SignUp = () => {
 
   const onFinish = (values) => {
     setLoading(true)
-    dispatch(clearStatus())
     dispatch(registerUser(values))
   }
 

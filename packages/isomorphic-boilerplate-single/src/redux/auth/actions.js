@@ -156,6 +156,7 @@ export const resetPassword = ({ userId, password }) => {
             type: SUCCESS,
             payload: response.data.message,
           })
+          // invalidate right after success message sent
           dispatch({
             type: IS_NOT_VALID_LINK,
           })

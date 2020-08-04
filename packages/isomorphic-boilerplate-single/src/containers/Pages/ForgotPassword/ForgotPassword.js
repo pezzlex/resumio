@@ -56,7 +56,6 @@ const ForgotPassword = () => {
 
   const onFinish = ({ email }) => {
     setLoading(true)
-    dispatch(clearStatus())
     dispatch(getTempLink(email))
   }
 

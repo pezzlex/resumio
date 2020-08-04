@@ -37,12 +37,6 @@ const ResetPassword = () => {
   }, [])
 
   useEffect(() => {
-    if (success || error) {
-      dispatch(clearStatus())
-    }
-  }, [success, error])
-
-  useEffect(() => {
     if (isSignedIn) {
       setRedirectToReferrer(true)
     }

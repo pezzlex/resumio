@@ -67,7 +67,6 @@ const SignIn = () => {
 
   const onFinish = (values) => {
     setLoading(true)
-    dispatch(clearStatus())
     dispatch(signIn(values))
   }
 
