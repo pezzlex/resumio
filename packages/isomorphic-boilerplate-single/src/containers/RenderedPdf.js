@@ -69,7 +69,6 @@ const RenderedPdf = ({ resume }) => {
         <Page size="letter" style={styles}>
           <View style={styles.section}>
             {Object.keys(resume).map((key) => {
-              console.log(key, resume[key])
               return (
                 <Text key={key}>
                   {key}: {resume[key]}

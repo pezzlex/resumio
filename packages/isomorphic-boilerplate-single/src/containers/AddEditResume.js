@@ -60,7 +60,6 @@ const AddEditResume = () => {
    * @param {list of resumes} resumes
    */
   const defaultFileName = (resumes) => {
-    console.log(resumes.map((res) => res.fileName))
     let maxIndex = -1
     resumes.forEach((resume) => {
       if (resume.fileName.startsWith(defaultFileNamePrefix)) {
@@ -86,12 +85,23 @@ const AddEditResume = () => {
   const [isChangeDetected, setChangeDetected] = useState(false)
   const [isLiveChangeDetected, setLiveChangeDetected] = useState(false)
   // Hackey workaround for React-PDF bug
-  const [isReady, setReady] = useState(true)
+  const [isPdfReady, setPdfReady] = useState(true)
   const [isUpdating, setUpdating] = useState(false)
-  const [latestValue, setLatestValue] = useState('')
+  const [liveResume, setLiveResume] = useState(
+    isAddResume
+      ? {
+          fileName,
+          firstName,
+          lastName,
+          email,
+        }
+      : {
+          ...unstructured(currentResume),
+        }
+  )
   const [isSpinning, setSpinning] = useState(false)
 
-  const [liveResume, setLiveResume] = useState(
+  const [delayedResume, setDelayedResume] = useState(
     isAddResume
       ? {
           fileName,
@@ -117,7 +127,7 @@ const AddEditResume = () => {
 
   useEffect(() => {
     if (!isUpdating && isLiveChangeDetected) {
-      console.log('liveResume', liveResume, 'latestValue', latestValue)
+      console.log('liveResume', delayedResume, 'latestValue', liveResume)
       setTimeout(() => {
         setUpdating(true)
         setTimeout(() => {
@@ -129,7 +139,7 @@ const AddEditResume = () => {
       setTimeout(() => {
         setSpinning(false)
       }, 500)
-      setLiveResume({ ...liveResume, ...latestValue })
+      setDelayedResume({ ...delayedResume, ...liveResume })
     }
   }, [isUpdating, isLiveChangeDetected])
 
@@ -168,9 +178,9 @@ const AddEditResume = () => {
     if (isAddResume) {
       dispatch(addResume(structured(values)))
     } else {
-      setReady(false)
+      setPdfReady(false)
       setTimeout(() => {
-        setReady(true)
+        setPdfReady(true)
       }, 100)
       dispatch(editResume(resumeId, structured(values)))
     }
@@ -240,7 +250,8 @@ const AddEditResume = () => {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     onValuesChange={(value) => {
-                      setLatestValue(value)
+                      setLiveResume({ ...liveResume, ...value })
+                      console.log(liveResume)
                       // if (!isSpinning) setUpdating(true)
                       // setTimeout(() => {
                       //   setSpinning(true)
@@ -384,7 +395,7 @@ const AddEditResume = () => {
                           <Col flex="auto" className="iframeFull">
                             {
                               // isReady
-                              isReady ? (
+                              isPdfReady ? (
                                 <>
                                   <Spin
                                     spinning={isSpinning}
@@ -393,25 +404,32 @@ const AddEditResume = () => {
                                   >
                                     <PDFViewer height="600" width="95%">
                                       <RenderedPdf
-                                        resume={liveResume}
+                                        resume={delayedResume}
                                         // resume={{ fileName: 'dummy' }}
                                       />
                                     </PDFViewer>
-                                    <Button type="primary">
+                                    <Button
+                                      type="primary"
+                                      disabled={isLiveChangeDetected}
+                                      loading={isLiveChangeDetected}
+                                    >
                                       <PDFDownloadLink
                                         document={
                                           <RenderedPdf
-                                            resume={liveResume}
+                                            resume={delayedResume}
                                             // resume={{ fileName: 'dummy' }}
                                           />
                                         }
-                                        fileName={`${liveResume.fileName}.pdf`}
+                                        fileName={`${delayedResume.fileName}.pdf`}
                                       >
-                                        {({ blob, url, loading, error }) =>
-                                          loading
-                                            ? 'Loading document...'
-                                            : 'Download'
-                                        }
+                                        {/* {({ blob, url, loading, error }) =>
+                                          isLiveChangeDetected
+                                            ? 'Writing Changes...'
+                                            : 'Download!'
+                                        } */}
+                                        {isLiveChangeDetected
+                                          ? 'Writing Changes...'
+                                          : 'Download!'}
                                       </PDFDownloadLink>
                                     </Button>
                                   </Spin>
