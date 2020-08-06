@@ -46,12 +46,12 @@ const ActionButtons = ({ url, resumeId, fileName }) => {
         </Link>
         <Popconfirm
           placement="leftBottom"
-          title={`Sure you want to delete "${fileName}"`}
+          title={`Sure you want to delete "${fileName}"?`}
           onConfirm={() => {
             dispatch(deleteResume(resumeId))
           }}
           icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-          okText="Delete"
+          okText="Yes, Delete"
           okButtonProps={{ type: 'primary', danger: true }}
           cancelText="Cancel"
         >

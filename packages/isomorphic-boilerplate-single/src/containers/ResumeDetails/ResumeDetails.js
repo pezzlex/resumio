@@ -24,6 +24,7 @@ const ResumeDetails = () => {
     (state) => state.resumeData
   )
   const [isLoading, setLoading] = useState(true)
+  const [resumeNotFound, setResumeNotFound] = useState(false)
   // Hackey workaround for React-PDF bug
 
   const [isPdfReady, setPdfReady] = useState(true)
@@ -45,6 +46,7 @@ const ResumeDetails = () => {
         description: error,
       })
       dispatch(clearCurrentResume())
+      setLoading(false)
     }
   }, [error])
   useEffect(() => {

@@ -142,6 +142,15 @@ const AddEditResume = () => {
     }
   }, [success, error])
 
+  const updateDelayedResume = () => {
+    setSpinning(true)
+    setTimeout(() => {
+      setSpinning(false)
+    }, 500)
+    setDelayedResume({ ...delayedResume, ...liveResume })
+    setLiveChangeDetected(false)
+  }
+
   const onFinish = (values) => {
     const structured = ({ fileName, firstName, lastName, phone, email }) => ({
       contact: {
@@ -152,29 +161,22 @@ const AddEditResume = () => {
       },
       fileName,
     })
-
-    // console.log(structured(values))
-
     if (isAddResume) {
       dispatch(addResume(structured(values)))
     } else {
       setPdfReady(false)
       setTimeout(() => {
         setPdfReady(true)
-      }, 100)
+      }, 1)
       dispatch(editResume(resumeId, structured(values)))
+      updateDelayedResume()
     }
     setLoading(true)
   }
 
   const download = () => {
     setCanDownload(false)
-    setSpinning(true)
-    setTimeout(() => {
-      setSpinning(false)
-    }, 500)
-    setDelayedResume({ ...delayedResume, ...liveResume })
-    setLiveChangeDetected(false)
+    updateDelayedResume()
     setTimeout(() => {
       setCanDownload(true)
     }, 200)
@@ -232,14 +234,6 @@ const AddEditResume = () => {
                     onFinishFailed={onFinishFailed}
                     onValuesChange={(value) => {
                       setLiveResume({ ...liveResume, ...value })
-                      console.log(liveResume)
-                      // if (!isSpinning) setUpdating(true)
-                      // setTimeout(() => {
-                      //   setSpinning(true)
-                      //   setTimeout(() => {
-                      //     setUpdating(false)
-                      //   }, 500)
-                      // }, 4000)
                       setChangeDetected(true)
                       setLiveChangeDetected(true)
                     }}
