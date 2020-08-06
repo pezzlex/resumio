@@ -32,8 +32,17 @@ import { Prompt } from 'react-router'
 
 export const unstructured = ({
   contact: { firstName, lastName, email, phone },
+  workExperience: { headerName, content },
   fileName,
-}) => ({ fileName, firstName, lastName, phone, email })
+}) => ({
+  fileName,
+  firstName,
+  lastName,
+  phone,
+  email,
+  headerName,
+  workExpContent: content,
+})
 
 const AddEditResume = () => {
   const [numPages, setNumPages] = useState(null)
@@ -213,6 +222,46 @@ const AddEditResume = () => {
     return <Redirect to={from} />
   }
 
+  const handleAddWorkExperience = () => {
+    const newWorkExp = {
+      companyName: 'Company Name',
+      startDate: Date.now,
+      endDate: Date.now,
+      summary: 'Summary Here',
+      description: [],
+    }
+    setLiveResume({
+      ...liveResume,
+      workExpContent: [...liveResume.workExpContent, newWorkExp],
+    })
+
+    const structuredValues = {
+      contact: {
+        firstName: liveResume.firstName,
+        lastName: liveResume.lastName,
+        email: liveResume.email,
+        phone: liveResume.phone,
+      },
+      workExperience: {
+        headerName: liveResume.headerName,
+        content: [...liveResume.workExpContent, newWorkExp],
+      },
+      fileName: liveResume.fileName,
+    }
+    debugger
+    if (isAddResume) {
+      dispatch(addResume(structuredValues))
+    } else {
+      setPdfReady(false)
+      setTimeout(() => {
+        setPdfReady(true)
+      }, 1)
+      dispatch(editResume(resumeId, structuredValues))
+      updateDelayedResume()
+    }
+    setLoading(true)
+  }
+
   return (
     <>
       <React.Fragment>
@@ -364,6 +413,33 @@ const AddEditResume = () => {
                                   <Input placeholder="Contact Number" />
                                 </Form.Item>
                               </Col>
+                              <Col xl={24} lg={24} md={24} span={24}>
+                                <Button
+                                  type="primary"
+                                  onClick={handleAddWorkExperience}
+                                >
+                                  Add Work Experience
+                                </Button>
+                              </Col>
+                              {liveResume.workExpContent &&
+                                liveResume.workExpContent.map((exp, index) => {
+                                  return (
+                                    <Col
+                                      xl={24}
+                                      lg={24}
+                                      md={24}
+                                      span={24}
+                                      key={index}
+                                    >
+                                      <Form.Item
+                                        label="Work Experience"
+                                        name={exp.companyName}
+                                      >
+                                        <Input placeholder={exp.companyName} />
+                                      </Form.Item>
+                                    </Col>
+                                  )
+                                })}
                             </Row>
                           </Col>
 
