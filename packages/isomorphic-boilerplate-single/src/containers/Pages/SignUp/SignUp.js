@@ -135,7 +135,7 @@ const SignUp = () => {
                   <Input placeholder="Email" />
                 </Form.Item>
               </div>
-              <div className="isoInputWrapper">
+              {/* <div className="isoInputWrapper">
                 <Form.Item
                   label="Username"
                   name="username"
@@ -156,6 +156,7 @@ const SignUp = () => {
                   />
                 </Form.Item>
               </div>
+               */}
               <div className="isoInputWrapper">
                 <Form.Item
                   label="Password"

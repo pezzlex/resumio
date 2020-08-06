@@ -17,7 +17,7 @@ const login = (req, res, next) => {
         : res.status(400).json({
             data: null,
             error: true,
-            message: 'Username or password is incorrect',
+            message: 'Email or password is incorrect',
           })
     )
     .catch((err) => {

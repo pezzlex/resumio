@@ -92,7 +92,7 @@ const SignIn = () => {
               onFinishFailed={onFinishFailed}
             >
               <div className="isoInputWrapper">
-                <Form.Item
+                {/* <Form.Item
                   label="Username"
                   name="username"
                   rules={[
@@ -109,6 +109,22 @@ const SignIn = () => {
                   <Input
                     prefix={<UserOutlined className="site-form-item-icon" />}
                     placeholder="Username"
+                  />
+                </Form.Item> */}
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your email!',
+                    },
+                    { type: 'email' },
+                  ]}
+                >
+                  <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Email"
                   />
                 </Form.Item>
               </div>

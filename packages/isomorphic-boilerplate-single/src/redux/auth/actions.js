@@ -14,19 +14,19 @@ export const FAILURE = 'FAILURE'
 export const IS_VALID_LINK = 'IS_VALID_LINK'
 export const IS_NOT_VALID_LINK = 'IS_NOT_VALID_LINK'
 
-export const fetchToken = ({ username, password }) => {
+export const fetchToken = ({ email, password }) => {
+  console.log(email, password)
   return (dispatch) => {
     axios
       .post(`http://localhost:4000/users/login`, {
-        username,
+        email,
         password,
       })
       .then((response) => {
         if (response.status === 200) {
-          const filter = ({ firstName, lastName, username, email, token }) => ({
+          const filter = ({ firstName, lastName, email, token }) => ({
             firstName,
             lastName,
-            username,
             email,
             token,
           })
@@ -145,11 +145,15 @@ export const verifyValidLink = ({ userId, token }) => {
   }
 }
 
-export const resetPassword = ({ userId, password }) => {
+export const resetPassword = ({ userId, password, token }) => {
   console.log(userId, password)
   return (dispatch) => {
     axios
-      .post(`http://localhost:4000/users/reset-password`, { userId, password })
+      .post(`http://localhost:4000/users/reset-password`, {
+        userId,
+        password,
+        token,
+      })
       .then((response) => {
         if (response.status === 200) {
           dispatch({

@@ -12,14 +12,13 @@ const schema = Joi.object()
   .keys({
     firstName: Joi.string().trim(),
     lastName: Joi.string().trim(),
-    username: Joi.string().trim().min(5),
     email: Joi.string().trim().email(),
     password: Joi.string().min(6),
   })
   .unknown(true)
 
-const login = async ({ username, password }) => {
-  const user = await User.findOne({ username })
+const login = async ({ email, password }) => {
+  const user = await User.findOne({ email })
   if (user && bcrypt.compareSync(password, user.hash)) {
     const token = jwt.sign({ sub: user._id, role: user.role }, config.secret, {
       expiresIn: '7d',
@@ -36,12 +35,7 @@ const getAll = async ({ limit, skip, q }) => {
   const page = skip ? parseInt(skip) : 0
   const qRegex = new RegExp(q)
   return await User.find()
-    .or([
-      { firstName: qRegex },
-      { lastName: qRegex },
-      { email: qRegex },
-      { username: qRegex },
-    ])
+    .or([{ firstName: qRegex }, { lastName: qRegex }, { email: qRegex }])
     .limit(perPage)
     .skip(perPage * page)
 }
@@ -58,20 +52,14 @@ const create = async (userParam) => {
     throw error
   }
   Object.assign(userParam, value)
-  // unique username
-  if (await User.findOne({ username: userParam.username })) {
-    throw new Error(`Username "${userParam.username}" is already taken`)
-  }
   // unique email
-  if (await User.findOne({ username: userParam.email })) {
+  if (await User.findOne({ email: userParam.email })) {
     throw new Error(`Email "${userParam.email}" is already registered`)
   }
   const user = new User(userParam)
-  // hash password
-  if (userParam.password) {
-    user.hash = bcrypt.hashSync(userParam.password, 10)
-  }
-  // save user
+  const hash = bcrypt.hashSync(userParam.password, 10)
+  // copy userParam properties to user
+  Object.assign(user, { ...userParam, hash })
   return await user.save()
 }
 
@@ -85,17 +73,16 @@ const updateById = async (id, userParam) => {
   Object.assign(userParam, value)
   if (!user) throw new Error('User not found')
   if (
-    user.username !== userParam.username &&
-    (await User.findOne({ username: userParam.username }))
+    user.email !== userParam.email &&
+    (await User.findOne({ email: userParam.email }))
   ) {
-    throw new Error(`Username "${userParam.username}" is already taken`)
+    throw new Error(`Email "${userParam.email}" is already taken`)
   }
-  // hash password if it was entered
   if (userParam.password) {
-    userParam.hash = bcrypt.hashSync(userParam.password, 10)
+    const hash = bcrypt.hashSync(userParam.password, 10)
+    // copy userParam properties to user
+    Object.assign(user, { ...userParam, hash })
   }
-  // copy userParam properties to user
-  Object.assign(user, userParam)
   return await user.save()
 }
 
@@ -110,7 +97,9 @@ const getTempLink = async (email) => {
   console.log('value', value)
   if (error) throw error
   const user = await User.findOne({ email: value })
-  if (!user) throw new Error('Email not registered')
+  if (!user) {
+    throw new Error('Email not registered')
+  }
   const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
   const token = jwtSimple.encode({ sub: user._id }, tempSecret)
   // API link: /users/reset-password/${user._id}/${token}
@@ -120,9 +109,7 @@ const getTempLink = async (email) => {
 const sendResetEmail = async (link, email) => {
   console.log(emailPassword)
   const transport = nodemailer.createTransport({
-    // host: 'smtp.mailtrap.io',
     service: 'gmail',
-    // port: 2525,
     auth: {
       user: 'itsresumio@gmail.com',
       pass: emailPassword,
@@ -144,20 +131,28 @@ const sendResetEmail = async (link, email) => {
   })
 }
 
-const resetPassword = async ({ userId, password }) => {
+const resetPassword = async ({ userId, password, token }) => {
   const user = await User.findById(userId)
   if (!user) throw new Error('User not found')
-  const passwordSchema = Joi.string().min(6)
-  const { error } = passwordSchema.validate(password)
-  if (error) {
-    throw error
+  const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
+  const { sub } = jwtSimple.decode(token, tempSecret)
+  if (sub === userId) {
+    const passwordSchema = Joi.string().min(6)
+    const { error } = passwordSchema.validate(password)
+    if (error) {
+      throw error
+    }
+    if (bcrypt.compareSync(password, user.hash)) {
+      throw new Error(
+        'You must choose a different password from your last one.'
+      )
+    }
+    const newHash = bcrypt.hashSync(password, 10)
+    Object.assign(user, { hash: newHash })
+    return await user.save()
   }
-  if (bcrypt.compareSync(password, user.hash)) {
-    throw new Error('You must choose a different password from your last one.')
-  }
-  const newHash = bcrypt.hashSync(password, 10)
-  Object.assign(user, { hash: newHash })
-  return await user.save()
+  // Technically unreachable
+  throw new Error('Unexpected error')
 }
 
 module.exports = {

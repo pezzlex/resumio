@@ -82,7 +82,7 @@ const ResetPassword = () => {
   }
 
   const onFinish = ({ password }) => {
-    dispatch(resetPassword({ userId, password }))
+    dispatch(resetPassword({ userId, password, token }))
   }
 
   const onFinishFailed = (errorInfo) => {
