@@ -12,17 +12,8 @@
   "scripts": {
     "clean": "lerna clean --yes && rimraf node_modules",
     "clean:build": "lerna exec -- rimraf \"{.next,dist,out,build,.docz}\"",
-    "start": "yarn workspace @iso/boilerplate-single run start",
-    "dev": "concurrently \"cd packages/isomorphic-boilerplate-single/servers && yarn start\" \"yarn start\"",
-    "start:iso-boilerplate": "yarn workspace @iso/boilerplate run start",
-    "build": "yarn workspace @iso/boilerplate-single run build",
-    "build:iso-cra": "yarn workspace @iso/cra run build",
-    "build:iso-next": "yarn workspace @iso/next run build",
-    "build:iso-boilerplate": "yarn workspace @iso/boilerplate run build",
-    "serve": "yarn workspace @iso/boilerplate-single run serve",
-    "serve:iso-cra": "yarn workspace @iso/cra run serve",
-    "serve:iso-next": "yarn workspace @iso/next run start",
-    "serve:iso-boilerplate": "yarn workspace @iso/next run serve"
+    "start": "react-scripts start",
+    "dev": "concurrently \"nodemon servers/server \" \"yarn start\""
   },
   "husky": {
     "hooks": {
@@ -46,12 +37,45 @@
     "serve": "^11.3.2"
   },
   "dependencies": {
+    "@ant-design/icons": "4.0.0",
     "@react-pdf/renderer": "^1.6.10",
+    "antd": "^4.5.2",
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
     "joi": "^17.1.1",
     "jwt-simple": "^0.5.6",
     "lodash": "^4.17.19",
+    "mongoose": "^5.9.28",
+    "node-sass": "^4.14.1",
     "nodemailer": "^6.4.10",
+    "nodemon": "^2.0.4",
     "pspdfkit": "^2020.4.1",
-    "react-pdf": "^4.2.0"
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^16.13.1",
+    "react-pdf": "^4.2.0",
+    "react-redux": "^7.2.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.1",
+    "redux": "^4.0.5",
+    "redux-localstorage-simple": "^2.3.1",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.1.1",
+    "styled-theme": "^0.3.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
