@@ -7,6 +7,7 @@ const cors = require('cors')
 const PORT = 4000
 const path = require('path')
 
+console.log('path = ' + path.join(__dirname, './build', 'index.html'))
 app.use(cors())
 app.use(bodyParser.json())
 
