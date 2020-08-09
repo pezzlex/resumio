@@ -6,13 +6,12 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const PORT = 4000
 const path = require('path')
+require('dotenv').config()
 
 console.log('path = ' + path.join(__dirname, './build', 'index.html'))
+
 app.use(cors())
 app.use(bodyParser.json())
-
-// use JWT auth to secure the api
-// app.use(jwt())
 
 // global error handler
 app.use(errorHandler)

@@ -10,6 +10,8 @@ import Routes from './router'
 import AppProvider from './AppProvider'
 import { composeWithDevTools } from 'remote-redux-devtools'
 
+console.log(process.env.username, '----------')
+
 const store = createStore(
   rootReducer,
   load(),

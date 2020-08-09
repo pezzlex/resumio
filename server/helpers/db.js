@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
-const { username, password, cluster, dbName } = require('../config')
+require('dotenv').config()
 
 mongoose.connect(
   process.env.MONGODB_URI ||
-    `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbName}?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.username}:${process.env.password}@${process.env.cluster}.mongodb.net/${process.env.dbName}?retryWrites=true&w=majority`,
   {
     useCreateIndex: true,
     useNewUrlParser: true,

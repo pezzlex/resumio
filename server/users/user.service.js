@@ -1,10 +1,8 @@
-const config = require('../config')
 const jwt = require('jsonwebtoken')
 const jwtSimple = require('jwt-simple')
 const bcrypt = require('bcryptjs')
 const { User } = require('../helpers/db')
 const nodemailer = require('nodemailer')
-const { emailPassword } = require('../config')
 
 const Joi = require('joi')
 
@@ -20,9 +18,13 @@ const schema = Joi.object()
 const login = async ({ email, password }) => {
   const user = await User.findOne({ email })
   if (user && bcrypt.compareSync(password, user.hash)) {
-    const token = jwt.sign({ sub: user._id, role: user.role }, config.secret, {
-      expiresIn: '7d',
-    })
+    const token = jwt.sign(
+      { sub: user._id, role: user.role },
+      process.env.secret,
+      {
+        expiresIn: '7d',
+      }
+    )
     return {
       ...user.toJSON(),
       token,
@@ -107,12 +109,11 @@ const getTempLink = async (email) => {
 }
 
 const sendResetEmail = async (link, email) => {
-  console.log(emailPassword)
   const transport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'itsresumio@gmail.com',
-      pass: emailPassword,
+      pass: process.env.emailPassword,
     },
   })
   const message = {
