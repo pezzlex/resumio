@@ -12,7 +12,8 @@
   "scripts": {
     "clean": "lerna clean --yes && rimraf node_modules",
     "clean:build": "lerna exec -- rimraf \"{.next,dist,out,build,.docz}\"",
-    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "start": "node servers/server.js",
     "dev": "concurrently \"nodemon servers/server \" \"yarn start\""
   },
   "husky": {
