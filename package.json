@@ -10,10 +10,9 @@
     "packages/isomorphic-boilerplate-graphql/*"
   ],
   "scripts": {
-    "clean": "lerna clean --yes && rimraf node_modules",
-    "clean:build": "lerna exec -- rimraf \"{.next,dist,out,build,.docz}\"",
     "build": "react-scripts build",
     "start": "node servers/server.js",
+    "heroku-postbuild": "yarn && yarn run build",
     "dev": "concurrently \"nodemon servers/server \" \"react-scripts start\""
   },
   "husky": {
