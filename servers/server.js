@@ -22,5 +22,9 @@ app.listen(port, function () {
   console.log('Server listening on port ' + port)
 })
 
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+
 app.use('/resumes', require('./resumes/resumes.controller'))
 app.use('/users', require('./users/users.controller'))
