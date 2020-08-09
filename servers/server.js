@@ -7,7 +7,7 @@ const cors = require('cors')
 const PORT = 4000
 const path = require('path')
 
-app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.join(__dirname, './build')))
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -23,7 +23,11 @@ app.use('/users', require('./users/users.controller'))
 
 // Anything that doesn't match the above, send back the index.html file
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/build/index.html'))
+  res.sendFile(path.join(__dirname, './build/index.html'), (err) => {
+    if (err) {
+      res.status(500).json({ data: null, error: true, message: err.message })
+    }
+  })
 })
 
 // start server
