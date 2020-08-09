@@ -14,7 +14,7 @@
     "clean:build": "lerna exec -- rimraf \"{.next,dist,out,build,.docz}\"",
     "build": "react-scripts build",
     "start": "node servers/server.js",
-    "dev": "concurrently \"nodemon servers/server \" \"yarn start\""
+    "dev": "concurrently \"nodemon servers/server \" \"react-scripts start\""
   },
   "husky": {
     "hooks": {
@@ -64,6 +64,7 @@
     "redux": "^4.0.5",
     "redux-localstorage-simple": "^2.3.1",
     "redux-thunk": "^2.3.0",
+    "remote-redux-devtools": "^0.5.16",
     "styled-components": "^5.1.1",
     "styled-theme": "^0.3.3"
   },

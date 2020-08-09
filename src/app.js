@@ -8,7 +8,7 @@ import rootReducer from './redux/root-reducer'
 
 import Routes from './router'
 import AppProvider from './AppProvider'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { composeWithDevTools } from 'remote-redux-devtools'
 
 const store = createStore(
   rootReducer,
