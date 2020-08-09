@@ -15,16 +15,16 @@ app.use(jwt())
 // global error handler
 app.use(errorHandler)
 
-// start server
-const port =
-  process.env.NODE_ENV === 'production' ? process.env.PORT || 80 : PORT
-app.listen(port, function () {
-  console.log('Server listening on port ' + port)
-})
-
 // app.use('/resumes', require('./resumes/resumes.controller'))
 // app.use('/users', require('./users/users.controller'))
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+
+// start server
+const port =
+  process.env.NODE_ENV === 'production' ? process.env.PORT || 80 : PORT
+app.listen(port, function () {
+  console.log('Server listening on port ' + port)
 })
