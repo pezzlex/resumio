@@ -21,17 +21,19 @@ app.use(errorHandler)
 app.use('/resumes', require('./resumes/resumes.controller'))
 app.use('/users', require('./users/users.controller'))
 
-// Anything that doesn't match the above, send back the index.html file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './build/index.html'), (err) => {
-    if (err) {
-      res.status(500).json({ data: null, error: true, message: err.message })
-    }
-  })
-})
-
 // start server
 const port = process.env.PORT || PORT
 app.listen(port, () => {
   console.log('Server listening on port ' + port)
 })
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/client/dist')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/client/dist', 'index.html'), (err) => {
+      if (err) {
+        res.status(500).json({ data: null, error: true, message: err.message })
+      }
+    })
+  })
+}
