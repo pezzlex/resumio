@@ -15,11 +15,6 @@ function jwt() {
       '/users/reset-password',
       new RegExp('^/users/reset-password/.*'),
       '/users/get-temp-link',
-      // URL routes
-      '/signin',
-      '/forgot-password',
-      '/signup',
-      '/',
     ],
   })
 }

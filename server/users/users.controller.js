@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const userService = require('./user.service')
 const authorize = require('../helpers/authorize')
+const authenticate = require('../helpers/authenticate')
 const jwtSimple = require('jwt-simple')
 
 const login = (req, res, next) => {
@@ -231,17 +232,19 @@ const resetPasswordPost = (req, res, next) => {
     })
 }
 
-// routes
+// No auth required
 router.post('/login', login)
 router.post('/register', register)
-router.get('/me', getCurrent)
-router.put('/me', updateCurrent)
-router.get('/:id', getById)
+router.post('/reset-password', resetPasswordPost)
+router.get('/reset-password/:id/:token', resetPasswordGet)
+router.post('/get-temp-link', getTempLink)
+// Login required
+router.get('/me', authenticate(), getCurrent)
+router.put('/me', authenticate(), updateCurrent)
+router.get('/:id', authenticate(), getById)
+// Admin routes
 router.get('/', authorize(), getAll)
 router.put('/:id', authorize(), updateById)
 router.delete('/:id', authorize(), deleteById)
-router.post('/get-temp-link', getTempLink)
-router.get('/reset-password/:id/:token', resetPasswordGet)
-router.post('/reset-password', resetPasswordPost)
 
 module.exports = router

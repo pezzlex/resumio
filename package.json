@@ -7,7 +7,7 @@
   "scripts": {
     "build": "react-scripts build",
     "start": "node server.js",
-    "heroku-postbuild": "yarn && yarn run build",
+    "heroku-postbuild": "yarn && yarn run start",
     "dev": "concurrently \"nodemon server \" \"react-scripts start\""
   },
   "husky": {

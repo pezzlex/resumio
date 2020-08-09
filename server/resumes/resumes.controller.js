@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const resumeService = require('./resume.service')
+const authenticate = require('../helpers/authenticate')
 
 const getAll = (req, res, next) => {
   console.log('req.query', req.query)
@@ -93,10 +94,10 @@ const _delete = (req, res, next) => {
 }
 
 // routes
-router.get('/', getAll)
-router.get('/:id', getById)
-router.post('/add', create)
-router.put('/:id', update)
-router.delete('/:id', _delete)
+router.get('/', authenticate(), getAll)
+router.get('/:id', authenticate(), getById)
+router.post('/add', authenticate(), create)
+router.put('/:id', authenticate(), update)
+router.delete('/:id', authenticate(), _delete)
 
 module.exports = router
