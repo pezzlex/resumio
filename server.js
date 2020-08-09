@@ -4,7 +4,7 @@ const errorHandler = require('./server/helpers/error-handler')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const PORT = 4000
+const PORT = 3000
 const path = require('path')
 require('dotenv').config()
 

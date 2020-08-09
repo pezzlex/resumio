@@ -36,7 +36,7 @@ export const fetchResumes = (params) => {
 export const deleteResume = (id) => {
   return (dispatch) => {
     axios
-      .delete(`${process.env.herokuUrl}/resumes/${id}`)
+      .delete(`resumes/${id}`)
       .then((response) => {
         console.log('deleting')
         if (response.status === 200) {
@@ -57,10 +57,9 @@ export const deleteResume = (id) => {
 }
 
 export const fetchResumeById = (id) => {
-  console.log('called??')
   return (dispatch) => {
     axios
-      .get(`${process.env.herokuUrl}/resumes/${id}`)
+      .get(`resumes/${id}`)
       .then((response) => {
         if (response.status === 200) {
           console.log('found resume', response.data.data)
@@ -86,7 +85,7 @@ export const fetchResumeById = (id) => {
 export const addResume = (resume) => {
   return (dispatch) => {
     axios
-      .post('${process.env.herokuUrl}/resumes/add', resume)
+      .post('resumes/add', resume)
       .then((response) => {
         if (response.status === 200) {
           // reset current resume
@@ -112,7 +111,7 @@ export const addResume = (resume) => {
 export const editResume = (id, resume) => {
   return (dispatch) => {
     axios
-      .put(`${process.env.herokuUrl}/resumes/${id}`, resume)
+      .put(`resumes/${id}`, resume)
       .then((response) => {
         if (response.status === 200) {
           // reset current resume
