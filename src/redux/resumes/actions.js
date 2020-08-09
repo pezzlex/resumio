@@ -10,7 +10,7 @@ export const CLEAR_CURRENT_RESUME = 'CLEAR_CURRENT_RESUME'
 export const fetchResumes = (params) => {
   return (dispatch) => {
     axios
-      .get(`${process.env.herokuUrl}/resumes`, { params })
+      .get('resumes', { params })
       .then((response) => {
         if (response.status === 200) {
           console.log('found resumes ', response.data.data)
