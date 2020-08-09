@@ -1,19 +1,14 @@
 {
-  "name": "isomorphic",
-  "description": "react redux admin dashboard",
+  "name": "resumio",
+  "description": "Your resume in the cloud",
   "version": "3.0.6",
   "private": true,
-  "author": "RedQ, Inc",
-  "workspaces": [
-    "shared/*",
-    "packages/*",
-    "packages/isomorphic-boilerplate-graphql/*"
-  ],
+  "author": "Pezanne Khambatta",
   "scripts": {
     "build": "react-scripts build",
-    "start": "node servers/server.js",
+    "start": "node server.js",
     "heroku-postbuild": "yarn && yarn run build",
-    "dev": "concurrently \"nodemon servers/server \" \"react-scripts start\""
+    "dev": "concurrently \"nodemon server \" \"react-scripts start\""
   },
   "husky": {
     "hooks": {

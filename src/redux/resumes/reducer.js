@@ -5,7 +5,7 @@ import {
   SUCCESS,
   CLEAR_STATUS,
   CLEAR_CURRENT_RESUME,
-} from '../resumes/actions'
+} from './actions'
 
 const initState = {
   resumes: {

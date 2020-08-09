@@ -1,13 +1,11 @@
 const express = require('express')
-const jwt = require('./helpers/jwt')
-const errorHandler = require('./helpers/error-handler')
+const jwt = require('./server/helpers/jwt')
+const errorHandler = require('./server/helpers/error-handler')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const PORT = 4000
 const path = require('path')
-
-app.use(express.static(path.join(__dirname, './build')))
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -18,8 +16,8 @@ app.use(jwt())
 // global error handler
 app.use(errorHandler)
 
-app.use('/resumes', require('./resumes/resumes.controller'))
-app.use('/users', require('./users/users.controller'))
+app.use('/resumes', require('./server/resumes/resumes.controller'))
+app.use('/users', require('./server/users/users.controller'))
 
 // start server
 const port = process.env.PORT || PORT
@@ -28,9 +26,9 @@ app.listen(port, () => {
 })
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/client/dist')))
+  app.use(express.static(path.join(__dirname, './build')))
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/client/dist', 'index.html'), (err) => {
+    res.sendFile(path.join(__dirname, './build', 'index.html'), (err) => {
       if (err) {
         res.status(500).json({ data: null, error: true, message: err.message })
       }
