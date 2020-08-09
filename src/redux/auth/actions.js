@@ -18,7 +18,7 @@ export const fetchToken = ({ email, password }) => {
   console.log(email, password)
   return (dispatch) => {
     axios
-      .post(`http://localhost:4000/users/login`, {
+      .post(`${process.env.herokuUrl}/users/login`, {
         email,
         password,
       })
@@ -51,8 +51,6 @@ export const fetchToken = ({ email, password }) => {
 }
 
 export const logoutUser = () => {
-  localStorage.removeItem('jwtToken')
-  delete axios.defaults.headers.common['Authorization']
   return (dispatch) =>
     dispatch({
       type: LOGOUT_USER,
@@ -68,7 +66,7 @@ export const registerUser = ({
 }) => {
   return (dispatch) => {
     axios
-      .post(`http://localhost:4000/users/register`, {
+      .post(`${process.env.herokuUrl}/users/register`, {
         firstName,
         lastName,
         email,
@@ -103,7 +101,7 @@ export const clearStatus = () => {
 export const getTempLink = (email) => {
   return (dispatch) => {
     axios
-      .post(`http://localhost:4000/users/get-temp-link`, {
+      .post(`${process.env.herokuUrl}/users/get-temp-link`, {
         email,
       })
       .then((response) => {
@@ -126,7 +124,7 @@ export const getTempLink = (email) => {
 export const verifyValidLink = ({ userId, token }) => {
   return (dispatch) => {
     axios
-      .get(`http://localhost:4000/users/reset-password/${userId}/${token}`)
+      .get(`${process.env.herokuUrl}/users/reset-password/${userId}/${token}`)
       .then((response) => {
         if (response.status === 200) {
           dispatch({
@@ -149,7 +147,7 @@ export const resetPassword = ({ userId, password, token }) => {
   console.log(userId, password)
   return (dispatch) => {
     axios
-      .post(`http://localhost:4000/users/reset-password`, {
+      .post(`${process.env.herokuUrl}/users/reset-password`, {
         userId,
         password,
         token,

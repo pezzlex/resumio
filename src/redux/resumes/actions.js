@@ -10,7 +10,7 @@ export const CLEAR_CURRENT_RESUME = 'CLEAR_CURRENT_RESUME'
 export const fetchResumes = (params) => {
   return (dispatch) => {
     axios
-      .get(`http://localhost:4000/resumes`, { params })
+      .get(`${process.env.herokuUrl}/resumes`, { params })
       .then((response) => {
         if (response.status === 200) {
           console.log('found resumes ', response.data.data)
@@ -36,7 +36,7 @@ export const fetchResumes = (params) => {
 export const deleteResume = (id) => {
   return (dispatch) => {
     axios
-      .delete(`http://localhost:4000/resumes/${id}`)
+      .delete(`${process.env.herokuUrl}/resumes/${id}`)
       .then((response) => {
         console.log('deleting')
         if (response.status === 200) {
@@ -60,7 +60,7 @@ export const fetchResumeById = (id) => {
   console.log('called??')
   return (dispatch) => {
     axios
-      .get(`http://localhost:4000/resumes/${id}`)
+      .get(`${process.env.herokuUrl}/resumes/${id}`)
       .then((response) => {
         if (response.status === 200) {
           console.log('found resume', response.data.data)
@@ -86,7 +86,7 @@ export const fetchResumeById = (id) => {
 export const addResume = (resume) => {
   return (dispatch) => {
     axios
-      .post('http://localhost:4000/resumes/add', resume)
+      .post('${process.env.herokuUrl}/resumes/add', resume)
       .then((response) => {
         if (response.status === 200) {
           // reset current resume
@@ -112,7 +112,7 @@ export const addResume = (resume) => {
 export const editResume = (id, resume) => {
   return (dispatch) => {
     axios
-      .put(`http://localhost:4000/resumes/${id}`, resume)
+      .put(`${process.env.herokuUrl}/resumes/${id}`, resume)
       .then((response) => {
         if (response.status === 200) {
           // reset current resume

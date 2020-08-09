@@ -31,7 +31,6 @@ const initState = {
 export default function authReducer(state = initState, action) {
   switch (action.type) {
     case LOGIN_USER:
-      console.log('about to login user')
       localStorage.setItem('jwtToken', action.payload.token)
       axios.defaults.headers.common[
         'Authorization'
@@ -42,6 +41,8 @@ export default function authReducer(state = initState, action) {
         error: '',
       }
     case LOGOUT_USER:
+      localStorage.removeItem('jwtToken')
+      delete axios.defaults.headers.common['Authorization']
       return initState
     case REGISTER_USER:
       return {
