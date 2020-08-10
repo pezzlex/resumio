@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { herokuUrl } from '../root-reducer'
 export const LOGIN_USER = 'LOGIN_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const REGISTER_USER = 'REGISTER_USER'
@@ -16,9 +17,10 @@ export const IS_NOT_VALID_LINK = 'IS_NOT_VALID_LINK'
 
 export const fetchToken = ({ email, password }) => {
   console.log(email, password)
+
   return (dispatch) => {
     axios
-      .post(`${process.env.baseUrl}/users/login`, {
+      .post(`${herokuUrl}/users/login`, {
         email,
         password,
       })
@@ -66,7 +68,7 @@ export const registerUser = ({
 }) => {
   return (dispatch) => {
     axios
-      .post(`${process.env.baseUrl}/users/register`, {
+      .post(`${herokuUrl}/users/register`, {
         firstName,
         lastName,
         email,
@@ -101,7 +103,7 @@ export const clearStatus = () => {
 export const getTempLink = (email) => {
   return (dispatch) => {
     axios
-      .post(`${process.env.baseUrl}/users/get-temp-link`, {
+      .post(`${herokuUrl}/users/get-temp-link`, {
         email,
       })
       .then((response) => {
@@ -124,7 +126,7 @@ export const getTempLink = (email) => {
 export const verifyValidLink = ({ userId, token }) => {
   return (dispatch) => {
     axios
-      .get(`${process.env.baseUrl}/users/reset-password/${userId}/${token}`)
+      .get(`${herokuUrl}/users/reset-password/${userId}/${token}`)
       .then((response) => {
         if (response.status === 200) {
           dispatch({
@@ -147,7 +149,7 @@ export const resetPassword = ({ userId, password, token }) => {
   console.log(userId, password)
   return (dispatch) => {
     axios
-      .post(`${process.env.baseUrl}/users/reset-password`, {
+      .post(`${herokuUrl}/users/reset-password`, {
         userId,
         password,
         token,
