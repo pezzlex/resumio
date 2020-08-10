@@ -10,7 +10,7 @@ export const CLEAR_CURRENT_RESUME = 'CLEAR_CURRENT_RESUME'
 export const fetchResumes = (params) => {
   return (dispatch) => {
     axios
-      .get('resumes', { params })
+      .get(`${process.env.baseUrl}/resumes`, { params })
       .then((response) => {
         if (response.status === 200) {
           console.log('found resumes ', response.data.data)
@@ -36,7 +36,7 @@ export const fetchResumes = (params) => {
 export const deleteResume = (id) => {
   return (dispatch) => {
     axios
-      .delete(`resumes/${id}`)
+      .delete(`${process.env.baseUrl}/resumes/${id}`)
       .then((response) => {
         console.log('deleting')
         if (response.status === 200) {
@@ -59,7 +59,7 @@ export const deleteResume = (id) => {
 export const fetchResumeById = (id) => {
   return (dispatch) => {
     axios
-      .get(`resumes/${id}`)
+      .get(`${process.env.baseUrl}/resumes/${id}`)
       .then((response) => {
         if (response.status === 200) {
           console.log('found resume', response.data.data)
@@ -85,7 +85,7 @@ export const fetchResumeById = (id) => {
 export const addResume = (resume) => {
   return (dispatch) => {
     axios
-      .post('resumes/add', resume)
+      .post(`${process.env.baseUrl}/resumes/add`, resume)
       .then((response) => {
         if (response.status === 200) {
           // reset current resume
@@ -111,7 +111,7 @@ export const addResume = (resume) => {
 export const editResume = (id, resume) => {
   return (dispatch) => {
     axios
-      .put(`resumes/${id}`, resume)
+      .put(`${process.env.baseUrl}/resumes/${id}`, resume)
       .then((response) => {
         if (response.status === 200) {
           // reset current resume

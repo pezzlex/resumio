@@ -8,8 +8,6 @@ const PORT = 3000
 const path = require('path')
 require('dotenv').config()
 
-console.log('path = ' + path.join(__dirname, './build', 'index.html'))
-
 app.use(cors())
 app.use(bodyParser.json())
 
@@ -25,13 +23,11 @@ app.listen(port, () => {
   console.log('Server listening on port ' + port)
 })
 
-if (process.env.NODE_ENV === 'production' || true) {
-  app.use(express.static(path.join(__dirname, './build')))
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './build', 'index.html'), (err) => {
-      if (err) {
-        res.status(500).json({ data: null, error: true, message: err.message })
-      }
-    })
+app.use(express.static(path.join(__dirname, './build')))
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './build', 'index.html'), (err) => {
+    if (err) {
+      res.status(500).json({ data: null, error: true, message: err.message })
+    }
   })
-}
+})

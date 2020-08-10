@@ -16,10 +16,9 @@ export const IS_NOT_VALID_LINK = 'IS_NOT_VALID_LINK'
 
 export const fetchToken = ({ email, password }) => {
   console.log(email, password)
-  console.log('users/login')
   return (dispatch) => {
     axios
-      .post('users/login', {
+      .post(`${process.env.baseUrl}/users/login`, {
         email,
         password,
       })
@@ -67,7 +66,7 @@ export const registerUser = ({
 }) => {
   return (dispatch) => {
     axios
-      .post('users/register', {
+      .post(`${process.env.baseUrl}/users/register`, {
         firstName,
         lastName,
         email,
@@ -102,7 +101,7 @@ export const clearStatus = () => {
 export const getTempLink = (email) => {
   return (dispatch) => {
     axios
-      .post('users/get-temp-link', {
+      .post(`${process.env.baseUrl}/users/get-temp-link`, {
         email,
       })
       .then((response) => {
@@ -125,7 +124,7 @@ export const getTempLink = (email) => {
 export const verifyValidLink = ({ userId, token }) => {
   return (dispatch) => {
     axios
-      .get(`users/reset-password/${userId}/${token}`)
+      .get(`${process.env.baseUrl}/users/reset-password/${userId}/${token}`)
       .then((response) => {
         if (response.status === 200) {
           dispatch({
@@ -148,7 +147,7 @@ export const resetPassword = ({ userId, password, token }) => {
   console.log(userId, password)
   return (dispatch) => {
     axios
-      .post('users/reset-password', {
+      .post(`${process.env.baseUrl}/users/reset-password`, {
         userId,
         password,
         token,

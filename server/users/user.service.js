@@ -105,7 +105,7 @@ const getTempLink = async (email) => {
   const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
   const token = jwtSimple.encode({ sub: user._id }, tempSecret)
   // API link: /users/reset-password/${user._id}/${token}
-  return `${process.env.herokuUrl}/reset-password/${user._id}/${token}`
+  return `${process.env.baseUrl}/reset-password/${user._id}/${token}`
 }
 
 const sendResetEmail = async (link, email) => {

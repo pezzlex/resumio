@@ -49,6 +49,7 @@ function PrivateRoute({ children, ...rest }) {
   axios.defaults.headers.common[
     'Authorization'
   ] = `Bearer ${localStorage.getItem('jwtToken')}`
+  axios.defaults.baseURL = process.env.baseUrl
   return (
     <Route
       {...rest}

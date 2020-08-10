@@ -35,6 +35,7 @@ export default function authReducer(state = initState, action) {
       axios.defaults.headers.common[
         'Authorization'
       ] = `Bearer ${action.payload.token}`
+
       return {
         ...state,
         ...action.payload,
