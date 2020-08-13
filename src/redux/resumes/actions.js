@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { herokuUrl } from '../root-reducer'
+import { baseUrl } from '../root-reducer'
 
 export const FETCH_RESUMES = 'FETCH_RESUMES'
 export const FETCH_RESUME_BY_ID = 'FETCH_RESUME_BY_ID'
@@ -12,7 +12,7 @@ export const fetchResumes = (params) => {
   console.log(process.env)
   return (dispatch) => {
     axios
-      .get(`${herokuUrl}/resumes`, { params })
+      .get(`${baseUrl}/resumes`, { params })
       .then((response) => {
         if (response.status === 200) {
           console.log('found resumes ', response.data.data)
@@ -38,7 +38,7 @@ export const fetchResumes = (params) => {
 export const deleteResume = (id) => {
   return (dispatch) => {
     axios
-      .delete(`${herokuUrl}/resumes/${id}`)
+      .delete(`${baseUrl}/resumes/${id}`)
       .then((response) => {
         console.log('deleting')
         if (response.status === 200) {
@@ -61,7 +61,7 @@ export const deleteResume = (id) => {
 export const fetchResumeById = (id) => {
   return (dispatch) => {
     axios
-      .get(`${herokuUrl}/resumes/${id}`)
+      .get(`${baseUrl}/resumes/${id}`)
       .then((response) => {
         if (response.status === 200) {
           console.log('found resume', response.data.data)
@@ -87,7 +87,7 @@ export const fetchResumeById = (id) => {
 export const addResume = (resume) => {
   return (dispatch) => {
     axios
-      .post(`${herokuUrl}/resumes/add`, resume)
+      .post(`${baseUrl}/resumes/add`, resume)
       .then((response) => {
         if (response.status === 200) {
           // reset current resume
@@ -113,7 +113,7 @@ export const addResume = (resume) => {
 export const editResume = (id, resume) => {
   return (dispatch) => {
     axios
-      .put(`${herokuUrl}/resumes/${id}`, resume)
+      .put(`${baseUrl}/resumes/${id}`, resume)
       .then((response) => {
         if (response.status === 200) {
           // reset current resume

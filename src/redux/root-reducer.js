@@ -3,7 +3,7 @@ import Auth from './auth/reducer'
 import resumeData from './resumes/reducer'
 import { combineReducers } from 'redux'
 
-export const herokuUrl = 'http://resumio.herokuapp.com'
+export const baseUrl = 'https://resumio.herokuapp.com'
 
 export default combineReducers({
   Auth,

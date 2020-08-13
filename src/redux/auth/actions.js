@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { herokuUrl } from '../root-reducer'
+import { baseUrl } from '../root-reducer'
 export const LOGIN_USER = 'LOGIN_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const REGISTER_USER = 'REGISTER_USER'
@@ -20,7 +20,7 @@ export const fetchToken = ({ email, password }) => {
 
   return (dispatch) => {
     axios
-      .post(`${herokuUrl}/users/login`, {
+      .post(`${baseUrl}/users/login`, {
         email,
         password,
       })
@@ -62,7 +62,7 @@ export const logoutUser = () => {
 export const registerUser = ({ firstName, lastName, email, password }) => {
   return (dispatch) => {
     axios
-      .post(`${herokuUrl}/users/register`, {
+      .post(`${baseUrl}/users/register`, {
         firstName,
         lastName,
         email,
@@ -96,7 +96,7 @@ export const clearStatus = () => {
 export const getTempLink = (email) => {
   return (dispatch) => {
     axios
-      .post(`${herokuUrl}/users/get-temp-link`, {
+      .post(`${baseUrl}/users/get-temp-link`, {
         email,
       })
       .then((response) => {
@@ -119,7 +119,7 @@ export const getTempLink = (email) => {
 export const verifyValidLink = ({ userId, token }) => {
   return (dispatch) => {
     axios
-      .get(`${herokuUrl}/users/reset-password/${userId}/${token}`)
+      .get(`${baseUrl}/users/reset-password/${userId}/${token}`)
       .then((response) => {
         if (response.status === 200) {
           dispatch({
@@ -142,7 +142,7 @@ export const resetPassword = ({ userId, password, token }) => {
   console.log(userId, password)
   return (dispatch) => {
     axios
-      .post(`${herokuUrl}/users/reset-password`, {
+      .post(`${baseUrl}/users/reset-password`, {
         userId,
         password,
         token,
