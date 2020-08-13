@@ -20,7 +20,6 @@ import {
 const initState = {
   firstName: '',
   lastName: '',
-  username: '',
   email: '',
   token: '',
   error: '',

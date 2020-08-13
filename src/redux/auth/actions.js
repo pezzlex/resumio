@@ -59,25 +59,18 @@ export const logoutUser = () => {
     })
 }
 
-export const registerUser = ({
-  firstName,
-  lastName,
-  email,
-  username,
-  password,
-}) => {
+export const registerUser = ({ firstName, lastName, email, password }) => {
   return (dispatch) => {
     axios
       .post(`${herokuUrl}/users/register`, {
         firstName,
         lastName,
         email,
-        username,
         password,
       })
       .then((response) => {
         if (response.status === 200) {
-          dispatch(fetchToken({ username, password }))
+          dispatch(fetchToken({ email, password }))
           dispatch({
             type: REGISTER_SUCCESS,
             payload: response.data.message,

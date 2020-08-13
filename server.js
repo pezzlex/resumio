@@ -4,7 +4,7 @@ const errorHandler = require('./server/helpers/error-handler')
 const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const PORT = 3000
+const PORT = 4000
 const path = require('path')
 require('dotenv').config()
 
@@ -23,11 +23,13 @@ app.listen(port, () => {
   console.log('Server listening on port ' + port)
 })
 
-app.use(express.static(path.join(__dirname, './build')))
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './build', 'index.html'), (err) => {
-    if (err) {
-      res.status(500).json({ data: null, error: true, message: err.message })
-    }
+if (process.env.environment === 'production') {
+  app.use(express.static(path.join(__dirname, './build')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './build', 'index.html'), (err) => {
+      if (err) {
+        res.status(500).json({ data: null, error: true, message: err.message })
+      }
+    })
   })
-})
+}
