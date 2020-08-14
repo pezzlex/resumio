@@ -105,10 +105,11 @@ const getTempLink = async (email) => {
   const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
   const token = jwtSimple.encode({ sub: user._id }, tempSecret)
   // API link: /users/reset-password/${user._id}/${token}
-  return `${process.env.baseUrl}/reset-password/${user._id}/${token}`
+  return `${process.env.REACT_APP_baseUrl}/reset-password/${user._id}/${token}`
 }
 
 const sendResetEmail = async (link, email) => {
+  console.log(process.env.environment)
   const transport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -119,8 +120,12 @@ const sendResetEmail = async (link, email) => {
   const message = {
     from: 'Resumio Support', // Sender address
     to: email, // List of recipients
-    subject: 'Resumio password reset link', // Subject line
-    html: `<p>Click on this <a href="${link}">link</a> to securely reset your password.</p>`,
+    subject: `${
+      process.env.environment === 'development' ? '[TESTING] ' : ''
+    }Resumio password reset link`, // Subject line
+    html: `<p>${
+      process.env.environment === 'development' ? '[TESTING] ' : ''
+    }Click on this <a href="${link}">link</a> to securely reset your password.</p>`,
   }
 
   transport.sendMail(message, (err, info) => {
