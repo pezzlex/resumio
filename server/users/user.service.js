@@ -121,10 +121,10 @@ const sendResetEmail = async (link, email) => {
     from: 'Resumio Support', // Sender address
     to: email, // List of recipients
     subject: `${
-      process.env.environment === 'development' ? '[TESTING] ' : ''
+      process.env.environment !== 'production' ? '[TESTING] ' : ''
     }Resumio password reset link`, // Subject line
     html: `<p>${
-      process.env.environment === 'development' ? '[TESTING] ' : ''
+      process.env.environment !== 'production' ? '[TESTING] ' : ''
     }Click on this <a href="${link}">link</a> to securely reset your password.</p>`,
   }
 
