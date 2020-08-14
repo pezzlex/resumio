@@ -25,8 +25,7 @@ app.listen(port, () => {
 
 if (
   process.env.environment === 'production' ||
-  process.env.environment === 'testing' ||
-  true
+  process.env.environment === 'testing'
 ) {
   app.use(express.static(path.join(__dirname, './build')))
   app.get('*', (req, res) => {
