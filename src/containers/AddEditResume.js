@@ -88,27 +88,32 @@ const AddEditResume = () => {
         }
   )
   const [isSpinning, setSpinning] = useState(false)
-  const [canDownload, setCanDownload] = useState(true)
+  // const [canDownload, setCanDownload] = useState(true)
 
   const [delayedResume, setDelayedResume] = useState(liveResume)
 
   const [form] = Form.useForm()
 
+  const updateDelayedResume = () => {
+    console.log('liveResume', delayedResume, 'latestValue', liveResume)
+    setTimeout(() => {
+      setUpdating(true)
+      setTimeout(() => {
+        setUpdating(false)
+        setLiveChangeDetected(false)
+      }, 2000)
+    }, 9000)
+    setSpinning(true)
+    setTimeout(() => {
+      setSpinning(false)
+    }, 500)
+    setDelayedResume({ ...delayedResume, ...liveResume })
+  }
+
   useEffect(() => {
     if (!isUpdating && isLiveChangeDetected) {
       console.log('liveResume', delayedResume, 'latestValue', liveResume)
-      setTimeout(() => {
-        setUpdating(true)
-        setTimeout(() => {
-          setUpdating(false)
-          setLiveChangeDetected(false)
-        }, 2000)
-      }, 9000)
-      setSpinning(true)
-      setTimeout(() => {
-        setSpinning(false)
-      }, 500)
-      setDelayedResume({ ...delayedResume, ...liveResume })
+      updateDelayedResume()
     }
   }, [isUpdating, isLiveChangeDetected])
 
@@ -130,15 +135,6 @@ const AddEditResume = () => {
       setPageLoading(false)
     }
   }, [success, error])
-
-  const updateDelayedResume = () => {
-    setSpinning(true)
-    setTimeout(() => {
-      setSpinning(false)
-    }, 500)
-    setDelayedResume({ ...delayedResume, ...liveResume })
-    setLiveChangeDetected(false)
-  }
 
   const onFinish = (values) => {
     const structured = ({ fileName, firstName, lastName, phone, email }) => ({
@@ -164,11 +160,7 @@ const AddEditResume = () => {
   }
 
   const download = () => {
-    setCanDownload(false)
     updateDelayedResume()
-    setTimeout(() => {
-      setCanDownload(true)
-    }, 200)
   }
 
   const onFinishFailed = (errorInfo) => {
@@ -368,7 +360,7 @@ const AddEditResume = () => {
 
                                   <Button
                                     type="primary"
-                                    loading={!canDownload}
+                                    loading={isSpinning}
                                     onClick={download}
                                   >
                                     <PDFDownloadLink
