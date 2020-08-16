@@ -29,11 +29,21 @@ import RenderedPdf from './RenderedPdf/RenderedPdf'
 import Styles from './AddEditResume.scss'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import { Prompt } from 'react-router'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 
 export const unstructured = ({
   contact: { firstName, lastName, email, phone },
+  workExperience: { headerName, content },
   fileName,
-}) => ({ fileName, firstName, lastName, phone, email })
+}) => ({
+  fileName,
+  firstName,
+  lastName,
+  phone,
+  email,
+  workHeaderName: headerName,
+  workExperienceContent: content,
+})
 
 const AddEditResume = () => {
   const [numPages, setNumPages] = useState(null)
@@ -93,6 +103,8 @@ const AddEditResume = () => {
           firstName,
           lastName,
           email,
+          workHeaderName: 'Work Experience',
+          workExperienceContent: [],
         }
       : {
           ...unstructured(currentResume),
@@ -152,12 +164,24 @@ const AddEditResume = () => {
   }
 
   const onFinish = (values) => {
-    const structured = ({ fileName, firstName, lastName, phone, email }) => ({
+    const structured = ({
+      fileName,
+      firstName,
+      lastName,
+      phone,
+      email,
+      workHeaderName,
+      workExperienceContent,
+    }) => ({
       contact: {
         firstName,
         lastName,
         email,
         phone,
+      },
+      workExperience: {
+        headerName: workHeaderName,
+        content: workExperienceContent,
       },
       fileName,
     })
@@ -363,6 +387,57 @@ const AddEditResume = () => {
                                 <Form.Item label="Contact Number" name="phone">
                                   <Input placeholder="Contact Number" />
                                 </Form.Item>
+                              </Col>
+
+                              <Col xl={12} lg={12} md={12} span={24}>
+                                <Form.List name="workExperienceContent">
+                                  {(fields, { add, remove }) => {
+                                    return (
+                                      <div>
+                                        {fields.map((field, index) => (
+                                          <Row key={field.key}>
+                                            <Col>
+                                              <Form.Item
+                                                label="Company Name"
+                                                name={[
+                                                  field.name,
+                                                  'companyName',
+                                                ]}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'companyName',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="company name" />
+                                              </Form.Item>
+                                            </Col>
+                                            <Col flex="none">
+                                              <MinusCircleOutlined
+                                                className="dynamic-delete-button"
+                                                onClick={() => {
+                                                  remove(field.name)
+                                                }}
+                                              />
+                                            </Col>
+                                          </Row>
+                                        ))}
+
+                                        <Form.Item>
+                                          <Button
+                                            type="dashed"
+                                            onClick={() => {
+                                              add()
+                                            }}
+                                            style={{ width: '100%' }}
+                                          >
+                                            <PlusOutlined /> Add Work Experience
+                                          </Button>
+                                        </Form.Item>
+                                      </div>
+                                    )
+                                  }}
+                                </Form.List>
                               </Col>
                             </Row>
                           </Col>
