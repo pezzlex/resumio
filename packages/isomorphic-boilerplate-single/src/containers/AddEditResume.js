@@ -29,11 +29,31 @@ import RenderedPdf from './RenderedPdf/RenderedPdf'
 import Styles from './AddEditResume.scss'
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import { Prompt } from 'react-router'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 
+const { TextArea } = Input
 export const unstructured = ({
   contact: { firstName, lastName, email, phone },
+  workExperience: { headerName, content },
+  education,
+  projects,
+  skills,
   fileName,
-}) => ({ fileName, firstName, lastName, phone, email })
+}) => ({
+  fileName,
+  firstName,
+  lastName,
+  phone,
+  email,
+  workHeaderName: headerName,
+  workExperienceContent: content,
+  educationContent: education.content,
+  educationHeaderName: education.headerName,
+  projectHeaderName: projects.headerName,
+  projectContent: projects.content,
+  skillsContent: skills.content,
+  skillsHeaderName: skills.headerName,
+})
 
 const AddEditResume = () => {
   const [numPages, setNumPages] = useState(null)
@@ -93,6 +113,8 @@ const AddEditResume = () => {
           firstName,
           lastName,
           email,
+          workHeaderName: 'Work Experience',
+          workExperienceContent: [],
         }
       : {
           ...unstructured(currentResume),
@@ -152,12 +174,42 @@ const AddEditResume = () => {
   }
 
   const onFinish = (values) => {
-    const structured = ({ fileName, firstName, lastName, phone, email }) => ({
+    const structured = ({
+      fileName,
+      firstName,
+      lastName,
+      phone,
+      email,
+      workHeaderName,
+      workExperienceContent,
+      educationContent,
+      educationHeaderName,
+      projectContent,
+      projectHeaderName,
+      skillsContent,
+      skillsHeaderName,
+    }) => ({
       contact: {
         firstName,
         lastName,
         email,
         phone,
+      },
+      workExperience: {
+        headerName: workHeaderName,
+        content: workExperienceContent,
+      },
+      education: {
+        headerName: educationHeaderName,
+        content: educationContent,
+      },
+      projects: {
+        headerName: projectHeaderName,
+        content: projectContent,
+      },
+      skills: {
+        headerName: skillsHeaderName,
+        content: skillsContent,
       },
       fileName,
     })
@@ -321,6 +373,8 @@ const AddEditResume = () => {
                               </Col>
                             </Row>
 
+                            <br></br>
+                            <h4>Contact Information</h4>
                             <Row gutter={16}>
                               <Col xl={12} lg={12} md={12} span={24}>
                                 <Form.Item
@@ -363,6 +417,455 @@ const AddEditResume = () => {
                                 <Form.Item label="Contact Number" name="phone">
                                   <Input placeholder="Contact Number" />
                                 </Form.Item>
+                              </Col>
+
+                              <Col xl={24} lg={24} md={24} span={24}>
+                                <br></br>
+                                <h4>Work Experience</h4>
+                                <Form.List name="workExperienceContent">
+                                  {(fields, { add, remove }) => {
+                                    return (
+                                      <div>
+                                        {fields.map((field, index) => (
+                                          <Row key={field.key}>
+                                            <Col xl={23}>Job {index + 1}</Col>
+                                            <Col xl={1}>
+                                              <MinusCircleOutlined
+                                                className="dynamic-delete-button"
+                                                onClick={() => {
+                                                  remove(field.name)
+                                                }}
+                                              />
+                                            </Col>
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="Job Title"
+                                                name={[field.name, 'jobTitle']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'jobTitle',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Job Title" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="Company Name"
+                                                name={[
+                                                  field.name,
+                                                  'companyName',
+                                                ]}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'companyName',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Employer Name" />
+                                              </Form.Item>
+                                            </Col>
+                                            <Col
+                                              xl={12}
+                                              lg={12}
+                                              md={12}
+                                              span={24}
+                                            >
+                                              <Form.Item
+                                                label="Start Date"
+                                                name={[field.name, 'startDate']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'startDate',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Start Date" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col
+                                              xl={12}
+                                              lg={12}
+                                              md={12}
+                                              span={24}
+                                            >
+                                              <Form.Item
+                                                label="End Date"
+                                                name={[field.name, 'endDate']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'endDate',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="End Date" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="Description"
+                                                name={[
+                                                  field.name,
+                                                  'description',
+                                                ]}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'description',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <TextArea
+                                                  rows={4}
+                                                  placeholder="Description"
+                                                />
+                                              </Form.Item>
+                                            </Col>
+                                          </Row>
+                                        ))}
+
+                                        <Form.Item>
+                                          <Button
+                                            type="dashed"
+                                            onClick={() => {
+                                              add()
+                                            }}
+                                            style={{ width: '100%' }}
+                                          >
+                                            <PlusOutlined /> Add Work Experience
+                                          </Button>
+                                        </Form.Item>
+                                      </div>
+                                    )
+                                  }}
+                                </Form.List>
+                              </Col>
+
+                              <Col xl={24} lg={24} md={24} span={24}>
+                                <br></br>
+                                <h4>Education</h4>
+                                <Form.List name="educationContent">
+                                  {(fields, { add, remove }) => {
+                                    return (
+                                      <div>
+                                        {fields.map((field, index) => (
+                                          <Row key={field.key}>
+                                            <Col xl={23}>
+                                              Education {index + 1}
+                                            </Col>
+                                            <Col xl={1}>
+                                              <MinusCircleOutlined
+                                                className="dynamic-delete-button"
+                                                onClick={() => {
+                                                  remove(field.name)
+                                                }}
+                                              />
+                                            </Col>
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="School Name"
+                                                name={[
+                                                  field.name,
+                                                  'collegeName',
+                                                ]}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'collegeName',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="School Name" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col xl={12} span={24}>
+                                              <Form.Item
+                                                label="GPA"
+                                                name={[field.name, 'gpa']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'gpa',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="GPA" />
+                                              </Form.Item>
+                                            </Col>
+                                            <Col xl={12} span={24}>
+                                              <Form.Item
+                                                label="Degree"
+                                                name={[field.name, 'degree']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'degree',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Degree" />
+                                              </Form.Item>
+                                            </Col>
+                                            <Col
+                                              xl={12}
+                                              lg={12}
+                                              md={12}
+                                              span={24}
+                                            >
+                                              <Form.Item
+                                                label="Start Date"
+                                                name={[field.name, 'startDate']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'startDate',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Start Date" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col
+                                              xl={12}
+                                              lg={12}
+                                              md={12}
+                                              span={24}
+                                            >
+                                              <Form.Item
+                                                label="End Date"
+                                                name={[field.name, 'endDate']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'endDate',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="End Date" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="Summary"
+                                                name={[field.name, 'summary']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'summary',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <TextArea
+                                                  rows={4}
+                                                  placeholder="Summary"
+                                                />
+                                              </Form.Item>
+                                            </Col>
+                                          </Row>
+                                        ))}
+
+                                        <Form.Item>
+                                          <Button
+                                            type="dashed"
+                                            onClick={() => {
+                                              add()
+                                            }}
+                                            style={{ width: '100%' }}
+                                          >
+                                            <PlusOutlined /> Add Education
+                                          </Button>
+                                        </Form.Item>
+                                      </div>
+                                    )
+                                  }}
+                                </Form.List>
+                              </Col>
+
+                              <Col xl={24} lg={24} md={24} span={24}>
+                                <br></br>
+                                <h4>Projects</h4>
+                                <Form.List name="projectContent">
+                                  {(fields, { add, remove }) => {
+                                    return (
+                                      <div>
+                                        {fields.map((field, index) => (
+                                          <Row key={field.key}>
+                                            <Col xl={23}>
+                                              Project {index + 1}
+                                            </Col>
+                                            <Col xl={1}>
+                                              <MinusCircleOutlined
+                                                className="dynamic-delete-button"
+                                                onClick={() => {
+                                                  remove(field.name)
+                                                }}
+                                              />
+                                            </Col>
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="Project Title"
+                                                name={[field.name, 'title']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'title',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Project Title" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="Link"
+                                                name={[field.name, 'link']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'link',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Link" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col
+                                              xl={12}
+                                              lg={12}
+                                              md={12}
+                                              span={24}
+                                            >
+                                              <Form.Item
+                                                label="Start Date"
+                                                name={[field.name, 'startDate']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'startDate',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Start Date" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col
+                                              xl={12}
+                                              lg={12}
+                                              md={12}
+                                              span={24}
+                                            >
+                                              <Form.Item
+                                                label="End Date"
+                                                name={[field.name, 'endDate']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'endDate',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="End Date" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="Summary"
+                                                name={[field.name, 'summary']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'summary',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <TextArea
+                                                  rows={4}
+                                                  placeholder="Summary"
+                                                />
+                                              </Form.Item>
+                                            </Col>
+                                          </Row>
+                                        ))}
+
+                                        <Form.Item>
+                                          <Button
+                                            type="dashed"
+                                            onClick={() => {
+                                              add()
+                                            }}
+                                            style={{ width: '100%' }}
+                                          >
+                                            <PlusOutlined /> Add Project
+                                          </Button>
+                                        </Form.Item>
+                                      </div>
+                                    )
+                                  }}
+                                </Form.List>
+                              </Col>
+
+                              <Col xl={24} lg={24} md={24} span={24}>
+                                <br></br>
+                                <h4>Skills</h4>
+                                <Form.List name="skillsContent">
+                                  {(fields, { add, remove }) => {
+                                    return (
+                                      <div>
+                                        {fields.map((field, index) => (
+                                          <Row key={field.key}>
+                                            <Col xl={23}>Skill {index + 1}</Col>
+                                            <Col xl={1}>
+                                              <MinusCircleOutlined
+                                                className="dynamic-delete-button"
+                                                onClick={() => {
+                                                  remove(field.name)
+                                                }}
+                                              />
+                                            </Col>
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="Skill Title"
+                                                name={[field.name, 'subHeader']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'title',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Skill Title" />
+                                              </Form.Item>
+                                            </Col>
+
+                                            <Col xl={24} span={24}>
+                                              <Form.Item
+                                                label="Details"
+                                                name={[field.name, 'details']}
+                                                fieldKey={[
+                                                  field.fieldKey,
+                                                  'details',
+                                                ]}
+                                                // rules={rules}
+                                              >
+                                                <Input placeholder="Details" />
+                                              </Form.Item>
+                                            </Col>
+                                          </Row>
+                                        ))}
+
+                                        <Form.Item>
+                                          <Button
+                                            type="dashed"
+                                            onClick={() => {
+                                              add()
+                                            }}
+                                            style={{ width: '100%' }}
+                                          >
+                                            <PlusOutlined /> Add Skill
+                                          </Button>
+                                        </Form.Item>
+                                      </div>
+                                    )
+                                  }}
+                                </Form.List>
                               </Col>
                             </Row>
                           </Col>
