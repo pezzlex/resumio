@@ -16,6 +16,7 @@ const resumeSchema = new Schema({
       {
         collegeName: String,
         gpa: Number,
+        degree: String,
         startDate: Date,
         endDate: Date,
         summary: String,
@@ -26,7 +27,9 @@ const resumeSchema = new Schema({
     headerName: { type: String, default: 'Work Experience' },
     content: [
       {
+        jobTitle: String,
         companyName: String,
+        city: String,
         startDate: Date,
         endDate: Date,
         summary: String,
