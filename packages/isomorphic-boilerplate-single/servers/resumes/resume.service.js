@@ -26,6 +26,7 @@ const schema = Joi.object()
       headerName: Joi.string().trim(),
       content: Joi.array().items(
         Joi.object().keys({
+          jobTitle: Joi.string().trim(),
           companyName: Joi.string().trim(),
           summary: Joi.string().trim(),
           description: Joi.array().items(Joi.string().trim()),
