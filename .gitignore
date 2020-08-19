@@ -11,6 +11,7 @@
 __snapshots__
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -23,4 +24,4 @@ yarn-error.log*
 firebase-debug.log
 
 # config files
-/packages/isomorphic-boilerplate-single/servers/config.js
+/server/config.js
