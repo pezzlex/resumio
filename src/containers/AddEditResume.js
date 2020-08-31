@@ -776,7 +776,7 @@ const AddEditResume = () => {
                                           }}
                                           style={{ width: '100%' }}
                                         >
-                                          <PlusOutlined /> Add Project
+                                          <PlusOutlined /> Add New Project
                                         </Button>
                                       </Form.Item>
                                     </div>
@@ -841,7 +841,7 @@ const AddEditResume = () => {
                                           }}
                                           style={{ width: '100%' }}
                                         >
-                                          <PlusOutlined /> Add Skill
+                                          <PlusOutlined /> Add New Skill
                                         </Button>
                                       </Form.Item>
                                     </div>
