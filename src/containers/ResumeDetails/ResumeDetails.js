@@ -48,14 +48,12 @@ const ResumeDetails = () => {
     }
   }, [error])
   useEffect(() => {
-    if (success) {
-      if (currentResume) {
-        setLoading(false)
-        setPdfReady(false)
-        setTimeout(() => {
-          setPdfReady(true)
-        }, 100)
-      }
+    if (success && currentResume) {
+      setLoading(false)
+      setPdfReady(false)
+      setTimeout(() => {
+        setPdfReady(true)
+      }, 100)
     }
   }, [success])
 
@@ -86,7 +84,7 @@ const ResumeDetails = () => {
                 <Col flex="auto">
                   {isPdfReady ? (
                     <>
-                      <PDFViewer height="900" width="60%">
+                      {/* <PDFViewer height="900" width="60%">
                         <RenderedPdf
                           resume={unstructured(currentResume)}
                           // resume={{ fileName: 'dummy' }}
@@ -107,6 +105,7 @@ const ResumeDetails = () => {
                           }
                         </PDFDownloadLink>
                       </Button>
+                     */}
                     </>
                   ) : (
                     <Loader />

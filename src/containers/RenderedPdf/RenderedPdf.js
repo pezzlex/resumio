@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     width: 170,
     paddingTop: 30,
     paddingRight: 15,
-    '@media max-width: 400': {
-      width: '100%',
-      paddingRight: 0,
-    },
-    '@media orientation: landscape': {
-      width: 200,
-    },
+    // '@media max-width: 400': {
+    //   width: '100%',
+    //   paddingRight: 0,
+    // },
+    // '@media orientation: landscape': {
+    //   width: 200,
+    // },
   },
   footer: {
     fontSize: 12,
@@ -85,7 +85,7 @@ const Resume = ({ resume, ...rest }) => (
     />
     <View style={styles.container}>
       <View style={styles.leftColumn}>
-        <Image src={Src} style={styles.image} />
+        <Image />
         <Education />
         <Skills />
       </View>

@@ -5,7 +5,7 @@ import { Link, Text, View, StyleSheet } from '@react-pdf/renderer'
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderBottomColor: '#112131',
     borderBottomStyle: 'solid',
     alignItems: 'stretch',
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     justifySelf: 'flex-end',
   },
   name: {
-    fontSize: 24,
+    fontSize: 16,
     fontFamily: 'Lato Bold',
   },
   subtitle: {
@@ -46,7 +46,6 @@ export default ({ firstName, lastName, email }) => (
       <Text style={styles.name}>
         {firstName} {lastName}
       </Text>
-      <Text style={styles.subtitle}>Jedi Master</Text>
     </View>
     <View style={styles.linkColumn}>
       <Link style={styles.link}>{email}</Link>
