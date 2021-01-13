@@ -12,6 +12,7 @@ import {
   Skeleton,
   Spin,
   DatePicker,
+  Divider,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,32 +37,33 @@ import { Tex } from 'react-tex'
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 
-export const unstructured = ({
-  contact: { firstName, lastName, email, phone },
-  workExperience: { headerName, content },
-  education,
-  projects,
-  skills,
-  fileName,
-}) => ({
-  fileName,
-  firstName,
-  lastName,
-  phone,
-  email,
-  workHeaderName: headerName,
-  workExperienceContent: content,
-  educationContent: education.content,
-  educationHeaderName: education.headerName,
-  projectHeaderName: projects.headerName,
-  projectContent: projects.content,
-  skillsContent: skills.content,
-  skillsHeaderName: skills.headerName,
-})
+// export const unstructured = ({
+//   contact: { firstName, lastName, email, phone },
+//   workExperience: { headerName, content },
+//   education,
+//   projects,
+//   skills,
+//   fileName,
+// }) => ({
+//   fileName,
+//   firstName,
+//   lastName,
+//   phone,
+//   email,
+//   workHeaderName: headerName,
+//   workExperienceContent: content,
+//   educationContent: education.content,
+//   educationHeaderName: education.headerName,
+//   projectHeaderName: projects.headerName,
+//   projectContent: projects.content,
+//   skillsContent: skills.content,
+//   skillsHeaderName: skills.headerName,
+// })
 
 const AddEditResume = () => {
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
+  const [isChangeDetected, setChangeDetected] = useState(false)
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages)
@@ -105,49 +107,16 @@ const AddEditResume = () => {
   // So it should be false initially, except if I'm on add resume page
   const [isPageLoading, setPageLoading] = useState(true)
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
-  const [isChangeDetected, setChangeDetected] = useState(false)
-  const [isLiveChangeDetected, setLiveChangeDetected] = useState(false)
-  // Hackey workaround for React-PDF bug
-  const [isPdfReady, setPdfReady] = useState(true)
   const [isUpdating, setUpdating] = useState(false)
-  const [liveResume, setLiveResume] = useState(
-    isAddResume
-      ? {
-          fileName,
-          firstName,
-          lastName,
-          email,
-          workHeaderName: 'Work Experience',
-          workExperienceContent: [],
-        }
-      : {
-          ...unstructured(currentResume),
-        }
-  )
   const [isSpinning, setSpinning] = useState(false)
-  const [canDownload, setCanDownload] = useState(true)
-
-  const [delayedResume, setDelayedResume] = useState(liveResume)
 
   const [form] = Form.useForm()
 
   useEffect(() => {
-    if (!isUpdating && isLiveChangeDetected) {
-      console.log('liveResume', delayedResume, 'latestValue', liveResume)
-      setTimeout(() => {
-        setUpdating(true)
-        setTimeout(() => {
-          setUpdating(false)
-          setLiveChangeDetected(false)
-        }, 2000)
-      }, 9000)
-      setSpinning(true)
-      setTimeout(() => {
-        setSpinning(false)
-      }, 500)
-      setDelayedResume({ ...delayedResume, ...liveResume })
+    if (!isUpdating) {
+      setSpinning(false)
     }
-  }, [isUpdating, isLiveChangeDetected])
+  }, [isUpdating])
 
   useEffect(() => {
     // If initially edit, fetch resume => add currentResume
@@ -168,74 +137,53 @@ const AddEditResume = () => {
     }
   }, [success, error])
 
-  const updateDelayedResume = () => {
-    setSpinning(true)
-    setTimeout(() => {
-      setSpinning(false)
-    }, 500)
-    setDelayedResume({ ...delayedResume, ...liveResume })
-    setLiveChangeDetected(false)
-  }
-
   const onFinish = (values) => {
-    const structured = ({
-      fileName,
-      firstName,
-      lastName,
-      phone,
-      email,
-      workHeaderName,
-      workExperienceContent,
-      educationContent,
-      educationHeaderName,
-      projectContent,
-      projectHeaderName,
-      skillsContent,
-      skillsHeaderName,
-    }) => ({
-      contact: {
-        firstName,
-        lastName,
-        email,
-        phone,
-      },
-      workExperience: {
-        headerName: workHeaderName,
-        content: workExperienceContent,
-      },
-      education: {
-        headerName: educationHeaderName,
-        content: educationContent,
-      },
-      projects: {
-        headerName: projectHeaderName,
-        content: projectContent,
-      },
-      skills: {
-        headerName: skillsHeaderName,
-        content: skillsContent,
-      },
-      fileName,
-    })
+    console.log(values)
+    // const structured = ({
+    //   fileName,
+    //   firstName,
+    //   lastName,
+    //   phone,
+    //   email,
+    //   workHeaderName,
+    //   workExperienceContent,
+    //   educationContent,
+    //   educationHeaderName,
+    //   projectContent,
+    //   projectHeaderName,
+    //   skillsContent,
+    //   skillsHeaderName,
+    // }) => ({
+    //   contact: {
+    //     firstName,
+    //     lastName,
+    //     email,
+    //     phone,
+    //   },
+    //   workExperience: {
+    //     headerName: workHeaderName,
+    //     content: workExperienceContent,
+    //   },
+    //   education: {
+    //     headerName: educationHeaderName,
+    //     content: educationContent,
+    //   },
+    //   projects: {
+    //     headerName: projectHeaderName,
+    //     content: projectContent,
+    //   },
+    //   skills: {
+    //     headerName: skillsHeaderName,
+    //     content: skillsContent,
+    //   },
+    //   fileName,
+    // })
     if (isAddResume) {
-      dispatch(addResume(structured(values)))
+      dispatch(addResume(values))
     } else {
-      setPdfReady(false)
-      setTimeout(() => {
-        setPdfReady(true)
-      }, 1)
-      dispatch(editResume(resumeId, structured(values)))
-      updateDelayedResume()
+      dispatch(editResume(resumeId, values))
     }
     setLoading(true)
-  }
-
-  const download = () => {
-    setCanDownload(false)
-    updateDelayedResume()
-    setTimeout(() => {
-      setCanDownload(true)
-    }, 200)
   }
 
   const onFinishFailed = (errorInfo) => {
@@ -254,10 +202,6 @@ const AddEditResume = () => {
     if (success) {
       dispatch(fetchResumes)
       if (isAddResume) setRedirectToReferrer(true)
-      if (!isAddResume) {
-        setChangeDetected(false)
-        setLiveChangeDetected(false)
-      }
     }
   }, [success])
 
@@ -285,15 +229,14 @@ const AddEditResume = () => {
                   <Form
                     form={form}
                     layout="vertical"
-                    initialValues={liveResume}
+                    initialValues={currentResume}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
-                    onValuesChange={(value) => {
-                      setLiveResume({ ...liveResume, ...value })
-                      setChangeDetected(true)
-                      setLiveChangeDetected(true)
-                    }}
                     scrollToFirstError
+                    onValuesChange={(values) => {
+                      console.log(values)
+                      setChangeDetected(true)
+                    }}
                   >
                     <Header>
                       <Title>
@@ -372,8 +315,7 @@ const AddEditResume = () => {
                               </Form.Item>
                             </Col>
                           </Row>
-                          <hr></hr>
-                          <h5>Contact Information</h5>
+                          <Divider>Contact Information</Divider>
                           <Row gutter={16}>
                             <Col xl={12} lg={12} md={12} span={24}>
                               <Form.Item
@@ -407,7 +349,13 @@ const AddEditResume = () => {
                               <Form.Item
                                 label="Email"
                                 name="email"
-                                rules={[{ type: 'email' }]}
+                                rules={[
+                                  {
+                                    type: 'email',
+                                    // required: true,
+                                    // message: 'Please input your email!',
+                                  },
+                                ]}
                               >
                                 <Input placeholder="Email" />
                               </Form.Item>
@@ -419,14 +367,13 @@ const AddEditResume = () => {
                             </Col>
 
                             <Col xl={24} lg={24} md={24} span={24}>
-                              <hr></hr>
-                              <h5>Professional Experience</h5>
-                              <Form.List name="workExperienceContent">
+                              <Divider>Professional Experience</Divider>
+                              <Form.List name="workExperience">
                                 {(fields, { add, remove }) => {
                                   return (
                                     <div>
                                       {fields.map((field, index) => (
-                                        <Row key={field.key}>
+                                        <Row key={field.key} gutter={16}>
                                           <Col xl={23}>Company {index + 1}</Col>
                                           <Col xl={1}>
                                             <MinusCircleOutlined
@@ -478,7 +425,7 @@ const AddEditResume = () => {
                                               ]}
                                               // rules={rules}
                                             >
-                                              <Input placeholder="Start Date" />
+                                              <Input placeholder="MM/YYYY" />
                                             </Form.Item>
                                           </Col>
 
@@ -497,7 +444,7 @@ const AddEditResume = () => {
                                               ]}
                                               // rules={rules}
                                             >
-                                              <Input placeholder="End Date" />
+                                              <Input placeholder="MM/YYYY" />
                                             </Form.Item>
                                           </Col>
 
@@ -539,8 +486,7 @@ const AddEditResume = () => {
                             </Col>
 
                             <Col xl={24} lg={24} md={24} span={24}>
-                              <hr></hr>
-                              <h5>Education</h5>
+                              <Divider>Education</Divider>
                               <Form.List name="educationContent">
                                 {(fields, { add, remove }) => {
                                   return (
@@ -608,7 +554,7 @@ const AddEditResume = () => {
                                               ]}
                                               // rules={rules}
                                             >
-                                              <Input placeholder="Start Date" />
+                                              <Input placeholder="MM/YYYY" />
                                             </Form.Item>
                                           </Col>
 
@@ -627,7 +573,7 @@ const AddEditResume = () => {
                                               ]}
                                               // rules={rules}
                                             >
-                                              <Input placeholder="End Date" />
+                                              <Input placeholder="MM/YYYY" />
                                             </Form.Item>
                                           </Col>
 
@@ -668,9 +614,8 @@ const AddEditResume = () => {
                             </Col>
 
                             <Col xl={24} lg={24} md={24} span={24}>
-                              <hr></hr>
-                              <h5>Projects</h5>
-                              <Form.List name="projectContent">
+                              <Divider>Projects</Divider>
+                              <Form.List name="projects">
                                 {(fields, { add, remove }) => (
                                   <>
                                     {fields.map((field, index) => (
@@ -716,7 +661,7 @@ const AddEditResume = () => {
                                             ]}
                                             // rules={rules}
                                           >
-                                            <Input placeholder="Start Date" />
+                                            <Input placeholder="MM/YYYY" />
                                           </Form.Item>
                                         </Col>
 
@@ -730,7 +675,7 @@ const AddEditResume = () => {
                                             ]}
                                             // rules={rules}
                                           >
-                                            <Input placeholder="End Date" />
+                                            <Input placeholder="MM/YYYY" />
                                           </Form.Item>
                                         </Col>
 
@@ -770,9 +715,8 @@ const AddEditResume = () => {
                             </Col>
 
                             <Col xl={24} lg={24} md={24} span={24}>
-                              <br></br>
-                              <h5>Skills</h5>
-                              <Form.List name="skillsContent">
+                              <Divider>Skills</Divider>
+                              <Form.List name="skills">
                                 {(fields, { add, remove }) => (
                                   <>
                                     {fields.map((field, index) => (
@@ -833,24 +777,22 @@ const AddEditResume = () => {
 
                         <Col flex="auto" className="iframeFull">
                           {
-                            // isReady
-                            isPdfReady ? (
-                              <>
-                                <Spin
-                                  spinning={isSpinning}
-                                  // delay={700}
-                                  tip="Updating Preview..."
-                                >
-                                  {/* <PDFViewer height="700" width="95%">
+                            <>
+                              <Spin
+                                spinning={isSpinning}
+                                // delay={700}
+                                tip="Updating Preview..."
+                              >
+                                {/* <PDFViewer height="700" width="95%">
                                     <RenderedPdf resume={delayedResume} />
                                   </PDFViewer> */}
 
-                                  {/* <Button
+                                {/* <Button
                                     type="primary"
                                     loading={!canDownload}
                                     onClick={download}
                                   > */}
-                                  {/* <PDFDownloadLink
+                                {/* <PDFDownloadLink
                                       document={
                                         <RenderedPdf
                                           resume={delayedResume}
@@ -861,13 +803,10 @@ const AddEditResume = () => {
                                     >
                                       Download!
                                     </PDFDownloadLink> */}
-                                  {/* </Button> */}
-                                </Spin>
-                                <Tex texContent="\int_{a}^{b} f(x)dx = F(b) - F(a)" />
-                              </>
-                            ) : (
-                              <Loader />
-                            )
+                                {/* </Button> */}
+                              </Spin>
+                              <Tex texContent="\int_{a}^{b} f(x)dx = F(b) - F(a)" />
+                            </>
                           }
                         </Col>
                       </Row>
