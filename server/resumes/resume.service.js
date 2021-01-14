@@ -16,41 +16,49 @@ const schema = Joi.object()
     education: Joi.object().keys({
       headerName: Joi.string().trim(),
       content: Joi.array().items(
-        Joi.object().keys({
-          collegeName: Joi.string().trim(),
-          summary: Joi.string().trim(),
-        })
+        Joi.object()
+          .keys({
+            collegeName: Joi.string().trim(),
+            summary: Joi.string().trim(),
+          })
+          .unknown(true)
       ),
     }),
     workExperience: Joi.object().keys({
       headerName: Joi.string().trim(),
       content: Joi.array().items(
-        Joi.object().keys({
-          jobTitle: Joi.string().trim(),
-          companyName: Joi.string().trim(),
-          summary: Joi.string().trim(),
-          description: Joi.array().items(Joi.string().trim()),
-        })
+        Joi.object()
+          .keys({
+            jobTitle: Joi.string().trim(),
+            companyName: Joi.string().trim(),
+            summary: Joi.string().trim(),
+            description: Joi.string().trim(),
+          })
+          .unknown(true)
       ),
     }),
     projects: {
       headerName: Joi.string().trim(),
       content: Joi.array().items(
-        Joi.object().keys({
-          title: Joi.string().trim(),
-          link: Joi.string().trim().uri(),
-          summary: Joi.string().trim(),
-          description: Joi.array().items(Joi.string().trim()),
-        })
+        Joi.object()
+          .keys({
+            title: Joi.string().trim(),
+            link: Joi.string().trim().uri(),
+            summary: Joi.string().trim(),
+            description: Joi.string().trim(),
+          })
+          .unknown(true)
       ),
     },
     skills: Joi.object().keys({
       headerName: Joi.string().trim(),
       content: Joi.array().items(
-        Joi.object().keys({
-          subHeader: Joi.string().trim(),
-          details: Joi.string().trim(),
-        })
+        Joi.object()
+          .keys({
+            subHeader: Joi.string().trim(),
+            details: Joi.string().trim(),
+          })
+          .unknown(true)
       ),
     }),
   })
@@ -96,7 +104,7 @@ const create = async (resumeParam) => {
     })
   ) {
     throw new Error(
-      `You already have a resume titled "${resumeParam.fileName}". Please pick another name`
+      `You already have a resume titled "${resumeParam.fileName}". Please pick another name.`
     )
   }
   let resume = new Resume(resumeParam)

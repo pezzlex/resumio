@@ -2,6 +2,7 @@ import Box from '../components/utility/box'
 import LayoutContent from '../components/utility/layoutContent'
 import LayoutContentWrapper from '../components/utility/layoutWrapper'
 import Loader from '../components/utility/loader'
+
 import {
   Button,
   Col,
@@ -13,6 +14,7 @@ import {
   Spin,
   DatePicker,
   Divider,
+  TimePicker,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,29 +38,7 @@ import { Tex } from 'react-tex'
 
 const { TextArea } = Input
 const { RangePicker } = DatePicker
-
-// export const unstructured = ({
-//   contact: { firstName, lastName, email, phone },
-//   workExperience: { headerName, content },
-//   education,
-//   projects,
-//   skills,
-//   fileName,
-// }) => ({
-//   fileName,
-//   firstName,
-//   lastName,
-//   phone,
-//   email,
-//   workHeaderName: headerName,
-//   workExperienceContent: content,
-//   educationContent: education.content,
-//   educationHeaderName: education.headerName,
-//   projectHeaderName: projects.headerName,
-//   projectContent: projects.content,
-//   skillsContent: skills.content,
-//   skillsHeaderName: skills.headerName,
-// })
+const { RangePicker: TimeRangePicker } = TimePicker
 
 const AddEditResume = () => {
   const [numPages, setNumPages] = useState(null)
@@ -139,50 +119,44 @@ const AddEditResume = () => {
 
   const onFinish = (values) => {
     console.log(values)
-    // const structured = ({
-    //   fileName,
-    //   firstName,
-    //   lastName,
-    //   phone,
-    //   email,
-    //   workHeaderName,
-    //   workExperienceContent,
-    //   educationContent,
-    //   educationHeaderName,
-    //   projectContent,
-    //   projectHeaderName,
-    //   skillsContent,
-    //   skillsHeaderName,
-    // }) => ({
-    //   contact: {
-    //     firstName,
-    //     lastName,
-    //     email,
-    //     phone,
-    //   },
-    //   workExperience: {
-    //     headerName: workHeaderName,
-    //     content: workExperienceContent,
-    //   },
-    //   education: {
-    //     headerName: educationHeaderName,
-    //     content: educationContent,
-    //   },
-    //   projects: {
-    //     headerName: projectHeaderName,
-    //     content: projectContent,
-    //   },
-    //   skills: {
-    //     headerName: skillsHeaderName,
-    //     content: skillsContent,
-    //   },
-    //   fileName,
-    // })
+    const restructured = ({
+      fileName,
+      firstName,
+      lastName,
+      phone,
+      email,
+      workExperience,
+      education,
+      projects,
+      skills,
+    }) => ({
+      contact: {
+        firstName,
+        lastName,
+        email,
+        phone,
+      },
+      workExperience: {
+        content: workExperience,
+      },
+      education: {
+        content: education,
+      },
+      projects: {
+        content: projects,
+      },
+      skills: {
+        content: skills,
+      },
+      fileName,
+    })
     if (isAddResume) {
-      dispatch(addResume(values))
+      dispatch(addResume(restructured(values)))
     } else {
-      dispatch(editResume(resumeId, values))
+      dispatch(editResume(resumeId, restructured(values)))
     }
+    setChangeDetected(false)
+
     setLoading(true)
   }
 
@@ -213,13 +187,31 @@ const AddEditResume = () => {
     return <Redirect to={from} />
   }
 
+  const reverseRestructured = ({
+    contact: { firstName, lastName, email, phone },
+    workExperience: { content: workExperience },
+    education: { content: education },
+    projects: { content: projects },
+    skills: { content: skills },
+    fileName,
+  }) => ({
+    fileName,
+    firstName,
+    lastName,
+    phone,
+    email,
+    workExperience,
+    education,
+    projects,
+    skills,
+  })
+
   return (
     <>
       <Prompt
         when={isChangeDetected}
         message="You have unsaved changes. Are you sure you want to leave?"
       />
-
       <LayoutContentWrapper>
         <LayoutContent>
           {!isPageLoading ? (
@@ -230,7 +222,7 @@ const AddEditResume = () => {
                   layout="vertical"
                   initialValues={
                     currentResume
-                      ? currentResume
+                      ? reverseRestructured(currentResume)
                       : { firstName, lastName, email, fileName }
                   }
                   onFinish={onFinish}
@@ -394,7 +386,6 @@ const AddEditResume = () => {
                                               field.fieldKey,
                                               'jobTitle',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <Input placeholder="Job Title" />
                                           </Form.Item>
@@ -408,23 +399,21 @@ const AddEditResume = () => {
                                               field.fieldKey,
                                               'companyName',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <Input placeholder="Company Name" />
                                           </Form.Item>
                                         </Col>
                                         <Col xl={12} lg={12} md={12} span={24}>
-                                          <Form.Item
+                                          {/* <Form.Item
                                             label="Start Date"
                                             name={[field.name, 'startDate']}
                                             fieldKey={[
                                               field.fieldKey,
                                               'startDate',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <Input placeholder="MM/YYYY" />
-                                          </Form.Item>
+                                          </Form.Item> */}
                                         </Col>
 
                                         <Col xl={12} lg={12} md={12} span={24}>
@@ -435,7 +424,6 @@ const AddEditResume = () => {
                                               field.fieldKey,
                                               'endDate',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <Input placeholder="MM/YYYY" />
                                           </Form.Item>
@@ -449,7 +437,6 @@ const AddEditResume = () => {
                                               field.fieldKey,
                                               'description',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <TextArea
                                               rows={4}
@@ -480,7 +467,7 @@ const AddEditResume = () => {
 
                           <Col xl={24} lg={24} md={24} span={24}>
                             <Divider>Education</Divider>
-                            <Form.List name="educationContent">
+                            <Form.List name="education">
                               {(fields, { add, remove }) => {
                                 return (
                                   <div>
@@ -503,7 +490,6 @@ const AddEditResume = () => {
                                               field.fieldKey,
                                               'collegeName',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <Input placeholder="College Name" />
                                           </Form.Item>
@@ -514,7 +500,6 @@ const AddEditResume = () => {
                                             label="GPA"
                                             name={[field.name, 'gpa']}
                                             fieldKey={[field.fieldKey, 'gpa']}
-                                            // rules={rules}
                                           >
                                             <Input placeholder="GPA" />
                                           </Form.Item>
@@ -527,7 +512,6 @@ const AddEditResume = () => {
                                               field.fieldKey,
                                               'degree',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <Input placeholder="Degree" />
                                           </Form.Item>
@@ -540,7 +524,6 @@ const AddEditResume = () => {
                                               field.fieldKey,
                                               'startDate',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <Input placeholder="MM/YYYY" />
                                           </Form.Item>
@@ -554,7 +537,6 @@ const AddEditResume = () => {
                                               field.fieldKey,
                                               'endDate',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <Input placeholder="MM/YYYY" />
                                           </Form.Item>
@@ -568,7 +550,6 @@ const AddEditResume = () => {
                                               field.fieldKey,
                                               'summary',
                                             ]}
-                                            // rules={rules}
                                           >
                                             <TextArea
                                               rows={4}
@@ -582,9 +563,7 @@ const AddEditResume = () => {
                                     <Form.Item>
                                       <Button
                                         type="dashed"
-                                        onClick={() => {
-                                          add()
-                                        }}
+                                        onClick={add}
                                         style={{ width: '100%' }}
                                       >
                                         <PlusOutlined /> Add Education
@@ -617,7 +596,6 @@ const AddEditResume = () => {
                                           label="Project Title"
                                           name={[field.name, 'title']}
                                           fieldKey={[field.fieldKey, 'title']}
-                                          // rules={rules}
                                         >
                                           <Input placeholder="Project Title" />
                                         </Form.Item>
@@ -628,7 +606,6 @@ const AddEditResume = () => {
                                           label="Link"
                                           name={[field.name, 'link']}
                                           fieldKey={[field.fieldKey, 'link']}
-                                          // rules={rules}
                                         >
                                           <Input placeholder="Link" />
                                         </Form.Item>
@@ -642,7 +619,6 @@ const AddEditResume = () => {
                                             field.fieldKey,
                                             'startDate',
                                           ]}
-                                          // rules={rules}
                                         >
                                           <Input placeholder="MM/YYYY" />
                                         </Form.Item>
@@ -653,7 +629,6 @@ const AddEditResume = () => {
                                           label="End Date"
                                           name={[field.name, 'endDate']}
                                           fieldKey={[field.fieldKey, 'endDate']}
-                                          // rules={rules}
                                         >
                                           <Input placeholder="MM/YYYY" />
                                         </Form.Item>
@@ -664,7 +639,6 @@ const AddEditResume = () => {
                                           label="Summary"
                                           name={[field.name, 'summary']}
                                           fieldKey={[field.fieldKey, 'summary']}
-                                          // rules={rules}
                                         >
                                           <TextArea
                                             rows={4}
@@ -678,9 +652,7 @@ const AddEditResume = () => {
                                   <Form.Item>
                                     <Button
                                       type="dashed"
-                                      onClick={() => {
-                                        add()
-                                      }}
+                                      onClick={add}
                                       style={{ width: '100%' }}
                                     >
                                       <PlusOutlined /> Add Project
@@ -709,12 +681,11 @@ const AddEditResume = () => {
                                       </Col>
                                       <Col xl={24} span={24}>
                                         <Form.Item
-                                          label="Skill Title"
+                                          label="Skill Name"
                                           name={[field.name, 'subHeader']}
                                           fieldKey={[field.fieldKey, 'title']}
-                                          // rules={rules}
                                         >
-                                          <Input placeholder="Skill Title" />
+                                          <Input placeholder="Skill Name" />
                                         </Form.Item>
                                       </Col>
 
@@ -734,9 +705,7 @@ const AddEditResume = () => {
                                   <Form.Item>
                                     <Button
                                       type="dashed"
-                                      onClick={() => {
-                                        add()
-                                      }}
+                                      onClick={add}
                                       style={{ width: '100%' }}
                                     >
                                       <PlusOutlined /> Add Skill
@@ -754,7 +723,6 @@ const AddEditResume = () => {
                           <>
                             <Spin
                               spinning={isSpinning}
-                              // delay={700}
                               tip="Updating Preview..."
                             >
                               {/* <PDFViewer height="700" width="95%">
@@ -779,7 +747,6 @@ const AddEditResume = () => {
                                     </PDFDownloadLink> */}
                               {/* </Button> */}
                             </Spin>
-                            <Tex texContent="\int_{a}^{b} f(x)dx = F(b) - F(a)" />
                           </>
                         }
                       </Col>
