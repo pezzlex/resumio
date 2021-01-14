@@ -404,7 +404,7 @@ const AddEditResume = () => {
                                           </Form.Item>
                                         </Col>
                                         <Col xl={12} lg={12} md={12} span={24}>
-                                          {/* <Form.Item
+                                          <Form.Item
                                             label="Start Date"
                                             name={[field.name, 'startDate']}
                                             fieldKey={[
@@ -413,7 +413,7 @@ const AddEditResume = () => {
                                             ]}
                                           >
                                             <Input placeholder="MM/YYYY" />
-                                          </Form.Item> */}
+                                          </Form.Item>
                                         </Col>
 
                                         <Col xl={12} lg={12} md={12} span={24}>
@@ -694,7 +694,6 @@ const AddEditResume = () => {
                                           label="Details"
                                           name={[field.name, 'details']}
                                           fieldKey={[field.fieldKey, 'details']}
-                                          // rules={rules}
                                         >
                                           <Input placeholder="Details" />
                                         </Form.Item>
