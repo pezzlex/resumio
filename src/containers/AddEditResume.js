@@ -155,7 +155,6 @@ const AddEditResume = () => {
     } else {
       dispatch(editResume(resumeId, restructured(values)))
     }
-    setChangeDetected(false)
 
     setLoading(true)
   }
@@ -170,12 +169,14 @@ const AddEditResume = () => {
         message: 'Error',
         description: error,
       })
+      setChangeDetected(true)
     }
   }, [error])
   useEffect(() => {
     if (success) {
       dispatch(fetchResumes)
       if (isAddResume) setRedirectToReferrer(true)
+      setChangeDetected(false)
     }
   }, [success])
 
