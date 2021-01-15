@@ -50,6 +50,8 @@
     "pspdfkit": "^2020.4.1",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.13.1",
+    "react-katex": "^2.0.2",
+    "react-markdown": "^5.0.3",
     "react-pdf": "^4.2.0",
     "react-redux": "^7.2.1",
     "react-router": "^5.2.0",
@@ -59,6 +61,7 @@
     "redux": "^4.0.5",
     "redux-localstorage-simple": "^2.3.1",
     "redux-thunk": "^2.3.0",
+    "remark-math": "^4.0.0",
     "remote-redux-devtools": "^0.5.16",
     "styled-components": "^5.1.1",
     "styled-theme": "^0.3.3"

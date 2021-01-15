@@ -1,24 +1,24 @@
-import Box from '../components/utility/box'
-import LayoutContent from '../components/utility/layoutContent'
-import LayoutContentWrapper from '../components/utility/layoutWrapper'
-import Loader from '../components/utility/loader'
-
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import {
   Button,
   Col,
+  DatePicker,
+  Divider,
   Form,
   Input,
   notification,
   Row,
-  Skeleton,
   Spin,
-  DatePicker,
-  Divider,
   TimePicker,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Prompt } from 'react-router'
 import { Link, Redirect, useParams, useRouteMatch } from 'react-router-dom'
+import Box from '../components/utility/box'
+import LayoutContent from '../components/utility/layoutContent'
+import LayoutContentWrapper from '../components/utility/layoutWrapper'
+import Loader from '../components/utility/loader'
 import {
   addResume,
   clearCurrentResume,
@@ -28,26 +28,14 @@ import {
   fetchResumes,
 } from '../redux/resumes/actions'
 import { Header, Title } from './AppLayout.style'
-// import InvoicePageWrapper from './Invoice/SingleInvoice.styles'
-import RenderedPdf from './RenderedPdf/RenderedPdf'
-import Styles from './AddEditResume.scss'
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
-import { Prompt } from 'react-router'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Tex } from 'react-tex'
 
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 const { RangePicker: TimeRangePicker } = TimePicker
 
 const AddEditResume = () => {
-  const [numPages, setNumPages] = useState(null)
-  const [pageNumber, setPageNumber] = useState(1)
   const [isChangeDetected, setChangeDetected] = useState(false)
 
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages)
-  }
   const dispatch = useDispatch()
   const { resumeId } = useParams()
 
@@ -95,6 +83,7 @@ const AddEditResume = () => {
   useEffect(() => {
     if (!isUpdating) {
       setSpinning(false)
+      setUpdating(false)
     }
   }, [isUpdating])
 
@@ -725,10 +714,10 @@ const AddEditResume = () => {
                               spinning={isSpinning}
                               tip="Updating Preview..."
                             >
+                              Resume Goes Here
                               {/* <PDFViewer height="700" width="95%">
                                     <RenderedPdf resume={delayedResume} />
                                   </PDFViewer> */}
-
                               {/* <Button
                                     type="primary"
                                     loading={!canDownload}
