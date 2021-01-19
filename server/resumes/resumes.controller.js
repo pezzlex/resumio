@@ -4,9 +4,9 @@ const resumeService = require('./resume.service')
 const userService = require('../users/user.service')
 const authenticate = require('../helpers/authenticate')
 const texContent = require('../templates/basicTemplate')
+const jwtSimple = require('jwt-simple')
 
 const getAll = (req, res, next) => {
-  console.log('req.query', req.query)
   const userId = req.user.sub
   console.log(req.user.sub)
   resumeService
@@ -135,18 +135,27 @@ const displayLatexResume = (req, res, next) => {
   resumeService
     .getById(id)
     .then((resume) => {
-      const user = userService.getById(resume.createdBy)
-      const { hash, createdAt } = user
-      console.log(createdAt.toISOString())
-      const tempSecret = `${hash}-${new Date(createdAt).toTimeString()}`
-      const { resumeId } = jwtSimple.decode(token, tempSecret)
-      if (resumeId === id) {
-        res.type('text/html')
-        res.send(resume.texFileContent)
-      } else {
-        // Technically unreachable
-        throw new Error('Unexpected error')
-      }
+      userService
+        .getById(resume.createdBy)
+        .then((user) => {
+          const { hash, createdAt } = user
+          const tempSecret = `${hash}-${new Date(createdAt).toTimeString()}`
+          console.log('tempSecret', tempSecret)
+          const { resumeId } = jwtSimple.decode(token, tempSecret)
+          if (resumeId === id) {
+            res.type('text/html')
+            res.send(resume.texFileContent)
+          } else {
+            // Technically unreachable
+            throw new Error('Unexpected error')
+          }
+        })
+        .catch((err) => {
+          res
+            .status(400)
+            .json({ data: null, error: true, message: err.message })
+          next(err)
+        })
     })
     .catch((err) => {
       res.status(400).json({ data: null, error: true, message: err.message })

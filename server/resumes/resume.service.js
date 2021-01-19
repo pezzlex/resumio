@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const { Resume } = require('../helpers/db')
+const { Resume, User } = require('../helpers/db')
 const Joi = require('joi')
 const CloudConvert = require('cloudconvert')
+const jwtSimple = require('jwt-simple')
+
 const fs = require('fs')
 const texContent = require('../templates/basicTemplate')
 
@@ -68,8 +70,6 @@ const schema = Joi.object()
   .unknown(true)
 
 const getAll = async ({ limit, skip, q }, userId) => {
-  console.log('got here')
-  console.log({ userId, limit, skip, q })
   const perPage = limit ? parseInt(limit) : 10
   const page = skip ? parseInt(skip) : 0
   const qRegex = new RegExp(q)
@@ -157,7 +157,7 @@ const getDisplayLink = async (id, userId) => {
   const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
   const token = jwtSimple.encode({ resumeId: id }, tempSecret)
   // API link: /resumes/reset-password/${id}/${token}
-  return `${process.env.REACT_APP_baseUrl}/display-latex-resume/${id}/${token}`
+  return `${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${id}/${token}`
 }
 
 const displayLatexResume = async (id, token) => {}
