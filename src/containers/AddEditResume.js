@@ -720,7 +720,7 @@ const AddEditResume = () => {
                                 width="100%"
                                 height="1000px"
                                 position="relative"
-                                url={`https://latexonline.cc/compile?url=${process.env.PUBLIC_URL}/server/resumes/5f1d2b0c991fed0e4aafb714_resume.tex`}
+                                url={`https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${resumeId}/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXN1bWVJZCI6IjVmZmZhNDY4ZGZlZTFmYmI0MjIyYzlhOCJ9.II9YJks-j8oSNFMXzW3Vb6eJV967f6VyG9ZbKHKNiko`}
                               />
 
                               <Button type="primary"></Button>
