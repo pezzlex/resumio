@@ -5,6 +5,7 @@ import {
   SUCCESS,
   CLEAR_STATUS,
   CLEAR_CURRENT_RESUME,
+  RENDER_RESUME,
 } from './actions'
 
 const initState = {
@@ -12,7 +13,9 @@ const initState = {
     resumes: [],
     count: 0,
   },
-  currentResume: null,
+  currentResume: {
+    displayLink: '',
+  },
   shouldFetchResumes: true,
   success: '',
   error: '',
@@ -51,6 +54,11 @@ const resumeReducer = (state = initState, action) => {
       return {
         ...state,
         currentResume: null,
+      }
+    case RENDER_RESUME:
+      return {
+        ...state,
+        currentResume: { ...state.currentResume, ...action.payload },
       }
     default:
       return state

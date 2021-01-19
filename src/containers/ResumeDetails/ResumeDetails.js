@@ -87,7 +87,7 @@ const ResumeDetails = () => {
                     url={`https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${resumeId}/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXN1bWVJZCI6IjVmZmZhNDY4ZGZlZTFmYmI0MjIyYzlhOCJ9.II9YJks-j8oSNFMXzW3Vb6eJV967f6VyG9ZbKHKNiko`}
                   />
 
-                  <Button type="primary"></Button>
+                  <Button type="primary">Download</Button>
                 </Col>
               </Row>
             </>

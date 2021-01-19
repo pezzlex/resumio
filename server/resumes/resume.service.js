@@ -150,6 +150,7 @@ const renderResume = async (id, template, userId, resumeDetails) => {
 }
 
 const getDisplayLink = async (id, userId) => {
+  console.log(id, userId)
   const user = await User.findById(userId)
   if (!user) {
     throw new Error('User not found')
@@ -157,6 +158,10 @@ const getDisplayLink = async (id, userId) => {
   const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
   const token = jwtSimple.encode({ resumeId: id }, tempSecret)
   // API link: /resumes/reset-password/${id}/${token}
+  console.log(
+    'display link: ' +
+      `${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${id}/${token}`
+  )
   return `${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${id}/${token}`
 }
 

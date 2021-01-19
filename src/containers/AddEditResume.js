@@ -2,16 +2,15 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import {
   Button,
   Col,
-  DatePicker,
   Divider,
   Form,
   Input,
   notification,
   Row,
   Spin,
-  TimePicker,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
+import Iframe from 'react-iframe'
 import { useDispatch, useSelector } from 'react-redux'
 import { Prompt } from 'react-router'
 import { Link, Redirect, useParams, useRouteMatch } from 'react-router-dom'
@@ -26,13 +25,11 @@ import {
   editResume,
   fetchResumeById,
   fetchResumes,
+  renderResume,
 } from '../redux/resumes/actions'
 import { Header, Title } from './AppLayout.style'
-import Iframe from 'react-iframe'
 
 const { TextArea } = Input
-const { RangePicker } = DatePicker
-const { RangePicker: TimeRangePicker } = TimePicker
 
 const AddEditResume = () => {
   const [isChangeDetected, setChangeDetected] = useState(false)
@@ -78,6 +75,12 @@ const AddEditResume = () => {
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   const [isUpdating, setUpdating] = useState(false)
   const [isSpinning, setSpinning] = useState(false)
+  const [liveCurrentResume, setLiveCurrentResume] = useState({
+    fileName,
+    firstName,
+    lastName,
+    email,
+  })
 
   const [form] = Form.useForm()
 
@@ -107,19 +110,18 @@ const AddEditResume = () => {
     }
   }, [success, error])
 
-  const onFinish = (values) => {
-    console.log(values)
-    const restructured = ({
-      fileName,
-      firstName,
-      lastName,
-      phone,
-      email,
-      workExperience,
-      education,
-      projects,
-      skills,
-    }) => ({
+  function restructured({
+    fileName,
+    firstName,
+    lastName,
+    phone,
+    email,
+    workExperience,
+    education,
+    projects,
+    skills,
+  }) {
+    return {
       contact: {
         firstName,
         lastName,
@@ -139,14 +141,17 @@ const AddEditResume = () => {
         content: skills,
       },
       fileName,
-    })
+    }
+  }
+
+  const onFinish = (values) => {
+    console.log(values)
     const restructuredValues = restructured(values)
     if (isAddResume) {
       dispatch(addResume(restructuredValues))
     } else {
       dispatch(editResume(resumeId, restructuredValues))
     }
-
     setLoading(true)
   }
 
@@ -179,24 +184,26 @@ const AddEditResume = () => {
     return <Redirect to={from} />
   }
 
-  const reverseRestructured = ({
+  function reverseRestructured({
     contact: { firstName, lastName, email, phone },
     workExperience: { content: workExperience },
     education: { content: education },
     projects: { content: projects },
     skills: { content: skills },
     fileName,
-  }) => ({
-    fileName,
-    firstName,
-    lastName,
-    phone,
-    email,
-    workExperience,
-    education,
-    projects,
-    skills,
-  })
+  }) {
+    return {
+      fileName,
+      firstName,
+      lastName,
+      phone,
+      email,
+      workExperience,
+      education,
+      projects,
+      skills,
+    }
+  }
 
   return (
     <>
@@ -223,6 +230,7 @@ const AddEditResume = () => {
                   onValuesChange={(values) => {
                     console.log(values)
                     setChangeDetected(true)
+                    setLiveCurrentResume({ ...liveCurrentResume, ...values })
                   }}
                 >
                   <Header>
@@ -716,14 +724,33 @@ const AddEditResume = () => {
                               spinning={isSpinning}
                               tip="Updating Preview..."
                             >
-                              <Iframe
+                              {/* <Iframe
                                 width="100%"
                                 height="1000px"
                                 position="relative"
-                                url={`https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${resumeId}/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXN1bWVJZCI6IjVmZmZhNDY4ZGZlZTFmYmI0MjIyYzlhOCJ9.II9YJks-j8oSNFMXzW3Vb6eJV967f6VyG9ZbKHKNiko`}
-                              />
-
-                              <Button type="primary"></Button>
+                                url={
+                                  currentResume
+                                    ? `https://latexonline.cc/compile?url=${currentResume.displayLink}`
+                                    : ''
+                                }
+                              /> */}
+                              <Button
+                                disabled={!currentResume}
+                                type="secondary"
+                                onClick={() => {
+                                  dispatch(
+                                    renderResume(resumeId, {
+                                      template: currentResume.template,
+                                      resumeDetails: restructured(
+                                        liveCurrentResume
+                                      ),
+                                    })
+                                  )
+                                }}
+                              >
+                                Preview
+                              </Button>
+                              <Button type="primary">Download</Button>
                             </Spin>
                           </>
                         }

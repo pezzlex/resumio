@@ -97,13 +97,13 @@ const _delete = (req, res, next) => {
 
 const renderResume = (req, res, next) => {
   const { template, resumeDetails } = req.body
-  const { id, userId } = req.params
+  const { id } = req.params
   resumeService
-    .renderResume(id, template, userId, resumeDetails)
+    .renderResume(id, template, req.user.sub, resumeDetails)
     .then((resume) =>
       resume
         ? res.json({
-            data: resume,
+            data: resume.texFileContent,
             error: false,
             message: `Resume "${resume.fileName}" rendered successfully`,
           })
@@ -118,13 +118,20 @@ const renderResume = (req, res, next) => {
 }
 
 const getDisplayLink = (req, res, next) => {
-  resumeService.getDisplayLink(req.params.id, req.user.sub).then((link) => {
-    res.json({
-      data: link,
-      error: false,
-      message: `Display link ${link} genenerated successfully`,
+  console.log('hey')
+  resumeService
+    .getDisplayLink(req.params.id, req.user.sub)
+    .then((displayLink) => {
+      res.json({
+        data: displayLink,
+        error: false,
+        message: 'Display link genenerated successfully',
+      })
     })
-  })
+    .catch((err) => {
+      res.status(400).json({ data: null, error: true, message: err.message })
+      next(err)
+    })
 }
 
 /*
@@ -169,8 +176,8 @@ router.get('/:id', authenticate(), getById)
 router.post('/add', authenticate(), create)
 router.put('/:id', authenticate(), update)
 router.delete('/:id', authenticate(), _delete)
-router.put('/render-resume/:id/:userId', authenticate(), renderResume)
+router.put('/render-resume/:id', authenticate(), renderResume)
 router.get('/get-display-link/:id', authenticate(), getDisplayLink)
 // No auth
-router.get('/display-latex-resume/:id/:token', displayLatexResume)
+router.get('/display-latex-resume/:id/:token', displayLatexResume) // Not called directly by our application. Only called by LatexOnline
 module.exports = router
