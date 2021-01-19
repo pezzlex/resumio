@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 const { Resume } = require('../helpers/db')
 const Joi = require('joi')
+const CloudConvert = require('cloudconvert')
+const fs = require('fs')
+const texContent = require('../templates/basicTemplate')
 
 const schema = Joi.object()
   .keys({
@@ -141,10 +144,31 @@ const _delete = async (id, userId) => {
   return await Resume.findByIdAndDelete(id)
 }
 
+const renderResume = async (id, template, userId, resumeDetails) => {
+  const texFileContent = texContent(resumeDetails)
+  return await update(id, userId, { texFileContent })
+}
+
+const getDisplayLink = async (id, userId) => {
+  const user = await User.findById(userId)
+  if (!user) {
+    throw new Error('User not found')
+  }
+  const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
+  const token = jwtSimple.encode({ resumeId: id }, tempSecret)
+  // API link: /resumes/reset-password/${id}/${token}
+  return `${process.env.REACT_APP_baseUrl}/display-latex-resume/${id}/${token}`
+}
+
+const displayLatexResume = async (id, token) => {}
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   delete: _delete,
+  renderResume,
+  getDisplayLink,
+  displayLatexResume,
 }

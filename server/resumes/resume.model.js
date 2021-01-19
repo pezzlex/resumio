@@ -74,6 +74,7 @@ const resumeSchema = new Schema({
   createdBy: { type: Schema.Types.ObjectId, ref: 'User', immutable: true },
   createdAt: { type: Date, default: Date.now, immutable: true, required: true },
   updatedAt: { type: Date, default: Date.now, required: true },
+  texFileContent: { type: String },
 })
 
 module.exports = mongoose.model('Resume', resumeSchema)

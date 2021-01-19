@@ -1,6 +1,6 @@
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer'
 import { Button, Col, notification, Row } from 'antd'
 import React, { useEffect, useState } from 'react'
+import Iframe from 'react-iframe'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import LayoutContent from '../../components/utility/layoutContent'
@@ -11,9 +11,7 @@ import {
   clearStatus,
   fetchResumeById,
 } from '../../redux/resumes/actions'
-import { unstructured } from '../AddEditResume'
 import { Header, Title } from '../AppLayout.style'
-import RenderedPdf from '../RenderedPdf/RenderedPdf'
 
 const ResumeDetails = () => {
   const dispatch = useDispatch()
@@ -82,34 +80,16 @@ const ResumeDetails = () => {
 
               <Row>
                 <Col flex="auto">
-                  {isPdfReady ? (
-                    <>
-                      {/* <PDFViewer height="900" width="60%">
-                        <RenderedPdf
-                          resume={unstructured(currentResume)}
-                          // resume={{ fileName: 'dummy' }}
-                        />
-                      </PDFViewer>
-                      <Button type="primary">
-                        <PDFDownloadLink
-                          document={
-                            <RenderedPdf
-                              resume={unstructured(currentResume)}
-                              // resume={{ fileName: 'dummy' }}
-                            />
-                          }
-                          fileName={`${currentResume.fileName}.pdf`}
-                        >
-                          {({ blob, url, loading, error }) =>
-                            loading ? 'Loading document...' : 'Download'
-                          }
-                        </PDFDownloadLink>
-                      </Button>
-                     */}
-                    </>
-                  ) : (
-                    <Loader />
-                  )}
+                  <Iframe
+                    width="100%"
+                    height="1000px"
+                    position="relative"
+                    url={`https://latexonline.cc/compile?text=${encodeURIComponent(
+                      currentResume.texFileContent
+                    )}`}
+                  />
+
+                  <Button type="primary"></Button>
                 </Col>
               </Row>
             </>

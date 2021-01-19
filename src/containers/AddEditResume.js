@@ -28,6 +28,7 @@ import {
   fetchResumes,
 } from '../redux/resumes/actions'
 import { Header, Title } from './AppLayout.style'
+import Iframe from 'react-iframe'
 
 const { TextArea } = Input
 const { RangePicker } = DatePicker
@@ -139,10 +140,11 @@ const AddEditResume = () => {
       },
       fileName,
     })
+    const restructuredValues = restructured(values)
     if (isAddResume) {
-      dispatch(addResume(restructured(values)))
+      dispatch(addResume(restructuredValues))
     } else {
-      dispatch(editResume(resumeId, restructured(values)))
+      dispatch(editResume(resumeId, restructuredValues))
     }
 
     setLoading(true)
@@ -714,27 +716,14 @@ const AddEditResume = () => {
                               spinning={isSpinning}
                               tip="Updating Preview..."
                             >
-                              Resume Goes Here
-                              {/* <PDFViewer height="700" width="95%">
-                                    <RenderedPdf resume={delayedResume} />
-                                  </PDFViewer> */}
-                              {/* <Button
-                                    type="primary"
-                                    loading={!canDownload}
-                                    onClick={download}
-                                  > */}
-                              {/* <PDFDownloadLink
-                                      document={
-                                        <RenderedPdf
-                                          resume={delayedResume}
-                                          // resume={{ fileName: 'dummy' }}
-                                        />
-                                      }
-                                      fileName={`${delayedResume.fileName}.pdf`}
-                                    >
-                                      Download!
-                                    </PDFDownloadLink> */}
-                              {/* </Button> */}
+                              <Iframe
+                                width="100%"
+                                height="1000px"
+                                position="relative"
+                                url={`https://latexonline.cc/compile?url=${process.env.PUBLIC_URL}/server/resumes/5f1d2b0c991fed0e4aafb714_resume.tex`}
+                              />
+
+                              <Button type="primary"></Button>
                             </Spin>
                           </>
                         }
