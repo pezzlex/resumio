@@ -155,8 +155,11 @@ const getDisplayLink = async (id, userId) => {
   if (!user) {
     throw new Error('User not found')
   }
-  const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
-  const token = jwtSimple.encode({ resumeId: id }, tempSecret)
+  const tempSecret = `${user.hash}-${new Date(user.createdAt)}`
+  const token = jwtSimple.encode(
+    { resumeId: id, currentTime: Date.now() },
+    tempSecret
+  )
   // API link: /resumes/reset-password/${id}/${token}
   console.log(
     'display link: ' +

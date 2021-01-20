@@ -102,10 +102,10 @@ const getTempLink = async (email) => {
   if (!user) {
     throw new Error('Email not registered')
   }
-  const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
+  const tempSecret = `${user.hash}-${new Date(user.createdAt)}`
   const token = jwtSimple.encode({ sub: user._id }, tempSecret)
   // API link: /users/reset-password/${user._id}/${token}
-  return `${process.env.REACT_APP_baseUrl}/reset-password/${user._id}/${token}`
+  return `${process.env.REACT_APP_baseUrl}/users/reset-password/${user._id}/${token}`
 }
 
 const sendResetEmail = async (link, email) => {
@@ -140,7 +140,7 @@ const sendResetEmail = async (link, email) => {
 const resetPassword = async ({ userId, password, token }) => {
   const user = await User.findById(userId)
   if (!user) throw new Error('User not found')
-  const tempSecret = `${user.hash}-${new Date(user.createdAt).toTimeString()}`
+  const tempSecret = `${user.hash}-${new Date(user.createdAt)}`
   const { sub } = jwtSimple.decode(token, tempSecret)
   if (sub === userId) {
     const passwordSchema = Joi.string().min(6)

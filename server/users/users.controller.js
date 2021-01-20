@@ -187,8 +187,8 @@ const resetPasswordGet = (req, res, next) => {
     .then((user) => {
       console.log(user)
       const { hash, createdAt } = user
-      console.log(createdAt.toISOString())
-      const tempSecret = `${hash}-${new Date(createdAt).toTimeString()}`
+      console.log(new Date(createdAt))
+      const tempSecret = `${hash}-${new Date(createdAt)}`
       const { sub } = jwtSimple.decode(token, tempSecret)
       if (sub === id) {
         res.json({

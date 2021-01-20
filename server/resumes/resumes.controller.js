@@ -146,7 +146,7 @@ const displayLatexResume = (req, res, next) => {
         .getById(resume.createdBy)
         .then((user) => {
           const { hash, createdAt } = user
-          const tempSecret = `${hash}-${new Date(createdAt).toTimeString()}`
+          const tempSecret = `${hash}-${new Date(createdAt)}`
 
           const { resumeId } = jwtSimple.decode(token, tempSecret)
           if (resumeId === id) {
