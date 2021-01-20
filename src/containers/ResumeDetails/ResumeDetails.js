@@ -10,6 +10,7 @@ import {
   clearCurrentResume,
   clearStatus,
   fetchResumeById,
+  renderResume,
 } from '../../redux/resumes/actions'
 import { Header, Title } from '../AppLayout.style'
 
@@ -21,9 +22,6 @@ const ResumeDetails = () => {
   )
   const [isLoading, setLoading] = useState(true)
   const [resumeNotFound, setResumeNotFound] = useState(false)
-  // Hackey workaround for React-PDF bug
-
-  const [isPdfReady, setPdfReady] = useState(true)
 
   useEffect(() => {
     dispatch(fetchResumeById(resumeId))
@@ -32,8 +30,20 @@ const ResumeDetails = () => {
   useEffect(() => {
     if (error || success) {
       dispatch(clearStatus())
+      setLoading(false)
     }
   }, [success, error])
+
+  useEffect(() => {
+    if (success && currentResume) {
+      dispatch(
+        renderResume(resumeId, {
+          template: currentResume.template,
+          resumeDetails: currentResume,
+        })
+      )
+    }
+  }, [success])
 
   useEffect(() => {
     if (error) {
@@ -42,18 +52,8 @@ const ResumeDetails = () => {
         description: error,
       })
       dispatch(clearCurrentResume())
-      setLoading(false)
     }
   }, [error])
-  useEffect(() => {
-    if (success && currentResume) {
-      setLoading(false)
-      setPdfReady(false)
-      setTimeout(() => {
-        setPdfReady(true)
-      }, 100)
-    }
-  }, [success])
 
   return (
     <LayoutContentWrapper>

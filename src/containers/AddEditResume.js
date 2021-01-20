@@ -720,38 +720,29 @@ const AddEditResume = () => {
                       <Col flex="auto" className="iframeFull">
                         {
                           <>
-                            <Spin
-                              spinning={isSpinning}
-                              tip="Updating Preview..."
+                            <Iframe
+                              width="100%"
+                              height="1000px"
+                              position="relative"
+                              url={`https://latexonline.cc/compile?url=${currentResume.displayLink}`}
+                            />
+                            <Button
+                              disabled={!currentResume}
+                              type="secondary"
+                              onClick={() => {
+                                dispatch(
+                                  renderResume(resumeId, {
+                                    template: currentResume.template,
+                                    resumeDetails: restructured(
+                                      liveCurrentResume
+                                    ),
+                                  })
+                                )
+                              }}
                             >
-                              {/* <Iframe
-                                width="100%"
-                                height="1000px"
-                                position="relative"
-                                url={
-                                  currentResume
-                                    ? `https://latexonline.cc/compile?url=${currentResume.displayLink}`
-                                    : ''
-                                }
-                              /> */}
-                              <Button
-                                disabled={!currentResume}
-                                type="secondary"
-                                onClick={() => {
-                                  dispatch(
-                                    renderResume(resumeId, {
-                                      template: currentResume.template,
-                                      resumeDetails: restructured(
-                                        liveCurrentResume
-                                      ),
-                                    })
-                                  )
-                                }}
-                              >
-                                Preview
-                              </Button>
-                              <Button type="primary">Download</Button>
-                            </Spin>
+                              Preview
+                            </Button>
+                            <Button type="primary">Download</Button>
                           </>
                         }
                       </Col>

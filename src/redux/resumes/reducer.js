@@ -32,7 +32,7 @@ const resumeReducer = (state = initState, action) => {
     case FETCH_RESUME_BY_ID:
       return {
         ...state,
-        currentResume: action.payload,
+        currentResume: { ...state.currentResume, ...action.payload },
       }
     case SUCCESS:
       return {
@@ -53,7 +53,7 @@ const resumeReducer = (state = initState, action) => {
     case CLEAR_CURRENT_RESUME:
       return {
         ...state,
-        currentResume: null,
+        currentResume: state.currentResume,
       }
     case RENDER_RESUME:
       return {

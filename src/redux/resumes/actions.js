@@ -161,7 +161,6 @@ export const renderResume = (id, { template, resumeDetails }) => {
       })
       .then((response1) => {
         if (response1.status === 200) {
-          console.log('heyyyyy')
           axios
             .get(
               `${process.env.REACT_APP_baseUrl}/resumes/get-display-link/${id}`
