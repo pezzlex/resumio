@@ -5,7 +5,7 @@ import {
   SUCCESS,
   CLEAR_STATUS,
   CLEAR_CURRENT_RESUME,
-  RENDER_RESUME,
+  FETCH_DISPLAY_LINK,
 } from './actions'
 
 const initState = {
@@ -13,9 +13,7 @@ const initState = {
     resumes: [],
     count: 0,
   },
-  currentResume: {
-    displayLink: '',
-  },
+  currentResume: null,
   shouldFetchResumes: true,
   success: '',
   error: '',
@@ -32,7 +30,7 @@ const resumeReducer = (state = initState, action) => {
     case FETCH_RESUME_BY_ID:
       return {
         ...state,
-        currentResume: { ...state.currentResume, ...action.payload },
+        currentResume: action.payload,
       }
     case SUCCESS:
       return {
@@ -53,12 +51,12 @@ const resumeReducer = (state = initState, action) => {
     case CLEAR_CURRENT_RESUME:
       return {
         ...state,
-        currentResume: state.currentResume,
+        currentResume: null,
       }
-    case RENDER_RESUME:
+    case FETCH_DISPLAY_LINK:
       return {
         ...state,
-        currentResume: { ...state.currentResume, ...action.payload },
+        currentResume: { ...state.currentResume, displayLink: action.payload },
       }
     default:
       return state

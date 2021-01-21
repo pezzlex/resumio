@@ -79,12 +79,16 @@ const ResumeDetails = () => {
               </Header>
 
               <Row>
-                <Col flex="auto">
+                <Col xl={12} lg={12} md={12} span={24}>
                   <Iframe
                     width="100%"
                     height="1000px"
                     position="relative"
-                    url={`https://latexonline.cc/compile?url=${currentResume.displayLink}`}
+                    url={
+                      currentResume && currentResume.displayLink
+                        ? `https://latexonline.cc/compile?url=${currentResume.displayLink}`
+                        : ''
+                    }
                   />
 
                   <Button type="primary">Download</Button>

@@ -24,6 +24,8 @@ const schema = Joi.object()
         Joi.object()
           .keys({
             collegeName: Joi.string().trim(),
+            city: Joi.string().trim(),
+            state: Joi.string().trim(),
             summary: Joi.string().trim(),
           })
           .unknown(true)
@@ -38,6 +40,8 @@ const schema = Joi.object()
             companyName: Joi.string().trim(),
             summary: Joi.string().trim(),
             description: Joi.string().trim(),
+            city: Joi.string().trim(),
+            state: Joi.string().trim(),
           })
           .unknown(true)
       ),

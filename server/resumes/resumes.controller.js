@@ -103,7 +103,7 @@ const renderResume = (req, res, next) => {
     .then((resume) =>
       resume
         ? res.json({
-            data: resume.texFileContent,
+            data: resume,
             error: false,
             message: `Resume "${resume.fileName}" rendered successfully`,
           })

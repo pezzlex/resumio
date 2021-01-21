@@ -6,7 +6,7 @@ export const ERROR = 'ERROR'
 export const SUCCESS = 'SUCCESS'
 export const CLEAR_STATUS = 'CLEAR_STATUS'
 export const CLEAR_CURRENT_RESUME = 'CLEAR_CURRENT_RESUME'
-export const RENDER_RESUME = 'RENDER_RESUME'
+export const FETCH_DISPLAY_LINK = 'FETCH_DISPLAY_LINK'
 
 export const fetchResumes = (params) => {
   console.log(process.env)
@@ -151,29 +151,32 @@ export const clearCurrentResume = () => {
 }
 
 export const renderResume = (id, { template, resumeDetails }) => {
-  console.log('called it')
-  console.log({ template, resumeDetails })
+  console.log('called ittt', id, { template, resumeDetails })
   return (dispatch) => {
+    console.log('hi')
     axios
       .put(`${process.env.REACT_APP_baseUrl}/resumes/render-resume/${id}`, {
         template,
         resumeDetails,
       })
       .then((response1) => {
+        console.log('hii')
         if (response1.status === 200) {
           axios
             .get(
               `${process.env.REACT_APP_baseUrl}/resumes/get-display-link/${id}`
             )
             .then((response2) => {
-              console.log(response2)
+              console.log('response2', response2)
               if (response2.status === 200) {
+                console.log(response1.data.data, response2.data.data)
                 dispatch({
-                  type: RENDER_RESUME,
-                  payload: {
-                    texFileContent: response1.data.data,
-                    displayLink: response2.data.data,
-                  },
+                  type: FETCH_RESUME_BY_ID,
+                  payload: response1.data.data,
+                })
+                dispatch({
+                  type: FETCH_DISPLAY_LINK,
+                  payload: response2.data.data,
                 })
               }
             })

@@ -5,9 +5,9 @@ import {
   Divider,
   Form,
   Input,
+  InputNumber,
   notification,
   Row,
-  Spin,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Iframe from 'react-iframe'
@@ -50,7 +50,7 @@ const AddEditResume = () => {
    * Generate default filenames like New Resume 1, New Resume 2, etc
    * @param {list of resumes} resumes
    */
-  const defaultFileName = (resumes) => {
+  function defaultFileName(resumes) {
     let maxIndex = -1
     resumes.forEach((resume) => {
       if (resume.fileName.startsWith(defaultFileNamePrefix)) {
@@ -152,6 +152,12 @@ const AddEditResume = () => {
     } else {
       dispatch(editResume(resumeId, restructuredValues))
     }
+    dispatch(
+      renderResume(resumeId, {
+        template: currentResume.template,
+        resumeDetails: restructured(liveCurrentResume),
+      })
+    )
     setLoading(true)
   }
 
@@ -405,6 +411,25 @@ const AddEditResume = () => {
                                         </Col>
                                         <Col xl={12} lg={12} md={12} span={24}>
                                           <Form.Item
+                                            label="City"
+                                            name={[field.name, 'city']}
+                                            fieldKey={[field.fieldKey, 'city']}
+                                          >
+                                            <Input placeholder="City" />
+                                          </Form.Item>
+                                        </Col>
+
+                                        <Col xl={12} lg={12} md={12} span={24}>
+                                          <Form.Item
+                                            label="State/Country"
+                                            name={[field.name, 'state']}
+                                            fieldKey={[field.fieldKey, 'state']}
+                                          >
+                                            <Input placeholder="State/Country" />
+                                          </Form.Item>
+                                        </Col>
+                                        <Col xl={12} lg={12} md={12} span={24}>
+                                          <Form.Item
                                             label="Start Date"
                                             name={[field.name, 'startDate']}
                                             fieldKey={[
@@ -444,6 +469,7 @@ const AddEditResume = () => {
                                             />
                                           </Form.Item>
                                         </Col>
+                                        <Divider />
                                       </Row>
                                     ))}
 
@@ -501,7 +527,25 @@ const AddEditResume = () => {
                                             name={[field.name, 'gpa']}
                                             fieldKey={[field.fieldKey, 'gpa']}
                                           >
-                                            <Input placeholder="GPA" />
+                                            <InputNumber
+                                              placeholder="GPA"
+                                              step={0.1}
+                                            />
+                                          </Form.Item>
+                                        </Col>
+                                        <Col xl={12} span={24}>
+                                          <Form.Item
+                                            label="GPA Scale"
+                                            name={[field.name, 'gpaScale']}
+                                            fieldKey={[
+                                              field.fieldKey,
+                                              'gpaScale',
+                                            ]}
+                                          >
+                                            <InputNumber
+                                              placeholder="GPA Scale"
+                                              step={0.1}
+                                            />
                                           </Form.Item>
                                         </Col>
                                         <Col xl={12} span={24}>
@@ -516,6 +560,27 @@ const AddEditResume = () => {
                                             <Input placeholder="Degree" />
                                           </Form.Item>
                                         </Col>
+
+                                        <Col xl={12} lg={12} md={12} span={24}>
+                                          <Form.Item
+                                            label="City"
+                                            name={[field.name, 'city']}
+                                            fieldKey={[field.fieldKey, 'city']}
+                                          >
+                                            <Input placeholder="City" />
+                                          </Form.Item>
+                                        </Col>
+
+                                        <Col xl={12} lg={12} md={12} span={24}>
+                                          <Form.Item
+                                            label="State/Country"
+                                            name={[field.name, 'state']}
+                                            fieldKey={[field.fieldKey, 'state']}
+                                          >
+                                            <Input placeholder="State/Country" />
+                                          </Form.Item>
+                                        </Col>
+
                                         <Col xl={12} lg={12} md={12} span={24}>
                                           <Form.Item
                                             label="Start Date"
@@ -551,12 +616,10 @@ const AddEditResume = () => {
                                               'summary',
                                             ]}
                                           >
-                                            <TextArea
-                                              rows={4}
-                                              placeholder="Summary"
-                                            />
+                                            <Input placeholder="Summary" />
                                           </Form.Item>
                                         </Col>
+                                        <Divider />
                                       </Row>
                                     ))}
 
@@ -640,11 +703,25 @@ const AddEditResume = () => {
                                           name={[field.name, 'summary']}
                                           fieldKey={[field.fieldKey, 'summary']}
                                         >
+                                          <Input placeholder="Summary" />
+                                        </Form.Item>
+                                      </Col>
+
+                                      <Col xl={24} span={24}>
+                                        <Form.Item
+                                          label="Description"
+                                          name={[field.name, 'description']}
+                                          fieldKey={[
+                                            field.fieldKey,
+                                            'description',
+                                          ]}
+                                        >
                                           <TextArea
                                             rows={4}
-                                            placeholder="Summary"
+                                            placeholder="Description"
                                           />
                                         </Form.Item>
+                                        <Divider />
                                       </Col>
                                     </Row>
                                   ))}
@@ -698,6 +775,7 @@ const AddEditResume = () => {
                                           <Input placeholder="Details" />
                                         </Form.Item>
                                       </Col>
+                                      <Divider />
                                     </Row>
                                   ))}
 
@@ -724,7 +802,11 @@ const AddEditResume = () => {
                               width="100%"
                               height="1000px"
                               position="relative"
-                              url={`https://latexonline.cc/compile?url=${currentResume.displayLink}`}
+                              url={
+                                currentResume && currentResume.displayLink
+                                  ? `https://latexonline.cc/compile?url=${currentResume.displayLink}`
+                                  : ''
+                              }
                             />
                             <Button
                               disabled={!currentResume}
@@ -742,7 +824,21 @@ const AddEditResume = () => {
                             >
                               Preview
                             </Button>
-                            <Button type="primary">Download</Button>
+                            <Button
+                              type="primary"
+                              onClick={() =>
+                                dispatch(
+                                  renderResume(resumeId, {
+                                    template: currentResume.template,
+                                    resumeDetails: restructured(
+                                      liveCurrentResume
+                                    ),
+                                  })
+                                )
+                              }
+                            >
+                              Download
+                            </Button>
                           </>
                         }
                       </Col>

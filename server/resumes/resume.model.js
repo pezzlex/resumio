@@ -17,7 +17,10 @@ const resumeSchema = new Schema({
       {
         collegeName: String,
         gpa: Number,
+        gpaScale: Number,
         degree: String,
+        city: String,
+        state: String,
         // startDate: Date,
         // endDate: Date,
         startDate: String,
@@ -34,6 +37,7 @@ const resumeSchema = new Schema({
         jobTitle: String,
         companyName: String,
         city: String,
+        state: String,
         // startDate: Date,
         // endDate: Date,
         startDate: String,
