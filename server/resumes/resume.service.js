@@ -149,6 +149,7 @@ const _delete = async (id, userId) => {
 }
 
 const renderResume = async (id, template, userId, resumeDetails) => {
+  console.log('resumeDetails', resumeDetails)
   const texFileContent = texContent(resumeDetails)
   return await update(id, userId, { texFileContent })
 }
@@ -172,8 +173,6 @@ const getDisplayLink = async (id, userId) => {
   return `${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${id}/${token}`
 }
 
-const displayLatexResume = async (id, token) => {}
-
 module.exports = {
   getAll,
   getById,
@@ -182,5 +181,4 @@ module.exports = {
   delete: _delete,
   renderResume,
   getDisplayLink,
-  displayLatexResume,
 }

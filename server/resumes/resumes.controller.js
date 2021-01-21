@@ -118,7 +118,6 @@ const renderResume = (req, res, next) => {
 }
 
 const getDisplayLink = (req, res, next) => {
-  console.log('hey')
   resumeService
     .getDisplayLink(req.params.id, req.user.sub)
     .then((displayLink) => {
@@ -170,6 +169,13 @@ const displayLatexResume = (req, res, next) => {
     })
 }
 
+const displayDefaultLatexResume = (req, res) => {
+  const { firstName, lastName, email } = req.params
+  const texFileContent = texContent({ firstName, lastName, email })
+  res.type('text/html')
+  res.send(texFileContent)
+}
+
 // routes
 router.get('/', authenticate(), getAll)
 router.get('/:id', authenticate(), getById)
@@ -178,6 +184,11 @@ router.put('/:id', authenticate(), update)
 router.delete('/:id', authenticate(), _delete)
 router.put('/render-resume/:id', authenticate(), renderResume)
 router.get('/get-display-link/:id', authenticate(), getDisplayLink)
+
 // No auth
 router.get('/display-latex-resume/:id/:token', displayLatexResume) // Not called directly by our application. Only called by LatexOnline
+router.get(
+  '/display-default-latex-resume/:firstName/:lastName/:email',
+  displayDefaultLatexResume
+)
 module.exports = router

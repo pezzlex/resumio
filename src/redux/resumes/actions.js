@@ -9,13 +9,11 @@ export const CLEAR_CURRENT_RESUME = 'CLEAR_CURRENT_RESUME'
 export const FETCH_DISPLAY_LINK = 'FETCH_DISPLAY_LINK'
 
 export const fetchResumes = (params) => {
-  console.log(process.env)
   return (dispatch) => {
     axios
       .get(`${process.env.REACT_APP_baseUrl}/resumes`, { params })
       .then((response) => {
         if (response.status === 200) {
-          console.log('found resumes ', response.data.data)
           dispatch({
             type: FETCH_RESUMES,
             payload: response.data.data,
@@ -40,7 +38,6 @@ export const deleteResume = (id) => {
     axios
       .delete(`${process.env.REACT_APP_baseUrl}/resumes/${id}`)
       .then((response) => {
-        console.log('deleting')
         if (response.status === 200) {
           dispatch(fetchResumes())
           dispatch({
@@ -64,7 +61,6 @@ export const fetchResumeById = (id) => {
       .get(`${process.env.REACT_APP_baseUrl}/resumes/${id}`)
       .then((response) => {
         if (response.status === 200) {
-          console.log('found resume', response.data.data)
           dispatch({
             type: FETCH_RESUME_BY_ID,
             payload: response.data.data,
@@ -151,25 +147,20 @@ export const clearCurrentResume = () => {
 }
 
 export const renderResume = (id, { template, resumeDetails }) => {
-  console.log('called ittt', id, { template, resumeDetails })
   return (dispatch) => {
-    console.log('hi')
     axios
       .put(`${process.env.REACT_APP_baseUrl}/resumes/render-resume/${id}`, {
         template,
         resumeDetails,
       })
       .then((response1) => {
-        console.log('hii')
         if (response1.status === 200) {
           axios
             .get(
               `${process.env.REACT_APP_baseUrl}/resumes/get-display-link/${id}`
             )
             .then((response2) => {
-              console.log('response2', response2)
               if (response2.status === 200) {
-                console.log(response1.data.data, response2.data.data)
                 dispatch({
                   type: FETCH_RESUME_BY_ID,
                   payload: response1.data.data,

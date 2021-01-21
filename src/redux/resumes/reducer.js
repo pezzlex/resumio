@@ -14,6 +14,7 @@ const initState = {
     count: 0,
   },
   currentResume: null,
+  displayLink: '',
   shouldFetchResumes: true,
   success: '',
   error: '',
@@ -52,11 +53,12 @@ const resumeReducer = (state = initState, action) => {
       return {
         ...state,
         currentResume: null,
+        displayLink: '',
       }
     case FETCH_DISPLAY_LINK:
       return {
         ...state,
-        currentResume: { ...state.currentResume, displayLink: action.payload },
+        displayLink: action.payload,
       }
     default:
       return state

@@ -13,15 +13,18 @@ import {
   renderResume,
 } from '../../redux/resumes/actions'
 import { Header, Title } from '../AppLayout.style'
+import { restructured } from '../AddEditResume'
 
 const ResumeDetails = () => {
   const dispatch = useDispatch()
   const { resumeId } = useParams()
-  const { currentResume, success, error } = useSelector(
+  const { currentResume, displayLink, success, error } = useSelector(
     (state) => state.resumeData
   )
   const [isLoading, setLoading] = useState(true)
-  const [resumeNotFound, setResumeNotFound] = useState(false)
+  // const [resumeNotFound, setResumeNotFound] = useState(false)
+  // const [displayLink, setDisplayLink] = useState('')
+  const [renderedPdfLink, setRenderedPdfLink] = useState('')
 
   useEffect(() => {
     dispatch(fetchResumeById(resumeId))
@@ -35,7 +38,7 @@ const ResumeDetails = () => {
   }, [success, error])
 
   useEffect(() => {
-    if (success && currentResume) {
+    if (currentResume) {
       dispatch(
         renderResume(resumeId, {
           template: currentResume.template,
@@ -44,6 +47,12 @@ const ResumeDetails = () => {
       )
     }
   }, [success])
+
+  useEffect(() => {
+    if (displayLink) {
+      setRenderedPdfLink(`https://latexonline.cc/compile?url=${displayLink}`)
+    }
+  }, [displayLink])
 
   useEffect(() => {
     if (error) {
@@ -84,11 +93,7 @@ const ResumeDetails = () => {
                     width="100%"
                     height="1000px"
                     position="relative"
-                    url={
-                      currentResume && currentResume.displayLink
-                        ? `https://latexonline.cc/compile?url=${currentResume.displayLink}`
-                        : ''
-                    }
+                    url={renderedPdfLink}
                   />
 
                   <Button type="primary">Download</Button>

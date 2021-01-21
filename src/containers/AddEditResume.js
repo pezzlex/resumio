@@ -31,15 +31,50 @@ import { Header, Title } from './AppLayout.style'
 
 const { TextArea } = Input
 
+export function restructured({
+  fileName,
+  firstName,
+  lastName,
+  phone,
+  email,
+  workExperience,
+  education,
+  projects,
+  skills,
+}) {
+  return {
+    contact: {
+      firstName,
+      lastName,
+      email,
+      phone,
+    },
+    workExperience: {
+      content: workExperience,
+    },
+    education: {
+      content: education,
+    },
+    projects: {
+      content: projects,
+    },
+    skills: {
+      content: skills,
+    },
+    fileName,
+  }
+}
+
 const AddEditResume = () => {
   const [isChangeDetected, setChangeDetected] = useState(false)
+  const [renderedPdfLink, setRenderedPdfLink] = useState('')
 
   const dispatch = useDispatch()
   const { resumeId } = useParams()
 
   const match = useRouteMatch()
   const isAddResume = match.path.endsWith('create-resume')
-  const { error, success, currentResume } = useSelector(
+  const { error, success, currentResume, displayLink } = useSelector(
     (state) => state.resumeData
   )
   const { resumes, count } = useSelector((state) => state.resumeData.resumes)
@@ -95,10 +130,13 @@ const AddEditResume = () => {
     // If initially edit, fetch resume => add currentResume
     if (!isAddResume) {
       dispatch(fetchResumeById(resumeId))
-      // If initially add, clear current resume
     } else {
       dispatch(clearCurrentResume())
+
       setRedirectToReferrer(false)
+      setRenderedPdfLink(
+        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-resume/${firstName}/${lastName}/${email}`
+      )
     }
   }, [])
 
@@ -109,40 +147,6 @@ const AddEditResume = () => {
       setPageLoading(false)
     }
   }, [success, error])
-
-  function restructured({
-    fileName,
-    firstName,
-    lastName,
-    phone,
-    email,
-    workExperience,
-    education,
-    projects,
-    skills,
-  }) {
-    return {
-      contact: {
-        firstName,
-        lastName,
-        email,
-        phone,
-      },
-      workExperience: {
-        content: workExperience,
-      },
-      education: {
-        content: education,
-      },
-      projects: {
-        content: projects,
-      },
-      skills: {
-        content: skills,
-      },
-      fileName,
-    }
-  }
 
   const onFinish = (values) => {
     console.log(values)
@@ -158,6 +162,7 @@ const AddEditResume = () => {
         resumeDetails: restructured(liveCurrentResume),
       })
     )
+
     setLoading(true)
   }
 
@@ -174,13 +179,31 @@ const AddEditResume = () => {
       setChangeDetected(true)
     }
   }, [error])
+
   useEffect(() => {
     if (success) {
       dispatch(fetchResumes)
-      if (isAddResume) setRedirectToReferrer(true)
       setChangeDetected(false)
+      // ADD
+      if (isAddResume) {
+        setRedirectToReferrer(true)
+        // EDIT
+      } else {
+        dispatch(
+          renderResume(resumeId, {
+            template: currentResume.template,
+            resumeDetails: restructured(liveCurrentResume),
+          })
+        )
+      }
     }
   }, [success])
+
+  useEffect(() => {
+    if (displayLink) {
+      setRenderedPdfLink(`https://latexonline.cc/compile?url=${displayLink}`)
+    }
+  }, [displayLink])
 
   if (redirectToReferrer && currentResume) {
     let from = {
@@ -266,6 +289,14 @@ const AddEditResume = () => {
                               type="primary"
                               loading={isLoading}
                               htmlType="submit"
+                              onClick={dispatch(
+                                renderResume(resumeId, {
+                                  template: currentResume.template,
+                                  resumeDetails: restructured(
+                                    liveCurrentResume
+                                  ),
+                                })
+                              )}
                             >
                               Save Changes
                             </Button>
@@ -802,11 +833,7 @@ const AddEditResume = () => {
                               width="100%"
                               height="1000px"
                               position="relative"
-                              url={
-                                currentResume && currentResume.displayLink
-                                  ? `https://latexonline.cc/compile?url=${currentResume.displayLink}`
-                                  : ''
-                              }
+                              url={renderedPdfLink}
                             />
                             <Button
                               disabled={!currentResume}
@@ -826,6 +853,7 @@ const AddEditResume = () => {
                             </Button>
                             <Button
                               type="primary"
+                              disabled={!currentResume}
                               onClick={() =>
                                 dispatch(
                                   renderResume(resumeId, {
