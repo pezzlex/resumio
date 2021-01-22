@@ -17,6 +17,8 @@ const schema = Joi.object()
       email: Joi.string().trim().email(),
       phone: Joi.string().trim(),
       links: Joi.array().items(Joi.string().trim()),
+      linkedIn: Joi.string().trim(),
+      github: Joi.string().trim(),
     }),
     education: Joi.object().keys({
       headerName: Joi.string().trim(),
@@ -98,7 +100,6 @@ const getById = async (id) => {
 const create = async (resumeParam) => {
   console.log(resumeParam)
   const { value, error } = schema.validate(resumeParam)
-  console.log('value', value)
   // validate fields
   if (error) {
     throw error
@@ -149,7 +150,7 @@ const _delete = async (id, userId) => {
 }
 
 const renderResume = async (id, template, userId, resumeDetails) => {
-  console.log('resumeDetails', resumeDetails)
+  console.log('skills', resumeDetails.skills)
   const texFileContent = texContent(resumeDetails)
   return await update(id, userId, { texFileContent })
 }
@@ -166,10 +167,6 @@ const getDisplayLink = async (id, userId) => {
     tempSecret
   )
   // API link: /resumes/reset-password/${id}/${token}
-  console.log(
-    'display link: ' +
-      `${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${id}/${token}`
-  )
   return `${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${id}/${token}`
 }
 

@@ -37,6 +37,8 @@ export function restructured({
   lastName,
   phone,
   email,
+  linkedIn,
+  github,
   workExperience,
   education,
   projects,
@@ -48,6 +50,8 @@ export function restructured({
       lastName,
       email,
       phone,
+      linkedIn,
+      github,
     },
     workExperience: {
       content: workExperience,
@@ -135,7 +139,11 @@ const AddEditResume = () => {
 
       setRedirectToReferrer(false)
       setRenderedPdfLink(
-        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-resume/${firstName}/${lastName}/${email}`
+        `https://latexonline.cc/compile?url=${
+          process.env.REACT_APP_baseUrl
+        }/resumes/display-default-resume/${encodeURIComponent(
+          firstName
+        )}/${encodeURIComponent(lastName)}/${encodeURIComponent(email)}`
       )
     }
   }, [])
@@ -150,18 +158,18 @@ const AddEditResume = () => {
 
   const onFinish = (values) => {
     console.log(values)
-    const restructuredValues = restructured(values)
+
     if (isAddResume) {
-      dispatch(addResume(restructuredValues))
+      dispatch(addResume(restructured(values)))
     } else {
-      dispatch(editResume(resumeId, restructuredValues))
+      dispatch(editResume(resumeId, restructured(values)))
+      dispatch(
+        renderResume(resumeId, {
+          template: values.template,
+          resumeDetails: restructured(values),
+        })
+      )
     }
-    dispatch(
-      renderResume(resumeId, {
-        template: currentResume.template,
-        resumeDetails: restructured(liveCurrentResume),
-      })
-    )
 
     setLoading(true)
   }
@@ -214,7 +222,7 @@ const AddEditResume = () => {
   }
 
   function reverseRestructured({
-    contact: { firstName, lastName, email, phone },
+    contact: { firstName, lastName, email, phone, github, linkedIn },
     workExperience: { content: workExperience },
     education: { content: education },
     projects: { content: projects },
@@ -227,6 +235,8 @@ const AddEditResume = () => {
       lastName,
       phone,
       email,
+      github,
+      linkedIn,
       workExperience,
       education,
       projects,
@@ -289,14 +299,16 @@ const AddEditResume = () => {
                               type="primary"
                               loading={isLoading}
                               htmlType="submit"
-                              onClick={dispatch(
-                                renderResume(resumeId, {
-                                  template: currentResume.template,
-                                  resumeDetails: restructured(
-                                    liveCurrentResume
-                                  ),
-                                })
-                              )}
+                              onClick={() =>
+                                dispatch(
+                                  renderResume(resumeId, {
+                                    template: currentResume.template,
+                                    resumeDetails: restructured(
+                                      liveCurrentResume
+                                    ),
+                                  })
+                                )
+                              }
                             >
                               Save Changes
                             </Button>
@@ -384,8 +396,6 @@ const AddEditResume = () => {
                               rules={[
                                 {
                                   type: 'email',
-                                  // required: true,
-                                  // message: 'Please input your email!',
                                 },
                               ]}
                             >
@@ -395,6 +405,16 @@ const AddEditResume = () => {
                           <Col xl={12} lg={12} md={12} span={24}>
                             <Form.Item label="Contact Number" name="phone">
                               <Input placeholder="Contact Number" />
+                            </Form.Item>
+                          </Col>
+                          <Col xl={12} lg={12} md={12} span={24}>
+                            <Form.Item label="LinkedIn" name="linkedIn">
+                              <Input placeholder="LinkedIn" />
+                            </Form.Item>
+                          </Col>
+                          <Col xl={12} lg={12} md={12} span={24}>
+                            <Form.Item label="Github (Optional)" name="github">
+                              <Input placeholder="Github" />
                             </Form.Item>
                           </Col>
 
@@ -760,7 +780,7 @@ const AddEditResume = () => {
                                   <Form.Item>
                                     <Button
                                       type="dashed"
-                                      onClick={add}
+                                      onClick={() => add()}
                                       style={{ width: '100%' }}
                                     >
                                       <PlusOutlined /> Add Project
@@ -791,7 +811,10 @@ const AddEditResume = () => {
                                         <Form.Item
                                           label="Skill Name"
                                           name={[field.name, 'subHeader']}
-                                          fieldKey={[field.fieldKey, 'title']}
+                                          fieldKey={[
+                                            field.fieldKey,
+                                            'subHeader',
+                                          ]}
                                         >
                                           <Input placeholder="Skill Name" />
                                         </Form.Item>
@@ -813,7 +836,7 @@ const AddEditResume = () => {
                                   <Form.Item>
                                     <Button
                                       type="dashed"
-                                      onClick={add}
+                                      onClick={() => add()}
                                       style={{ width: '100%' }}
                                     >
                                       <PlusOutlined /> Add Skill
@@ -838,7 +861,7 @@ const AddEditResume = () => {
                             <Button
                               disabled={!currentResume}
                               type="secondary"
-                              onClick={() => {
+                              onClick={() =>
                                 dispatch(
                                   renderResume(resumeId, {
                                     template: currentResume.template,
@@ -847,7 +870,7 @@ const AddEditResume = () => {
                                     ),
                                   })
                                 )
-                              }}
+                              }
                             >
                               Preview
                             </Button>

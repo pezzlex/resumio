@@ -24,8 +24,6 @@ const MyResumes = () => {
   const error = useSelector((state) => state.resumeData.error)
   const [isTableLoading, setTableLoading] = useState(false)
 
-  console.log(resumes, count)
-
   useEffect(() => {
     if (success || error) {
       setTableLoading(false)

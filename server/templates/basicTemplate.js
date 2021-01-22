@@ -191,7 +191,7 @@ const texContent = ({
     \\small{\\item{`
   if (skills.content) {
     skills.content.forEach((skill) => {
-      ret += `\\textbf{${skill.subHeader}}{: ${skills.details} \\\\
+      ret += `\\textbf{${skill.subHeader}}{: ${skill.details} \\\\
       `
     })
   }

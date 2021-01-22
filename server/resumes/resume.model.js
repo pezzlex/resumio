@@ -9,6 +9,8 @@ const resumeSchema = new Schema({
     email: String,
     phone: String,
     links: [String],
+    linkedIn: String,
+    github: String,
     _id: false,
   },
   education: {

@@ -5,6 +5,7 @@ const userService = require('../users/user.service')
 const authenticate = require('../helpers/authenticate')
 const texContent = require('../templates/basicTemplate')
 const jwtSimple = require('jwt-simple')
+const fs = require('fs')
 
 const getAll = (req, res, next) => {
   const userId = req.user.sub
@@ -40,13 +41,14 @@ const getById = (req, res, next) => {
 const create = (req, res, next) => {
   resumeService
     .create({ ...req.body, createdBy: req.user.sub })
-    .then((resume) =>
+    .then((resume) => {
+      console.log('resume = ', resume)
       res.json({
         data: resume,
         error: false,
         message: `Resume "${resume.fileName}" created successfully`,
       })
-    )
+    })
     .catch((err) => {
       res.status(400).json({ data: null, error: true, message: err.message })
 
@@ -100,7 +102,10 @@ const renderResume = (req, res, next) => {
   const { id } = req.params
   resumeService
     .renderResume(id, template, req.user.sub, resumeDetails)
-    .then((resume) =>
+    .then((resume) => {
+      fs.writeFile('out.txt', resume.texFileContent, (err) => {
+        if (err) console.log(err)
+      })
       resume
         ? res.json({
             data: resume,
@@ -110,7 +115,7 @@ const renderResume = (req, res, next) => {
         : res
             .status(404)
             .json({ data: null, error: true, message: 'Resume not found' })
-    )
+    })
     .catch((err) => {
       res.status(400).json({ data: null, error: true, message: err.message })
       next(err)

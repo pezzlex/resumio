@@ -147,6 +147,7 @@ export const clearCurrentResume = () => {
 }
 
 export const renderResume = (id, { template, resumeDetails }) => {
+  console.log('renderResume called')
   return (dispatch) => {
     axios
       .put(`${process.env.REACT_APP_baseUrl}/resumes/render-resume/${id}`, {
