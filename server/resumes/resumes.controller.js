@@ -176,7 +176,9 @@ const displayLatexResume = (req, res, next) => {
 
 const displayDefaultLatexResume = (req, res) => {
   const { firstName, lastName, email } = req.params
-  const texFileContent = texContent({ firstName, lastName, email })
+  const texFileContent = texContent({
+    contact: { firstName, lastName, email },
+  })
   res.type('text/html')
   res.send(texFileContent)
 }

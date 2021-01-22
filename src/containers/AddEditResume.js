@@ -139,11 +139,7 @@ const AddEditResume = () => {
 
       setRedirectToReferrer(false)
       setRenderedPdfLink(
-        `https://latexonline.cc/compile?url=${
-          process.env.REACT_APP_baseUrl
-        }/resumes/display-default-resume/${encodeURIComponent(
-          firstName
-        )}/${encodeURIComponent(lastName)}/${encodeURIComponent(email)}`
+        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-resume/${firstName}/${lastName}/${email}`
       )
     }
   }, [])

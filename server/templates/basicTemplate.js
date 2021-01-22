@@ -1,8 +1,8 @@
 const texContent = ({
   contact: { firstName, lastName, email, phone, linkedIn, github },
-  workExperience: { content: workExperienceContent },
-  education: { content: educationContent },
-  projects: { content: projectsContent },
+  workExperience,
+  education,
+  projects,
   skills,
 }) => {
   let ret =
@@ -216,7 +216,7 @@ const texContent = ({
 %-----------PROGRAMMING SKILLS-----------
 \\section{Technical Skills}
 `
-  if (skills.content) {
+  if (skills && skills.content) {
     ret += `\\begin{itemize}[leftmargin=0.15in, label={}]
     \\small{\\item{`
 

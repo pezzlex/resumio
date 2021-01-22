@@ -202,7 +202,11 @@
 %
 %-----------PROGRAMMING SKILLS-----------
 \section{Technical Skills}
-
+\begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+      }}
+      \end{itemize}
+      
 %-------------------------------------------
 \end{document}
   
