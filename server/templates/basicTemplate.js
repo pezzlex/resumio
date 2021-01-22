@@ -122,7 +122,7 @@ const texContent = ({
 \\begin{center}
     \\textbf{\\Huge \\scshape ${firstName} ${lastName}} \\\\ \\vspace{1pt}
     \\small ${phone} $|$ \\href{mailto:${email}}{\\underline{${email}}} $|$ 
-    \\href{${linkedIn}}{\\underline{${linkedIn}$}} $|$
+    \\href{${linkedIn}}{\\underline{${linkedIn}}} $|$
     \\href{${github}}{\\underline{${github}}}
 \\end{center}
 

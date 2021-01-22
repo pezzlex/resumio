@@ -112,8 +112,8 @@
 % \end{tabular*}
 
 \begin{center}
-    \textbf{\Huge \scshape Pezanne Khambatta} \\ \vspace{1pt}
-    \small undefined $|$ \href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$ 
+    \textbf{\Huge \scshape Pezanne jhkjhkjKhambattawuu} \\ \vspace{1pt}
+    \small 2e2eddhh $|$ \href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$ 
     \href{undefined}{\underline{undefined$}} $|$
     \href{undefined}{\underline{undefined}}
 \end{center}
@@ -180,8 +180,7 @@
 %-----------PROGRAMMING SKILLS-----------
 \section{Technical Skills}
  \begin{itemize}[leftmargin=0.15in, label={}]
-    \small{\item{\textbf{undefined}{: qweqwew \\
-      
+    \small{\item{
     }}
  \end{itemize}
 
