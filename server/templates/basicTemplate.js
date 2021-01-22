@@ -4,9 +4,9 @@ const texContent = ({
   education: { content: educationContent },
   projects: { content: projectsContent },
   skills,
-  fileName,
 }) => {
-  let ret = `%-------------------------
+  let ret =
+    `%-------------------------
 % Resume in Latex
 % Author : Jake Gutierrez
 % Based off of: https://github.com/sb2nov/resume
@@ -121,21 +121,24 @@ const texContent = ({
 
 \\begin{center}
     \\textbf{\\Huge \\scshape ${firstName} ${lastName}} \\\\ \\vspace{1pt}
-    \\small ${phone} $|$ \\href{mailto:${email}}{\\underline{${email}}} $|$ 
-    \\href{${linkedIn}}{\\underline{${linkedIn}}} $|$
-    \\href{${github}}{\\underline{${github}}}
-\\end{center}
+    ` +
+    (phone ? `\\small ${phone} $|$` : '') +
+    (email ? `\\href{mailto:${email}}{\\underline{${email}}} $|$` : '') +
+    (linkedIn ? `\\href{${linkedIn}}{\\underline{${linkedIn}}} $|$` : '') +
+    (github ? `\\href{${github}}{\\underline{${github}}}` : '') +
+    `\\end{center}
+
 
 
 %-----------EDUCATION-----------
 \\section{Education}
   \\resumeSubHeadingListStart
     \\resumeSubheading
-      {$collegeName$}{$city$, $state$}
-      {$degree$}{$startDate$ -- $endDate$}
+      {Southwestern University}{Georgetown, TX}
+      {Bachelor of Arts in Computer Science, Minor in Business}{Aug. 2018 -- May 2021}
     \\resumeSubheading
-      {$collegeName$}{$city$, $state$}
-      {$degree$}{$startDate$ -- $endDate$}
+      {Blinn College}{Bryan, TX}
+      {Associate's in Liberal Arts}{Aug. 2014 -- May 2018}
   \\resumeSubHeadingListEnd
 
 
@@ -144,23 +147,44 @@ const texContent = ({
   \\resumeSubHeadingListStart
 
     \\resumeSubheading
-      {$experienceName$}{$startDate$ -- $endDate$}
-      {$companyName$}{$city$, $state$}
+      {Undergraduate Research Assistant}{June 2020 -- Present}
+      {Texas A\\&M University}{College Station, TX}
       \\resumeItemListStart
-        \\resumeItem{$description$}
-        
+        \\resumeItem{Developed a REST API using FastAPI and PostgreSQL to store data from learning management systems}
+        \\resumeItem{Developed a full-stack web application using Flask, React, PostgreSQL and Docker to analyze GitHub data}
+        \\resumeItem{Explored ways to visualize GitHub collaboration in a classroom setting}
       \\resumeItemListEnd
       
-      \\resumeSubHeadingListStart
+% -----------Multiple Positions Heading-----------
+%    \\resumeSubSubheading
+%     {Software Engineer I}{Oct 2014 - Sep 2016}
+%     \\resumeItemListStart
+%        \\resumeItem{Apache Beam}
+%          {Apache Beam is a unified model for defining both batch and streaming data-parallel processing pipelines}
+%     \\resumeItemListEnd
+%    \\resumeSubHeadingListEnd
+%-------------------------------------------
 
     \\resumeSubheading
-      {$experienceName$}{$startDate$ -- $endDate$}
-      {$companyName$}{$city$, $state$}
+      {Information Technology Support Specialist}{Sep. 2018 -- Present}
+      {Southwestern University}{Georgetown, TX}
       \\resumeItemListStart
-        \\resumeItem{$description$}
-        
+        \\resumeItem{Communicate with managers to set up campus computers used on campus}
+        \\resumeItem{Assess and troubleshoot computer problems brought by students, faculty and staff}
+        \\resumeItem{Maintain upkeep of computers, classroom equipment, and 200 printers across campus}
+    \\resumeItemListEnd
+
+    \\resumeSubheading
+      {Artificial Intelligence Research Assistant}{May 2019 -- July 2019}
+      {Southwestern University}{Georgetown, TX}
+      \\resumeItemListStart
+        \\resumeItem{Explored methods to generate video game dungeons based off of \\emph{The Legend of Zelda}}
+        \\resumeItem{Developed a game in Java to test the generated dungeons}
+        \\resumeItem{Contributed 50K+ lines of code to an established codebase via Git}
+        \\resumeItem{Conducted  a human subject study to determine which video game dungeon generation technique is enjoyable}
+        \\resumeItem{Wrote an 8-page paper and gave multiple presentations on-campus}
+        \\resumeItem{Presented virtually to the World Conference on Computational Intelligence}
       \\resumeItemListEnd
-   
 
   \\resumeSubHeadingListEnd
 
@@ -169,16 +193,20 @@ const texContent = ({
 \\section{Projects}
     \\resumeSubHeadingListStart
       \\resumeProjectHeading
-          {\\textbf{$name$} $|$ \\emph{$summary$}}{$startDate$ -- $endDate$}
+          {\\textbf{Gitlytics} $|$ \\emph{Python, Flask, React, PostgreSQL, Docker}}{June 2020 -- Present}
           \\resumeItemListStart
-            \\resumeItem{$description$}
-           
+            \\resumeItem{Developed a full-stack web application using with Flask serving a REST API with React as the frontend}
+            \\resumeItem{Implemented GitHub OAuth to get data from user’s repositories}
+            \\resumeItem{Visualized GitHub data to show collaboration}
+            \\resumeItem{Used Celery and Redis for asynchronous tasks}
           \\resumeItemListEnd
       \\resumeProjectHeading
-          {\\textbf{$name$} $|$ \\emph{$summary$}}{$startDate$ -- $endDate$}
+          {\\textbf{Simple Paintball} $|$ \emph{Spigot API, Java, Maven, TravisCI, Git}}{May 2018 -- May 2020}
           \\resumeItemListStart
-            \\resumeItem{$description$}
-           
+            \\resumeItem{Developed a Minecraft server plugin to entertain kids during free time for a previous job}
+            \\resumeItem{Published plugin to websites gaining 2K+ downloads and an average 4.5/5-star review}
+            \\resumeItem{Implemented continuous delivery using TravisCI to build the plugin upon new a release}
+            \\resumeItem{Collaborated with Minecraft server administrators to suggest features and get feedback about the plugin}
           \\resumeItemListEnd
     \\resumeSubHeadingListEnd
 
@@ -187,20 +215,25 @@ const texContent = ({
 %
 %-----------PROGRAMMING SKILLS-----------
 \\section{Technical Skills}
- \\begin{itemize}[leftmargin=0.15in, label={}]
-    \\small{\\item{`
+`
   if (skills.content) {
+    ret += `\\begin{itemize}[leftmargin=0.15in, label={}]
+    \\small{\\item{`
+
     skills.content.forEach((skill) => {
       ret += `\\textbf{${skill.subHeader}}{: ${skill.details} \\\\
       `
     })
+    ret += `
+      }}
+      \\end{itemize}
+      `
   }
   ret += `
-    }}
- \\end{itemize}
-
 %-------------------------------------------
-\\end{document}`
+\\end{document}
+  `
+
   return ret
 }
 

@@ -150,7 +150,7 @@ const _delete = async (id, userId) => {
 }
 
 const renderResume = async (id, template, userId, resumeDetails) => {
-  console.log('skills', resumeDetails.skills)
+  console.log('resumeDetails', resumeDetails)
   const texFileContent = texContent(resumeDetails)
   return await update(id, userId, { texFileContent })
 }
