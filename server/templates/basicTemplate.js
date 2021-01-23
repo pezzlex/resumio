@@ -128,67 +128,54 @@ const texContent = ({
     (github ? `\\href{${github}}{\\underline{${github}}}` : '') +
     `\\end{center}
 
-
-
 %-----------EDUCATION-----------
 \\section{Education}
+`
+  if (education && education.content && education.content.length > 0) {
+    ret += `
   \\resumeSubHeadingListStart
+  `
+    education.content.forEach((edu) => {
+      ret += `
     \\resumeSubheading
-      {Southwestern University}{Georgetown, TX}
-      {Bachelor of Arts in Computer Science, Minor in Business}{Aug. 2018 -- May 2021}
-    \\resumeSubheading
-      {Blinn College}{Bryan, TX}
-      {Associate's in Liberal Arts}{Aug. 2014 -- May 2018}
-  \\resumeSubHeadingListEnd
+    {${edu.collegeName}}{${edu.city}, ${edu.state}}
+    {${edu.degree}}{${edu.startDate} -- ${edu.endDate}}
+    `
+    })
 
+    ret += `
+\\resumeSubHeadingListEnd
+`
+  }
 
+  ret += `
 %-----------EXPERIENCE-----------
 \\section{Experience}
-  \\resumeSubHeadingListStart
-
-    \\resumeSubheading
-      {Undergraduate Research Assistant}{June 2020 -- Present}
-      {Texas A\\&M University}{College Station, TX}
+  `
+  if (
+    workExperience &&
+    workExperience.content &&
+    workExperience.content.length > 0
+  ) {
+    ret += `\\resumeSubHeadingListStart
+`
+    workExperience.content.forEach((workEx) => {
+      ret += `
+  \\resumeSubheading
+      {${workEx.jobTitle}}{${workEx.startDate} -- ${workEx.endDate}}
+      {${workEx.companyName}}{${workEx.city}, ${workEx.state}}
       \\resumeItemListStart
-        \\resumeItem{Developed a REST API using FastAPI and PostgreSQL to store data from learning management systems}
-        \\resumeItem{Developed a full-stack web application using Flask, React, PostgreSQL and Docker to analyze GitHub data}
-        \\resumeItem{Explored ways to visualize GitHub collaboration in a classroom setting}
+        \\resumeItem{${workEx.description}}
       \\resumeItemListEnd
-      
-% -----------Multiple Positions Heading-----------
-%    \\resumeSubSubheading
-%     {Software Engineer I}{Oct 2014 - Sep 2016}
-%     \\resumeItemListStart
-%        \\resumeItem{Apache Beam}
-%          {Apache Beam is a unified model for defining both batch and streaming data-parallel processing pipelines}
-%     \\resumeItemListEnd
-%    \\resumeSubHeadingListEnd
-%-------------------------------------------
+  `
+    })
 
-    \\resumeSubheading
-      {Information Technology Support Specialist}{Sep. 2018 -- Present}
-      {Southwestern University}{Georgetown, TX}
-      \\resumeItemListStart
-        \\resumeItem{Communicate with managers to set up campus computers used on campus}
-        \\resumeItem{Assess and troubleshoot computer problems brought by students, faculty and staff}
-        \\resumeItem{Maintain upkeep of computers, classroom equipment, and 200 printers across campus}
-    \\resumeItemListEnd
-
-    \\resumeSubheading
-      {Artificial Intelligence Research Assistant}{May 2019 -- July 2019}
-      {Southwestern University}{Georgetown, TX}
-      \\resumeItemListStart
-        \\resumeItem{Explored methods to generate video game dungeons based off of \\emph{The Legend of Zelda}}
-        \\resumeItem{Developed a game in Java to test the generated dungeons}
-        \\resumeItem{Contributed 50K+ lines of code to an established codebase via Git}
-        \\resumeItem{Conducted  a human subject study to determine which video game dungeon generation technique is enjoyable}
-        \\resumeItem{Wrote an 8-page paper and gave multiple presentations on-campus}
-        \\resumeItem{Presented virtually to the World Conference on Computational Intelligence}
-      \\resumeItemListEnd
-
+    ret += `
   \\resumeSubHeadingListEnd
+  `
+  }
 
-
+  ret += `
 %-----------PROJECTS-----------
 \\section{Projects}
 `
