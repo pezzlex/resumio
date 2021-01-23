@@ -99,6 +99,7 @@ const _delete = (req, res, next) => {
 
 const renderResume = (req, res, next) => {
   const { template, resumeDetails } = req.body
+  console.log('resumeDetailssss', resumeDetails, 'skills', resumeDetails.skills)
   const { id } = req.params
   resumeService
     .renderResume(id, template, req.user.sub, resumeDetails)
@@ -175,9 +176,13 @@ const displayLatexResume = (req, res, next) => {
 }
 
 const displayDefaultLatexResume = (req, res) => {
+  console.log('displaying def resume')
   const { firstName, lastName, email } = req.params
   const texFileContent = texContent({
     contact: { firstName, lastName, email },
+  })
+  fs.writeFile('out.txt', texFileContent, (err) => {
+    if (err) console.log(err)
   })
   res.type('text/html')
   res.send(texFileContent)

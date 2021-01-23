@@ -1,4 +1,8 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import {
+  DownloadOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons'
 import {
   Button,
   Col,
@@ -8,6 +12,7 @@ import {
   InputNumber,
   notification,
   Row,
+  Typography,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Iframe from 'react-iframe'
@@ -30,6 +35,7 @@ import {
 import { Header, Title } from './AppLayout.style'
 
 const { TextArea } = Input
+const { Text } = Typography
 
 export function restructured({
   fileName,
@@ -114,12 +120,16 @@ const AddEditResume = () => {
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   const [isUpdating, setUpdating] = useState(false)
   const [isSpinning, setSpinning] = useState(false)
-  const [liveCurrentResume, setLiveCurrentResume] = useState({
-    fileName,
-    firstName,
-    lastName,
-    email,
-  })
+  const [liveCurrentResume, setLiveCurrentResume] = useState(
+    currentResume
+      ? reverseRestructured(currentResume)
+      : {
+          fileName,
+          firstName,
+          lastName,
+          email,
+        }
+  )
 
   const [form] = Form.useForm()
 
@@ -139,7 +149,11 @@ const AddEditResume = () => {
 
       setRedirectToReferrer(false)
       setRenderedPdfLink(
-        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-resume/${firstName}/${lastName}/${email}`
+        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-latex-resume/${firstName}/${lastName}/${email}`
+      )
+      console.log(
+        'default link: ',
+        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-latex-resume/${firstName}/${lastName}/${email}`
       )
     }
   }, [])
@@ -262,10 +276,9 @@ const AddEditResume = () => {
                   onFinish={onFinish}
                   onFinishFailed={onFinishFailed}
                   scrollToFirstError
-                  onValuesChange={(values) => {
-                    console.log(values)
+                  onValuesChange={(_, formValues) => {
                     setChangeDetected(true)
-                    setLiveCurrentResume({ ...liveCurrentResume, ...values })
+                    setLiveCurrentResume(formValues)
                   }}
                 >
                   <Header>
@@ -857,7 +870,13 @@ const AddEditResume = () => {
                             <Button
                               disabled={!currentResume}
                               type="secondary"
-                              onClick={() =>
+                              onClick={() => {
+                                console.log(
+                                  'restructured(liveCurrentResume)',
+                                  restructured(liveCurrentResume),
+                                  'liveCurrentResume',
+                                  liveCurrentResume
+                                )
                                 dispatch(
                                   renderResume(resumeId, {
                                     template: currentResume.template,
@@ -866,11 +885,13 @@ const AddEditResume = () => {
                                     ),
                                   })
                                 )
-                              }
+                              }}
                             >
                               Preview
                             </Button>
+
                             <Button
+                              icon={<DownloadOutlined />}
                               type="primary"
                               disabled={!currentResume}
                               onClick={() =>
@@ -886,6 +907,14 @@ const AddEditResume = () => {
                             >
                               Download
                             </Button>
+                            {!currentResume && (
+                              <Row>
+                                <Text>
+                                  Preview and Download available after saving
+                                  resume
+                                </Text>
+                              </Row>
+                            )}
                           </>
                         }
                       </Col>

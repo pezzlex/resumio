@@ -113,7 +113,7 @@
 
 \begin{center}
     \textbf{\Huge \scshape Pezanne Khambatta} \\ \vspace{1pt}
-    \href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$\href{qwdqwd}{\underline{qwdqwd}} $|$\href{wqdqwdd}{\underline{wqdqwdd}}\end{center}
+    \href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$\end{center}
 
 
 
@@ -178,35 +178,35 @@
 
 %-----------PROJECTS-----------
 \section{Projects}
-    \resumeSubHeadingListStart
-      \resumeProjectHeading
-          {\textbf{Gitlytics} $|$ \emph{Python, Flask, React, PostgreSQL, Docker}}{June 2020 -- Present}
-          \resumeItemListStart
-            \resumeItem{Developed a full-stack web application using with Flask serving a REST API with React as the frontend}
-            \resumeItem{Implemented GitHub OAuth to get data from user’s repositories}
-            \resumeItem{Visualized GitHub data to show collaboration}
-            \resumeItem{Used Celery and Redis for asynchronous tasks}
-          \resumeItemListEnd
-      \resumeProjectHeading
-          {\textbf{Simple Paintball} $|$ emph{Spigot API, Java, Maven, TravisCI, Git}}{May 2018 -- May 2020}
-          \resumeItemListStart
-            \resumeItem{Developed a Minecraft server plugin to entertain kids during free time for a previous job}
-            \resumeItem{Published plugin to websites gaining 2K+ downloads and an average 4.5/5-star review}
-            \resumeItem{Implemented continuous delivery using TravisCI to build the plugin upon new a release}
-            \resumeItem{Collaborated with Minecraft server administrators to suggest features and get feedback about the plugin}
-          \resumeItemListEnd
-    \resumeSubHeadingListEnd
+
+  \resumeSubHeadingListStart
+
+        \resumeProjectHeading
+        {\textbf{qwdqwdq} $|$ \emph{hi!!}}{wqeqwe -- qweqwe}
+        \resumeItemListStart
+          \resumeItem{ass}
+        \resumeItemListEnd
+        
+        \resumeProjectHeading
+        {\textbf{qweqweqw} $|$ \emph{undefined}}{undefined -- undefined}
+        \resumeItemListStart
+          \resumeItem{undefined}
+        \resumeItemListEnd
+        
+        \resumeProjectHeading
+        {\textbf{wqeqwe} $|$ \emph{undefined}}{undefined -- undefined}
+        \resumeItemListStart
+          \resumeItem{undefined}
+        \resumeItemListEnd
+        
+\resumeSubHeadingListEnd
 
 
-
+    
 %
 %-----------PROGRAMMING SKILLS-----------
 \section{Technical Skills}
-\begin{itemize}[leftmargin=0.15in, label={}]
-    \small{\item{
-      }}
-      \end{itemize}
-      
+
 %-------------------------------------------
 \end{document}
   

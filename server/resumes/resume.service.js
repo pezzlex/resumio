@@ -54,7 +54,7 @@ const schema = Joi.object()
         Joi.object()
           .keys({
             title: Joi.string().trim(),
-            link: Joi.string().trim().uri(),
+            link: Joi.string().trim(),
             summary: Joi.string().trim(),
             description: Joi.string().trim(),
           })
@@ -150,7 +150,6 @@ const _delete = async (id, userId) => {
 }
 
 const renderResume = async (id, template, userId, resumeDetails) => {
-  console.log('resumeDetails', resumeDetails)
   const texFileContent = texContent(resumeDetails)
   return await update(id, userId, { texFileContent })
 }
