@@ -95,8 +95,9 @@ const ResumeDetails = () => {
                     position="relative"
                     url={renderedPdfLink}
                   />
-
-                  <Button type="primary">Download</Button>
+                  <Header>
+                    <Button type="primary">Download</Button>
+                  </Header>
                 </Col>
               </Row>
             </>

@@ -33,7 +33,7 @@
   "dependencies": {
     "@ant-design/icons": "4.0.0",
     "@react-pdf/renderer": "^1.6.10",
-    "antd": "^4.5.2",
+    "antd": "^4.10.3",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "cloudconvert": "^2.1.8",

@@ -112,65 +112,23 @@
 % \end{tabular*}
 
 \begin{center}
-    \textbf{\Huge \scshape Pezanne Khambatta} \\ \vspace{1pt}
-    \small 857-294-2105 $|$\href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$\end{center}
+    \textbf{\Huge \scshape Pezanne Khambattaffwqeqwe} \\ \vspace{1pt}
+    \href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$\href{khkjhkjhkj}{\underline{khkjhkjhkj}} $|$\href{jkjhkjh}{\underline{jkjhkjh}}\end{center}
 
 %-----------EDUCATION-----------
 \section{Education}
 
-  \resumeSubHeadingListStart
-  
-    \resumeSubheading
-    {wqeqweqw}{undefined, undefined}
-    {undefined}{undefined -- undefined}
-    
-\resumeSubHeadingListEnd
-
 %-----------EXPERIENCE-----------
 \section{Experience}
-  \resumeSubHeadingListStart
-
-  \resumeSubheading
-      {3e23e32}{23e23e -- 32e23e23}
-      {3e23e23e}{23e23e, 23e23e}
-      \resumeItemListStart
-        \resumeItem{e23ee3}
-      \resumeItemListEnd
-  
-  \resumeSubheading
-      {ass}{undefined -- undefined}
-      {undefined}{undefined, undefined}
-      \resumeItemListStart
-        \resumeItem{undefined}
-      \resumeItemListEnd
-  
-  \resumeSubHeadingListEnd
   
 %-----------PROJECTS-----------
 \section{Projects}
-
-  \resumeSubHeadingListStart
-
-        \resumeProjectHeading
-        {\textbf{qwdqwdq} $|$ \emph{hi!!}}{wqeqwe -- qweqwe}
-        \resumeItemListStart
-          \resumeItem{ass}
-        \resumeItemListEnd
-        
-\resumeSubHeadingListEnd
-
 
     
 %
 %-----------PROGRAMMING SKILLS-----------
 \section{Technical Skills}
-\begin{itemize}[leftmargin=0.15in, label={}]
-    \small{\item{
-      \textbf{Java}{: do some stuff} \\
-      
-      }}
-      \end{itemize}
-      
+
 %-------------------------------------------
 \end{document}
   

@@ -5,12 +5,14 @@ import {
 } from '@ant-design/icons'
 import {
   Button,
+  Select,
   Col,
   Divider,
   Form,
   Input,
   InputNumber,
   notification,
+  Menu,
   Row,
   Typography,
 } from 'antd'
@@ -33,12 +35,13 @@ import {
   renderResume,
 } from '../redux/resumes/actions'
 import { Header, Title } from './AppLayout.style'
+import { TemplatesData } from './Templates'
 
+const { Option } = Select
 const { TextArea } = Input
 const { Text } = Typography
 
 export function restructured({
-  fileName,
   firstName,
   lastName,
   phone,
@@ -49,6 +52,7 @@ export function restructured({
   education,
   projects,
   skills,
+  ...rest
 }) {
   return {
     contact: {
@@ -71,7 +75,7 @@ export function restructured({
     skills: {
       content: skills,
     },
-    fileName,
+    ...rest,
   }
 }
 
@@ -237,10 +241,9 @@ const AddEditResume = () => {
     education: { content: education },
     projects: { content: projects },
     skills: { content: skills },
-    fileName,
+    ...rest
   }) {
     return {
-      fileName,
       firstName,
       lastName,
       phone,
@@ -251,8 +254,15 @@ const AddEditResume = () => {
       education,
       projects,
       skills,
+      ...rest,
     }
   }
+
+  const menu = (
+    <Menu>
+      <Menu.Item>Overleaf: Jake's Resume</Menu.Item>
+    </Menu>
+  )
 
   return (
     <>
@@ -271,12 +281,19 @@ const AddEditResume = () => {
                   initialValues={
                     currentResume
                       ? reverseRestructured(currentResume)
-                      : { firstName, lastName, email, fileName }
+                      : {
+                          firstName,
+                          lastName,
+                          email,
+                          fileName,
+                          template: 'BASIC_TEMPLATE',
+                        }
                   }
                   onFinish={onFinish}
                   onFinishFailed={onFinishFailed}
                   scrollToFirstError
                   onValuesChange={(_, formValues) => {
+                    console.log(formValues)
                     setChangeDetected(true)
                     setLiveCurrentResume(formValues)
                   }}
@@ -308,16 +325,6 @@ const AddEditResume = () => {
                               type="primary"
                               loading={isLoading}
                               htmlType="submit"
-                              onClick={() =>
-                                dispatch(
-                                  renderResume(resumeId, {
-                                    template: currentResume.template,
-                                    resumeDetails: restructured(
-                                      liveCurrentResume
-                                    ),
-                                  })
-                                )
-                              }
                             >
                               Save Changes
                             </Button>
@@ -365,6 +372,24 @@ const AddEditResume = () => {
                                   setFileName(e.target.value)
                                 }}
                               />
+                            </Form.Item>
+                          </Col>
+                          <Col xl={12} lg={12} md={12} span={24}>
+                            <Form.Item
+                              label="Template"
+                              name="template"
+                              rules={[{ required: true }]}
+                            >
+                              <Select>
+                                {TemplatesData.map((template) => (
+                                  <Option
+                                    value={template.value}
+                                    key={template.value}
+                                  >
+                                    {template.name}
+                                  </Option>
+                                ))}
+                              </Select>
                             </Form.Item>
                           </Col>
                         </Row>
@@ -867,54 +892,65 @@ const AddEditResume = () => {
                               position="relative"
                               url={renderedPdfLink}
                             />
-                            <Button
-                              disabled={!currentResume}
-                              type="secondary"
-                              onClick={() => {
-                                console.log(
-                                  'restructured(liveCurrentResume)',
-                                  restructured(liveCurrentResume),
-                                  'liveCurrentResume',
-                                  liveCurrentResume
-                                )
-                                dispatch(
-                                  renderResume(resumeId, {
-                                    template: currentResume.template,
-                                    resumeDetails: restructured(
-                                      liveCurrentResume
-                                    ),
-                                  })
-                                )
-                              }}
-                            >
-                              Preview
-                            </Button>
+                            <Header>
+                              <Button
+                                disabled={!currentResume}
+                                type="secondary"
+                                onClick={() => {
+                                  console.log(
+                                    'restructured(liveCurrentResume)',
+                                    restructured(liveCurrentResume),
+                                    'liveCurrentResume',
+                                    liveCurrentResume
+                                  )
+                                  dispatch(
+                                    renderResume(resumeId, {
+                                      template: currentResume.template,
+                                      resumeDetails: restructured(
+                                        liveCurrentResume
+                                      ),
+                                    })
+                                  )
+                                }}
+                              >
+                                Preview
+                              </Button>
+                              <a
+                                href={
+                                  'https://latexonline.cc/compile?url=https%3A%2F%2Fresumio-testing.herokuapp.com%2Fresumes%2Fdisplay-latex-resume%2F600a35ba9ae8c60017a0cf05%2FeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXN1bWVJZCI6IjYwMGEzNWJhOWFlOGM2MDAxN2EwY2YwNSIsImN1cnJlbnRUaW1lIjoxNjExNDI5NDE1MDI3fQ.4wV1kfSC9AZbt7dF1k2b7UTl0-k7532EnpZj9rFTUgU&trackId=1611431542712'
+                                }
+                                rel="noopener noreferrer"
+                                target="_blank"
+                                download="resume.pdf"
+                              >
+                                <Button
+                                  icon={<DownloadOutlined />}
+                                  type="primary"
+                                  disabled={!currentResume}
+                                  onClick={() =>
+                                    dispatch(
+                                      renderResume(resumeId, {
+                                        template: currentResume.template,
+                                        resumeDetails: restructured(
+                                          liveCurrentResume
+                                        ),
+                                      })
+                                    )
+                                  }
+                                >
+                                  Download
+                                </Button>
+                              </a>
 
-                            <Button
-                              icon={<DownloadOutlined />}
-                              type="primary"
-                              disabled={!currentResume}
-                              onClick={() =>
-                                dispatch(
-                                  renderResume(resumeId, {
-                                    template: currentResume.template,
-                                    resumeDetails: restructured(
-                                      liveCurrentResume
-                                    ),
-                                  })
-                                )
-                              }
-                            >
-                              Download
-                            </Button>
-                            {!currentResume && (
-                              <Row>
-                                <Text>
-                                  Preview and Download available after saving
-                                  resume
-                                </Text>
-                              </Row>
-                            )}
+                              {!currentResume && (
+                                <Row>
+                                  <Text>
+                                    Preview and Download available after saving
+                                    resume
+                                  </Text>
+                                </Row>
+                              )}
+                            </Header>
                           </>
                         }
                       </Col>
