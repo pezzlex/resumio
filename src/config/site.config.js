@@ -1,11 +1,7 @@
 export default {
   siteName: 'RESUMIO',
   siteIcon: 'ion-android-attach',
-  footerText: `© ${new Date().getFullYear()} Alexander Phan and Pezanne Khambatta`,
+  footerText: `© ${new Date().getFullYear()} Pezanne Khambatta and Alexander Phan`,
   enableAnimatedRoute: false,
-  apiUrl: 'http://yoursite.com/api/',
-  google: {
-    analyticsKey: 'UA-xxxxxxxxx-1',
-  },
   dashboard: '/dashboard',
 }

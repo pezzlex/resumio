@@ -149,9 +149,8 @@ const AddEditResume = () => {
     if (!isAddResume) {
       dispatch(fetchResumeById(resumeId))
     } else {
-      dispatch(clearCurrentResume())
-
       setRedirectToReferrer(false)
+      dispatch(clearCurrentResume())
       setRenderedPdfLink(
         `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-latex-resume/${firstName}/${lastName}/${email}`
       )
@@ -177,12 +176,6 @@ const AddEditResume = () => {
       dispatch(addResume(restructured(values)))
     } else {
       dispatch(editResume(resumeId, restructured(values)))
-      dispatch(
-        renderResume(resumeId, {
-          template: values.template,
-          resumeDetails: restructured(values),
-        })
-      )
     }
 
     setLoading(true)
@@ -209,14 +202,6 @@ const AddEditResume = () => {
       // ADD
       if (isAddResume) {
         setRedirectToReferrer(true)
-        // EDIT
-      } else {
-        dispatch(
-          renderResume(resumeId, {
-            template: currentResume.template,
-            resumeDetails: restructured(liveCurrentResume),
-          })
-        )
       }
     }
   }, [success])

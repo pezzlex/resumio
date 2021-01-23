@@ -59,16 +59,28 @@ export const fetchResumeById = (id) => {
   return (dispatch) => {
     axios
       .get(`${process.env.REACT_APP_baseUrl}/resumes/${id}`)
-      .then((response) => {
-        if (response.status === 200) {
-          dispatch({
-            type: FETCH_RESUME_BY_ID,
-            payload: response.data.data,
-          })
-          dispatch({
-            type: SUCCESS,
-            payload: response.data.message,
-          })
+      .then((response1) => {
+        if (response1.status === 200) {
+          axios
+            .get(
+              `${process.env.REACT_APP_baseUrl}/resumes/get-display-link/${id}`
+            )
+            .then((response2) => {
+              if (response2.status === 200) {
+                dispatch({
+                  type: FETCH_RESUME_BY_ID,
+                  payload: response1.data.data,
+                })
+                dispatch({
+                  type: FETCH_DISPLAY_LINK,
+                  payload: response2.data.data,
+                })
+                dispatch({
+                  type: SUCCESS,
+                  payload: response1.data.message,
+                })
+              }
+            })
         }
       })
       .catch((err) => {
@@ -86,11 +98,14 @@ export const addResume = (resume) => {
       .post(`${process.env.REACT_APP_baseUrl}/resumes/add`, resume)
       .then((response) => {
         if (response.status === 200) {
+          const newResume = response.data.data
           // reset current resume
-          dispatch({
-            type: FETCH_RESUME_BY_ID,
-            payload: response.data.data,
-          })
+          dispatch(
+            renderResume(newResume._id, {
+              template: newResume.template,
+              resumeDetails: newResume,
+            })
+          )
           dispatch({
             type: SUCCESS,
             payload: response.data.message,
@@ -110,16 +125,19 @@ export const editResume = (id, resume) => {
   return (dispatch) => {
     axios
       .put(`${process.env.REACT_APP_baseUrl}/resumes/${id}`, resume)
-      .then((response) => {
-        if (response.status === 200) {
-          // reset current resume
-          dispatch({
-            type: FETCH_RESUME_BY_ID,
-            payload: response.data.data,
-          })
+      .then((response1) => {
+        if (response1.status === 200) {
+          const newResume = response1.data.data
+          console.log('newResume', newResume)
+          dispatch(
+            renderResume(id, {
+              template: newResume.template,
+              resumeDetails: newResume,
+            })
+          )
           dispatch({
             type: SUCCESS,
-            payload: response.data.message,
+            payload: response1.data.message,
           })
         }
       })
@@ -146,6 +164,10 @@ export const clearCurrentResume = () => {
   }
 }
 
+/**
+ * 1. Updates resume's texFileContent (among all other stuff)
+ * 2. Get's resume's new display link
+ */
 export const renderResume = (id, { template, resumeDetails }) => {
   console.log('renderResume called')
   return (dispatch) => {
@@ -170,6 +192,7 @@ export const renderResume = (id, { template, resumeDetails }) => {
                   type: FETCH_DISPLAY_LINK,
                   payload: response2.data.data,
                 })
+                console.log('new display link = ', response2.data.data)
               }
             })
             .catch((err) => {

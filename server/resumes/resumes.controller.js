@@ -99,7 +99,7 @@ const _delete = (req, res, next) => {
 
 const renderResume = (req, res, next) => {
   const { template, resumeDetails } = req.body
-  console.log('resumeDetailssss', resumeDetails, 'skills', resumeDetails.skills)
+  console.log('resumeDetailssss', resumeDetails)
   const { id } = req.params
   resumeService
     .renderResume(id, template, req.user.sub, resumeDetails)

@@ -155,7 +155,6 @@ const renderResume = async (id, template, userId, resumeDetails) => {
 }
 
 const getDisplayLink = async (id, userId) => {
-  console.log(id, userId)
   const user = await User.findById(userId)
   if (!user) {
     throw new Error('User not found')
