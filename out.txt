@@ -112,32 +112,14 @@
 % \end{tabular*}
 
 \begin{center}
-    \textbf{\Huge \scshape Pezanne Khambattaewewe} \\ \vspace{1pt}
-    \small bmnbmnmnb $|$\href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$\href{wewewe}{\underline{wewewe}} $|$\href{wwwwwwww}{\underline{wwwwwwww}}\end{center}
+    \textbf{\Huge \scshape Pezanne Khambatta} \\ \vspace{1pt}
+    \small qweqweqwe $|$\href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$\href{231312}{\underline{231312}}\end{center}
 
 %-----------EDUCATION-----------
 \section{Education}
 
-  \resumeSubHeadingListStart
-  
-    \resumeSubheading
-    {undefined}{undefined, undefined}
-    {undefined}{undefined -- undefined}
-    
-\resumeSubHeadingListEnd
-
 %-----------EXPERIENCE-----------
 \section{Experience}
-  \resumeSubHeadingListStart
-
-  \resumeSubheading
-      {jedede}{undefined -- undefined}
-      {undefined}{undefined, undefined}
-      \resumeItemListStart
-        \resumeItem{undefined}
-      \resumeItemListEnd
-  
-  \resumeSubHeadingListEnd
   
 %-----------PROJECTS-----------
 \section{Projects}
