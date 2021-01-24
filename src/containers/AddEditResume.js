@@ -863,7 +863,7 @@ const AddEditResume = () => {
                         </Row>
                       </Col>
 
-                      <Col flex="auto" className="iframeFull">
+                      <Col xl={12} lg={12} md={12} span={24}>
                         {
                           <>
                             <Iframe
