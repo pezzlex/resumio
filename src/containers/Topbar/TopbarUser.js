@@ -15,9 +15,9 @@ const TopbarUser = () => {
 
   const content = (
     <TopbarDropdownWrapper className="isoUserDropdown">
-      <Link className="isoDropdownLink" to={'/dashboard/my-profile'}>
+      {/* <Link className="isoDropdownLink" to={'/dashboard/my-profile'}>
         My Profile
-      </Link>
+      </Link> */}
       <a className="isoDropdownLink" onClick={() => dispatch(logoutUser())}>
         Logout
       </a>

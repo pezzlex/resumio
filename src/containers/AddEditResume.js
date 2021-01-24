@@ -590,7 +590,7 @@ const AddEditResume = () => {
                                             <Input placeholder="College Name" />
                                           </Form.Item>
                                         </Col>
-
+                                        {/* 
                                         <Col xl={12} span={24}>
                                           <Form.Item
                                             label="GPA"
@@ -618,7 +618,8 @@ const AddEditResume = () => {
                                             />
                                           </Form.Item>
                                         </Col>
-                                        <Col xl={12} span={24}>
+                                         */}
+                                        <Col xl={24} span={24}>
                                           <Form.Item
                                             label="Degree"
                                             name={[field.name, 'degree']}
@@ -677,7 +678,7 @@ const AddEditResume = () => {
                                           </Form.Item>
                                         </Col>
 
-                                        <Col xl={24} span={24}>
+                                        {/* <Col xl={24} span={24}>
                                           <Form.Item
                                             label="Summary"
                                             name={[field.name, 'summary']}
@@ -688,7 +689,7 @@ const AddEditResume = () => {
                                           >
                                             <Input placeholder="Summary" />
                                           </Form.Item>
-                                        </Col>
+                                        </Col> */}
                                         <Divider />
                                       </Row>
                                     ))}

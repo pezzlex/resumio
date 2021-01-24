@@ -23,6 +23,10 @@ const routes = [
     component: lazy(() => import('../Templates')),
   },
   {
+    path: 'my-profile',
+    component: lazy(() => import('../MyProfile')),
+  },
+  {
     path: 'cards',
     component: lazy(() => import('../Cards')),
   },
