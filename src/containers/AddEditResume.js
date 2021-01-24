@@ -243,12 +243,6 @@ const AddEditResume = () => {
     }
   }
 
-  const menu = (
-    <Menu>
-      <Menu.Item>Overleaf: Jake's Resume</Menu.Item>
-    </Menu>
-  )
-
   return (
     <>
       <Prompt

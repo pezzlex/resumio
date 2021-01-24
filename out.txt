@@ -113,7 +113,7 @@
 
 \begin{center}
     \textbf{\Huge \scshape Pezanne Khambatta} \\ \vspace{1pt}
-    \href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$\href{qweqwe}{\underline{qweqwe}} $|$\href{qweqweqw}{\underline{qweqweqw}}\end{center}
+    \href{mailto:khambatta.pezanne@gmail.com}{\underline{khambatta.pezanne@gmail.com}} $|$\end{center}
 
 %-----------EDUCATION-----------
 \section{Education}
