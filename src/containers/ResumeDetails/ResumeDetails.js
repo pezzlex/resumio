@@ -6,6 +6,9 @@ import { Link, useParams } from 'react-router-dom'
 import LayoutContent from '../../components/utility/layoutContent'
 import LayoutContentWrapper from '../../components/utility/layoutWrapper'
 import Loader from '../../components/utility/loader'
+import axios from 'axios'
+import fileDownload from 'js-file-download'
+
 import {
   clearCurrentResume,
   clearStatus,
@@ -38,17 +41,6 @@ const ResumeDetails = () => {
   }, [success, error])
 
   useEffect(() => {
-    if (currentResume) {
-      dispatch(
-        renderResume(resumeId, {
-          template: currentResume.template,
-          resumeDetails: currentResume,
-        })
-      )
-    }
-  }, [success])
-
-  useEffect(() => {
     if (displayLink) {
       setRenderedPdfLink(`https://latexonline.cc/compile?url=${displayLink}`)
     }
@@ -63,6 +55,18 @@ const ResumeDetails = () => {
       dispatch(clearCurrentResume())
     }
   }, [error])
+
+  function handleDownload(url, downloadFileName) {
+    // testing
+    axios
+      .get(url, {
+        responseType: 'blob',
+      })
+      .then((res) => {
+        res.header('Access-Control-Allow-Origin', '*')
+        fileDownload(res.data, downloadFileName)
+      })
+  }
 
   return (
     <LayoutContentWrapper>
@@ -96,7 +100,17 @@ const ResumeDetails = () => {
                     url={renderedPdfLink}
                   />
                   <Header>
-                    <Button type="primary">Download</Button>
+                    <Button
+                      type="primary"
+                      onClick={() =>
+                        handleDownload(
+                          renderedPdfLink,
+                          `${currentResume.fileName}.pdf`
+                        )
+                      }
+                    >
+                      Download
+                    </Button>
                   </Header>
                 </Col>
               </Row>

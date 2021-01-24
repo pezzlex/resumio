@@ -25,3 +25,6 @@ firebase-debug.log
 
 # config files
 /server/config.js
+
+# test file
+out.txt

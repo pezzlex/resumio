@@ -106,10 +106,6 @@ export const addResume = (resume) => {
               resumeDetails: newResume,
             })
           )
-          dispatch({
-            type: SUCCESS,
-            payload: response.data.message,
-          })
         }
       })
       .catch((err) => {
@@ -135,10 +131,6 @@ export const editResume = (id, resume) => {
               resumeDetails: newResume,
             })
           )
-          dispatch({
-            type: SUCCESS,
-            payload: response1.data.message,
-          })
         }
       })
       .catch((err) => {
@@ -192,7 +184,10 @@ export const renderResume = (id, { template, resumeDetails }) => {
                   type: FETCH_DISPLAY_LINK,
                   payload: response2.data.data,
                 })
-                console.log('new display link = ', response2.data.data)
+                dispatch({
+                  type: SUCCESS,
+                  payload: response1.data.message,
+                })
               }
             })
             .catch((err) => {
