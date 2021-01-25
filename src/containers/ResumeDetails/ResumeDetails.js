@@ -1,3 +1,4 @@
+import { DownloadOutlined } from '@ant-design/icons'
 import { Button, Col, notification, Row } from 'antd'
 import React, { useEffect, useState } from 'react'
 import Iframe from 'react-iframe'
@@ -6,17 +7,12 @@ import { Link, useParams } from 'react-router-dom'
 import LayoutContent from '../../components/utility/layoutContent'
 import LayoutContentWrapper from '../../components/utility/layoutWrapper'
 import Loader from '../../components/utility/loader'
-import axios from 'axios'
-import fileDownload from 'js-file-download'
-
 import {
   clearCurrentResume,
   clearStatus,
   fetchResumeById,
-  renderResume,
 } from '../../redux/resumes/actions'
 import { Header, Title } from '../AppLayout.style'
-import { restructured } from '../AddEditResume'
 
 const ResumeDetails = () => {
   const dispatch = useDispatch()
@@ -83,13 +79,14 @@ const ResumeDetails = () => {
                 <Col xl={12} lg={12} md={12} span={24}>
                   <Iframe
                     width="100%"
-                    height="1000px"
+                    height="700px"
                     position="relative"
                     url={renderedPdfLink}
                   />
                   <Header>
                     <Button
                       type="primary"
+                      icon={<DownloadOutlined />}
                       onClick={() => {
                         setTimeout(() => {
                           console.log('changed link')
