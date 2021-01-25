@@ -6,6 +6,7 @@ const authenticate = require('../helpers/authenticate')
 const texContent = require('../templates/basicTemplate')
 const jwtSimple = require('jwt-simple')
 const fs = require('fs')
+const axios = require('axios')
 
 const getAll = (req, res, next) => {
   const userId = req.user.sub
@@ -188,6 +189,25 @@ const displayDefaultLatexResume = (req, res) => {
   res.send(texFileContent)
 }
 
+const downloadPdf = (req, res, next) => {
+  const { fileName, url } = req.params
+  console.log('fileName', fileName, 'url', url)
+  axios
+    .get(url, {
+      responseType: 'blob',
+    })
+    .then((response) => {
+      setTimeout(() => {
+        console.log(response)
+        res.send(response)
+      }, 6000)
+    })
+    .catch((err) => {
+      res.status(400).json({ data: null, error: true, message: err.message })
+      next(err)
+    })
+}
+
 // routes
 router.get('/', authenticate(), getAll)
 router.get('/:id', authenticate(), getById)
@@ -203,4 +223,5 @@ router.get(
   '/display-default-latex-resume/:firstName/:lastName/:email',
   displayDefaultLatexResume
 )
+router.get('/download-pdf/:fileName/:url', downloadPdf)
 module.exports = router

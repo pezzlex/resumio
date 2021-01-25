@@ -25,7 +25,7 @@ const Templates = () => {
           <Title>Templates</Title>
         </Header>
         <Row gutter={12}>
-          <Col xl={3} lg={3} md={3} span={24}>
+          <Col xl={3} lg={6} md={12} span={24}>
             <Image width={300} src={Src} />
             <Text> Overleaf: Jake's Resume</Text>
           </Col>

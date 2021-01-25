@@ -176,9 +176,10 @@ export const renderResume = (id, { template, resumeDetails }) => {
             )
             .then((response2) => {
               if (response2.status === 200) {
+                const newResume = response1.data.data
                 dispatch({
                   type: FETCH_RESUME_BY_ID,
-                  payload: response1.data.data,
+                  payload: newResume,
                 })
                 dispatch({
                   type: FETCH_DISPLAY_LINK,

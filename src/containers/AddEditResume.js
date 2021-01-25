@@ -152,11 +152,11 @@ const AddEditResume = () => {
       setRedirectToReferrer(false)
       dispatch(clearCurrentResume())
       setRenderedPdfLink(
-        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-latex-resume/${firstName}/${lastName}/${email}`
+        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-latex-resume?firstName=${firstName}&lastName=${lastName}&email=${email}`
       )
       console.log(
         'default link: ',
-        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-latex-resume/${firstName}/${lastName}/${email}`
+        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-latex-resume?firstName=${firstName}&lastName=${lastName}&email=${email}`
       )
     }
   }, [])
@@ -895,32 +895,24 @@ const AddEditResume = () => {
                               >
                                 Preview
                               </Button>
-                              <a
-                                href={
-                                  'https://latexonline.cc/compile?url=https%3A%2F%2Fresumio-testing.herokuapp.com%2Fresumes%2Fdisplay-latex-resume%2F600a35ba9ae8c60017a0cf05%2FeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXN1bWVJZCI6IjYwMGEzNWJhOWFlOGM2MDAxN2EwY2YwNSIsImN1cnJlbnRUaW1lIjoxNjExNDI5NDE1MDI3fQ.4wV1kfSC9AZbt7dF1k2b7UTl0-k7532EnpZj9rFTUgU&trackId=1611431542712'
+
+                              <Button
+                                icon={<DownloadOutlined />}
+                                type="primary"
+                                disabled={!currentResume}
+                                onClick={() =>
+                                  dispatch(
+                                    renderResume(resumeId, {
+                                      template: currentResume.template,
+                                      resumeDetails: restructured(
+                                        liveCurrentResume
+                                      ),
+                                    })
+                                  )
                                 }
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                download="resume.pdf"
                               >
-                                <Button
-                                  icon={<DownloadOutlined />}
-                                  type="primary"
-                                  disabled={!currentResume}
-                                  onClick={() =>
-                                    dispatch(
-                                      renderResume(resumeId, {
-                                        template: currentResume.template,
-                                        resumeDetails: restructured(
-                                          liveCurrentResume
-                                        ),
-                                      })
-                                    )
-                                  }
-                                >
-                                  Download
-                                </Button>
-                              </a>
+                                Download
+                              </Button>
 
                               {!currentResume && (
                                 <Row>

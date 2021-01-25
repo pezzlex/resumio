@@ -2,22 +2,13 @@ const options = [
   {
     key: '',
     label: 'My Resumes',
-    leftIcon: 'ion-document',
+    leftIcon: 'ion-document-text',
   },
-  // {
-  //   key: "create-resume",
-  //   label: "sidebar.createResume",
-  //   leftIcon: "ion-document",
-  // },
-  // {
-  //   key: "edit-resume",
-  //   label: "sidebar.editResume",
-  //   leftIcon: "ion-document",
-  // },
+
   {
     key: 'templates',
     label: 'Templates',
-    leftIcon: 'ion-document',
+    leftIcon: 'ion-android-color-palette',
   },
 ]
 export default options

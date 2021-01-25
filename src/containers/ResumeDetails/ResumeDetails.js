@@ -56,18 +56,6 @@ const ResumeDetails = () => {
     }
   }, [error])
 
-  function handleDownload(url, downloadFileName) {
-    // testing
-    axios
-      .get(url, {
-        responseType: 'blob',
-      })
-      .then((res) => {
-        res.header('Access-Control-Allow-Origin', '*')
-        fileDownload(res.data, downloadFileName)
-      })
-  }
-
   return (
     <LayoutContentWrapper>
       <LayoutContent>
@@ -103,9 +91,8 @@ const ResumeDetails = () => {
                     <Button
                       type="primary"
                       onClick={() =>
-                        handleDownload(
-                          renderedPdfLink,
-                          `${currentResume.fileName}.pdf`
+                        setRenderedPdfLink(
+                          `https://latexonline.cc/compile?url=${displayLink}&download=${currentResume.fileName}`
                         )
                       }
                     >
