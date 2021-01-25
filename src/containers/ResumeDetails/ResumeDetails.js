@@ -92,12 +92,16 @@ const ResumeDetails = () => {
                       type="primary"
                       onClick={() => {
                         setTimeout(() => {
+                          console.log('changed link')
                           setRenderedPdfLink(
                             `https://latexonline.cc/compile?url=${displayLink}`
+                            // `https://latexonline.cc/compile?url=https://resumio-testing.herokuapp.com/resumes/display-latex-resume/600cb5c918c11f0017e71b4d/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXN1bWVJZCI6IjYwMGNiNWM5MThjMTFmMDAxN2U3MWI0ZCIsImN1cnJlbnRUaW1lIjoxNjExNDY3NDM3NTg0fQ.K2kMoSy9Y5hcz0b_w0wVP6dRJvuXG_TqIyN_hekzC9A`
                           )
                         }, 2000)
+                        console.log('set link')
                         setRenderedPdfLink(
                           `https://latexonline.cc/compile?url=${displayLink}&download=${currentResume.fileName}`
+                          // `https://latexonline.cc/compile?url=https://resumio-testing.herokuapp.com/resumes/display-latex-resume/600cb5c918c11f0017e71b4d/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXN1bWVJZCI6IjYwMGNiNWM5MThjMTFmMDAxN2U3MWI0ZCIsImN1cnJlbnRUaW1lIjoxNjExNDY3NDM3NTg0fQ.K2kMoSy9Y5hcz0b_w0wVP6dRJvuXG_TqIyN_hekzC9A&download=something.pdf`
                         )
                       }}
                     >
