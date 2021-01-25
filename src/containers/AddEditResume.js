@@ -82,6 +82,7 @@ export function restructured({
 const AddEditResume = () => {
   const [isChangeDetected, setChangeDetected] = useState(false)
   const [renderedPdfLink, setRenderedPdfLink] = useState('')
+  const [shouldDownload, setShouldDownload] = useState(false)
 
   const dispatch = useDispatch()
   const { resumeId } = useParams()
@@ -208,7 +209,14 @@ const AddEditResume = () => {
 
   useEffect(() => {
     if (displayLink) {
-      setRenderedPdfLink(`https://latexonline.cc/compile?url=${displayLink}`)
+      if (shouldDownload) {
+        setRenderedPdfLink(
+          `https://latexonline.cc/compile?url=${displayLink}&download=${currentResume.fileName}`
+        )
+        setShouldDownload(false)
+      } else {
+        setRenderedPdfLink(`https://latexonline.cc/compile?url=${displayLink}`)
+      }
     }
   }, [displayLink])
 
@@ -900,7 +908,8 @@ const AddEditResume = () => {
                                 icon={<DownloadOutlined />}
                                 type="primary"
                                 disabled={!currentResume}
-                                onClick={() =>
+                                onClick={() => {
+                                  setShouldDownload(true)
                                   dispatch(
                                     renderResume(resumeId, {
                                       template: currentResume.template,
@@ -909,7 +918,7 @@ const AddEditResume = () => {
                                       ),
                                     })
                                   )
-                                }
+                                }}
                               >
                                 Download
                               </Button>
