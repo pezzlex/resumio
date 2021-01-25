@@ -90,11 +90,16 @@ const ResumeDetails = () => {
                   <Header>
                     <Button
                       type="primary"
-                      onClick={() =>
+                      onClick={() => {
+                        setTimeout(() => {
+                          setRenderedPdfLink(
+                            `https://latexonline.cc/compile?url=${displayLink}`
+                          )
+                        }, 2000)
                         setRenderedPdfLink(
                           `https://latexonline.cc/compile?url=${displayLink}&download=${currentResume.fileName}`
                         )
-                      }
+                      }}
                     >
                       Download
                     </Button>
