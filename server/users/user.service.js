@@ -113,7 +113,7 @@ const sendResetEmail = async (link, email) => {
   const transport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'itsresumio@gmail.com',
+      user: process.env.emailUsername,
       pass: process.env.emailPassword,
     },
   })

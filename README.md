@@ -1,68 +1,209 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Thanks again! Now go create something AMAZING! :D
+-->
 
-## Available Scripts
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
 
-In the project directory, you can run:
+<!-- [![Contributors][contributors-shield]][contributors-url] -->
 
-### `yarn start`
+[![MIT License][license-shield]][license-url]
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3007](http://localhost:3007) to view it in the browser.
+<!-- [![Forks][forks-shield]][forks-url] -->
+<!-- [![Stargazers][stars-shield]][stars-url] -->
+<!-- [![Issues][issues-shield]][issues-url] -->
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<!-- [![LinkedIn][linkedin-shield]][linkedin-url] -->
 
-<!-- ### `yarn test`
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="readme_images/resumio-logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information. -->
+  <h3 align="center">Resumio - Your online resume</h3>
 
-### `yarn build`
+  <!-- <p align="center">
+    An awesome README template to jumpstart your projects!
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+  </p>
+</p> -->
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation and Running</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <!-- <li><a href="#roadmap">Roadmap</a></li> -->
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+<!-- ABOUT THE PROJECT -->
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## About The Project
 
-### `yarn eject`
+The Resumio dashboard lets you see all the resumes you've built. You may want to maintain different resumes catering to different types of jobs.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+[![Product Name Screen Shot][product-screenshot]](https://resumio.herokuapp.com/dashboard)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The create/edit resume page lets you fill in your details in a dynamic form. You can always save your progress when satisfied.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+[![Product Name Screen Shot][product-screenshot2]](https://resumio.herokuapp.com/dashboard)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The Preview button lets you preview the rendered Resume. If the preview looks good, you have the option to download a PDF of this resume too!
 
-## Learn More
+[![Product Name Screen Shot][product-screenshot3]](https://resumio.herokuapp.com/dashboard)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Built With
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-### Code Splitting
+- [MongoDB](https://www.mongodb.com)
+- [React](https://getbootstrap.com)
+- [Express](https://expressjs.com)
+- [Nodejs](https://nodejs.org/en/)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+<!-- GETTING STARTED -->
 
-### Analyzing the Bundle Size
+## Getting Started
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+To get a local copy up and running follow these simple steps.
 
-### Making a Progressive Web App
+### Prerequisites
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+- Install Yarn (if not done already)
+  ```sh
+  yarn install
+  ```
 
-### Advanced Configuration
+### Installation and Running
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+<!-- 1. Get a free API Key at [https://example.com](https://example.com) -->
 
-### Deployment
+1. Clone the repo
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+   ```sh
+    git clone https://github.com/pezzlex/resumio.git
+   ```
 
-### `yarn build` fails to minify
+2. Enter your secret information in `server/config.js`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+   ```JS
+   const config = {
+       username: 'YOUR MONGO USERNAME',
+       password: 'YOUR MONGO PASSWORD',
+       cluster: 'YOUR MONGO CLUSTER',
+       dbName: 'YOUR MONGO DBNAME',
+       secret: 'YOUR JWT SECRET',
+       emailPassword: 'EMAIL USERNAME (OR EMPTY STRING)',
+       emailPassword: 'EMAIL PASSWORD (OR EMPTY STRING)',
+   }
+   module.exports = config
+   ```
+
+3. Run app in development mode
+   ```sh
+   yarn dev
+   ```
+
+<!-- USAGE EXAMPLES -->
+
+## Usage
+
+Resumio can be used to streamline the resume building, updating and maintaining process. You can choose from a selection of different templates (currently just one) and have ATS-compliant professional looking Latex resumes generated for you.
+
+Future updates will let you share a public link to your (always up-to-date) resume to people interested.
+
+<!-- ROADMAP -->
+
+<!-- ## Roadmap
+
+See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues). -->
+
+<!-- CONTRIBUTING -->
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<!-- LICENSE -->
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+<!-- CONTACT -->
+
+## Contact
+
+Pezanne Khambatta - [Email](pezanne_khambatta@brown.edu) - pezanne_khambatta@brown.edu
+
+Project Link: [https://github.com/pezzlex/resumio.git](https://github.com/pezzlex/resumio.git)
+
+<!-- ACKNOWLEDGEMENTS -->
+
+## Acknowledgements
+
+- [AntDesign React Theme](https://preview.themeforest.net/item/isomorphic-react-redux-admin-dashboard/full_screen_preview/20262330?_ga=2.155787707.1849705934.1617508020-1543999300.1617508020)
+- [README template](https://github.com/othneildrew/Best-README-Template)
+- [License](https://github.com/pezzlex/resumio/blob/master/LICENSE.txt)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/pezzlex/resumio/contributors
+[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
+[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
+[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
+[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/othneildrew
+[product-screenshot]: readme_images/resumio1.png
+[product-screenshot2]: readme_images/resumio2.png
+[product-screenshot3]: readme_images/resumio3.png
