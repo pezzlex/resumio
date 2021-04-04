@@ -98,6 +98,10 @@ This section should list any major frameworks that you built your project using.
 - [Express](https://expressjs.com)
 - [Nodejs](https://nodejs.org/en/)
 
+### APIs Used
+
+- [latex-online](latex-online)
+
 <!-- GETTING STARTED -->
 
 ## Getting Started
