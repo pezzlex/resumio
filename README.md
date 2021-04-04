@@ -185,10 +185,10 @@ Project Link: [https://github.com/pezzlex/resumio.git](https://github.com/pezzle
 
 ## Acknowledgements
 
-- [User Management, Authentication and Registration](https://github.com/cornflourblue/node-mongo-registration-login-api)
-- [AntDesign React Theme](https://preview.themeforest.net/item/isomorphic-react-redux-admin-dashboard/full_screen_preview/20262330?_ga=2.155787707.1849705934.1617508020-1543999300.1617508020)
-- [README template](https://github.com/othneildrew/Best-README-Template)
-- [License](https://github.com/pezzlex/resumio/blob/master/LICENSE.txt)
+- User Management, Authentication and Registration - [cornflourblue](https://github.com/cornflourblue/node-mongo-registration-login-api)
+- AntDesign React Theme - [Themeforest - ISOMORPHIC](https://preview.themeforest.net/item/isomorphic-react-redux-admin-dashboard/full_screen_preview/20262330?_ga=2.155787707.1849705934.1617508020-1543999300.1617508020)
+- README template - [othneildrew](https://github.com/othneildrew/Best-README-Template)
+- License - [MIT License](https://github.com/pezzlex/resumio/blob/master/LICENSE.txt)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
