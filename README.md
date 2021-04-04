@@ -100,7 +100,7 @@ This section should list any major frameworks that you built your project using.
 
 ### APIs Used
 
-- [latex-online](latex-online)
+- [latex-online](https://github.com/aslushnikov/latex-online)
 
 <!-- GETTING STARTED -->
 
