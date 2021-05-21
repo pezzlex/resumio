@@ -140,7 +140,20 @@ To get a local copy up and running follow these simple steps.
    module.exports = config
    ```
 
-3. Run app in development mode
+3. Enter your secret information in `.env`
+
+   ```
+   username=your-mongo-username
+   password=your-mongo-password
+   cluster=your-mongo-cluster
+   dbName=your-mongo-dbname
+   secret=your-jwt-secret
+   emailPassword=email-password-or-empty-string
+   REACT_APP_baseUrl=http://localhost:4000
+   environment=development
+   ```
+
+4. Run app in development mode
    ```sh
    yarn dev
    ```
