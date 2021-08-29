@@ -124,7 +124,7 @@ const AddEditResume = () => {
   const [isPageLoading, setPageLoading] = useState(true)
   const [redirectToReferrer, setRedirectToReferrer] = useState(false)
   const [isUpdating, setUpdating] = useState(false)
-  const [isSpinning, setSpinning] = useState(false)
+  const [, setSpinning] = useState(false)
   const [liveCurrentResume, setLiveCurrentResume] = useState(
     currentResume
       ? reverseRestructured(currentResume)
@@ -153,11 +153,11 @@ const AddEditResume = () => {
       setRedirectToReferrer(false)
       dispatch(clearCurrentResume())
       setRenderedPdfLink(
-        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-latex-resume/${firstName}/${lastName}/${email}`
+        `https://latexonline.cc/compile?url=${process.env.REACT_APP_herokuUrl}/resumes/display-default-latex-resume/${firstName}/${lastName}/${email}`
       )
       console.log(
         'default link: ',
-        `https://latexonline.cc/compile?url=${process.env.REACT_APP_baseUrl}/resumes/display-default-latex-resume/${firstName}/${lastName}/${email}`
+        `https://latexonline.cc/compile?url=${process.env.REACT_APP_herokuUrl}/resumes/display-default-latex-resume/${firstName}/${lastName}/${email}`
       )
     }
   }, [])
@@ -213,12 +213,10 @@ const AddEditResume = () => {
         console.log('set download link')
         setRenderedPdfLink(
           `https://latexonline.cc/compile?url=${displayLink}&download=${currentResume.fileName}`
-          // `https://latexonline.cc/compile?url=https://resumio-testing.herokuapp.com/resumes/display-latex-resume/600cb5c918c11f0017e71b4d/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXN1bWVJZCI6IjYwMGNiNWM5MThjMTFmMDAxN2U3MWI0ZCIsImN1cnJlbnRUaW1lIjoxNjExNDY3NDM3NTg0fQ.K2kMoSy9Y5hcz0b_w0wVP6dRJvuXG_TqIyN_hekzC9A&download=fileName`
         )
         setTimeout(() => {
           setRenderedPdfLink(
             `https://latexonline.cc/compile?url=${displayLink}`
-            // `https://latexonline.cc/compile?url=https://resumio-testing.herokuapp.com/resumes/display-latex-resume/600cb5c918c11f0017e71b4d/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXN1bWVJZCI6IjYwMGNiNWM5MThjMTFmMDAxN2U3MWI0ZCIsImN1cnJlbnRUaW1lIjoxNjExNDY3NDM3NTg0fQ.K2kMoSy9Y5hcz0b_w0wVP6dRJvuXG_TqIyN_hekzC9A`
           )
         }, 2000)
         setShouldDownload(false)
