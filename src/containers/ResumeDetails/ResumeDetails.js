@@ -21,8 +21,6 @@ const ResumeDetails = () => {
     (state) => state.resumeData
   )
   const [isLoading, setLoading] = useState(true)
-  // const [resumeNotFound, setResumeNotFound] = useState(false)
-  // const [displayLink, setDisplayLink] = useState('')
   const [renderedPdfLink, setRenderedPdfLink] = useState('')
 
   useEffect(() => {
