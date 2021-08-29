@@ -1,6 +1,7 @@
+import { isServer } from '../../library/helpers/isServer'
 import { getDefaultPath } from '../../library/helpers/url_sync'
 import actions, { getView } from './actions'
-import { isServer } from '../../library/helpers/isServer'
+
 const preKeys = getDefaultPath()
 const initState = {
   collapsed: !isServer && window.innerWidth > 1220 ? false : true,

@@ -121,9 +121,9 @@ export const editResume = (id, resume) => {
   return (dispatch) => {
     axios
       .put(`${process.env.REACT_APP_baseUrl}/resumes/${id}`, resume)
-      .then((response1) => {
-        if (response1.status === 200) {
-          const newResume = response1.data.data
+      .then((response) => {
+        if (response.status === 200) {
+          const newResume = response.data.data
           console.log('newResume', newResume)
           dispatch(
             renderResume(id, {

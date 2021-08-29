@@ -1,11 +1,7 @@
-const express = require('express')
-const router = express.Router()
 const { Resume, User } = require('../helpers/db')
 const Joi = require('joi')
-const CloudConvert = require('cloudconvert')
 const jwtSimple = require('jwt-simple')
 
-const fs = require('fs')
 const texContent = require('../templates/basicTemplate')
 
 const schema = Joi.object()
@@ -154,6 +150,25 @@ const renderResume = async (id, template, userId, resumeDetails) => {
   return await update(id, userId, { texFileContent })
 }
 
+/* 
+Local link
+*/
+const _getDisplayLink = async (id, userId) => {
+  const user = await User.findById(userId)
+  if (!user) {
+    throw new Error('User not found')
+  }
+  const tempSecret = `${user.hash}-${new Date(user.createdAt)}`
+  const token = jwtSimple.encode(
+    { resumeId: id, currentTime: Date.now() },
+    tempSecret
+  )
+  return `${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${id}/${token}`
+}
+
+/* 
+Hosted link
+*/
 const getDisplayLink = async (id, userId) => {
   const user = await User.findById(userId)
   if (!user) {
@@ -164,8 +179,7 @@ const getDisplayLink = async (id, userId) => {
     { resumeId: id, currentTime: Date.now() },
     tempSecret
   )
-  // API link: /resumes/reset-password/${id}/${token}
-  return `${process.env.REACT_APP_baseUrl}/resumes/display-latex-resume/${id}/${token}`
+  return `${process.env.REACT_APP_herokuUrl}/resumes/display-latex-resume/${id}/${token}`
 }
 
 module.exports = {

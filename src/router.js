@@ -1,13 +1,14 @@
-import Loader from './components/utility/loader'
 import axios from 'axios'
 import React, { lazy, Suspense } from 'react'
 import { useSelector } from 'react-redux'
 import {
-  BrowserRouter as Router,
   Redirect,
   Route,
+  BrowserRouter as Router,
   Switch,
 } from 'react-router-dom'
+
+import Loader from './components/utility/loader'
 import ErrorBoundary from './ErrorBoundary'
 import { PUBLIC_ROUTE } from './route.constants'
 

@@ -6,8 +6,8 @@
   "author": "Pezanne Khambatta, Alexander Phan",
   "scripts": {
     "build": "react-scripts build",
-    "start": "node server",
-    "dev": "concurrently \"nodemon server \" \"react-scripts start\""
+    "start-server": "node server",
+    "dev": "concurrently \"nodemon server\" \"react-scripts start\""
   },
   "husky": {
     "hooks": {
